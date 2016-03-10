@@ -1,0 +1,378 @@
+name Untitled
+image Untitled.png
+turrets 15
+playerNum 1
+pos 5 0 7.975
+playerNum 0
+pos -5 0 7.975
+ball
+pos 0 0 7.754
+lights
+lType 0
+pos 0 3 0
+rot 0.5512068 6.078999 0.04982172
+color 1 0.9568627 0.8392157 1
+background
+arena
+bounds 9 5.5 9 5.5
+model TestWall
+material Toon
+pos -6.5 -5 8
+rot 0 1.570796 4.712389
+scl 1 1 1
+model TestWedge
+material Toon
+pos -8 -4.5 8
+rot -5.960464E-08 1.570796 4.712389
+scl 1 1 1
+model TestFloor
+material Toon
+texture BrickOldMixedSize0012_1_S
+pos 9 3 8
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestFloor
+material Toon
+texture BrickOldMixedSize0012_1_S
+pos 3 0 8
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestFloor
+material Toon
+texture BrickOldMixedSize0012_1_S
+pos 9 -3 8
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWall
+material Toon
+pos 4.5 -5 8
+rot 0 1.570796 4.712389
+scl 1 1 1
+model TestFloor
+material Toon
+texture BrickOldMixedSize0012_1_S
+pos 6 0 8
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWall
+material Toon
+pos -8.5 -3 8
+rot 1.570451 3.141592 0
+scl 1 0.9999999 0.9999999
+model TestWall
+material Toon
+pos -8.5 -1 8
+rot 1.570451 3.141592 0
+scl 1 0.9999999 0.9999999
+model TestWall
+material Toon
+pos -3.5 5 8
+rot -5.960464E-08 4.712389 1.570796
+scl 1 1 1
+model TestWedge
+material Toon
+pos -8 4.5 8
+rot 1.570451 3.141593 0
+scl 1 0.9999999 0.9999999
+model TestWall
+material Toon
+pos 6.5 5 8
+rot -5.960464E-08 4.712389 1.570796
+scl 1 1 1
+model TestWall
+material Toon
+pos -5.5 5 8
+rot -5.960464E-08 4.712389 1.570796
+scl 1 1 1
+model TestWall
+material Toon
+pos 1.5 5 8
+rot -5.960464E-08 4.712389 1.570796
+scl 1 1 1
+model TestWall
+material Toon
+pos 8.5 1 8
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestFloor
+material Toon
+texture BrickOldMixedSize0012_1_S
+pos 3 3 8
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestFloor
+material Toon
+texture BrickOldMixedSize0012_1_S
+pos -3 3 8
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWall
+material Toon
+pos -5.5 -5 8
+rot 0 1.570796 4.712389
+scl 1 1 1
+model TestWall
+material Toon
+pos 0.5 5 8
+rot -5.960464E-08 4.712389 1.570796
+scl 1 1 1
+model TestWall
+material Toon
+pos 2.5 -5 8
+rot 0 1.570796 4.712389
+scl 1 1 1
+model TestWall
+material Toon
+pos -4.5 5 8
+rot -5.960464E-08 4.712389 1.570796
+scl 1 1 1
+model TestWall
+material Toon
+pos 4.5 5 8
+rot -5.960464E-08 4.712389 1.570796
+scl 1 1 1
+model TestWall
+material Toon
+pos -2.5 -5 8
+rot 0 1.570796 4.712389
+scl 1 1 1
+model TestFloor
+material Toon
+texture BrickOldMixedSize0012_1_S
+pos -9 0 8
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWall
+material Toon
+pos 5.5 5 8
+rot -5.960464E-08 4.712389 1.570796
+scl 1 1 1
+model TestWall
+material Toon
+pos 3.5 5 8
+rot -5.960464E-08 4.712389 1.570796
+scl 1 1 1
+model TestWall
+material Toon
+pos 5.5 -5 8
+rot 0 1.570796 4.712389
+scl 1 1 1
+model TestWedge
+material Toon
+pos 8 -4.5 8
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestFloor
+material Toon
+texture BrickOldMixedSize0012_1_S
+pos 6 -3 8
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestFloor
+material Toon
+texture BrickOldMixedSize0012_1_S
+pos -6 -3 8
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestFloor
+material Toon
+texture BrickOldMixedSize0012_1_S
+pos -3 -3 8
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestFloor
+material Toon
+texture BrickOldMixedSize0012_1_S
+pos 0 0 8
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWall
+material Toon
+pos 0.5 -5 8
+rot 0 1.570796 4.712389
+scl 1 1 1
+model TestFloor
+material Toon
+texture BrickOldMixedSize0012_1_S
+pos 3 -3 8
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Particles/VertexLit
+pos -0.12 0 8.989
+rot 4.712734 0 0
+scl 0.04 0.9999999 9.999998
+model TestWall
+material Toon
+pos -8.5 -2 8
+rot 1.570451 3.141592 0
+scl 1 0.9999999 0.9999999
+model TestWall
+material Toon
+pos 8.5 3 8
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWall
+material Toon
+pos -8.5 1 8
+rot 1.570451 3.141592 0
+scl 1 0.9999999 0.9999999
+model TestFloor
+material Toon
+texture BrickOldMixedSize0012_1_S
+pos -6 0 8
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWall
+material Toon
+pos -8.5 -2.0117E-07 8
+rot 1.570451 3.141592 0
+scl 1 0.9999999 0.9999999
+model TestWall
+material Toon
+pos 8.5 -3 8
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWall
+material Toon
+pos -2.5 5 8
+rot -5.960464E-08 4.712389 1.570796
+scl 1 1 1
+model TestFloor
+material Toon
+texture BrickOldMixedSize0012_1_S
+pos 0 -3 8
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWall
+material Toon
+pos -8.5 3 8
+rot 1.570451 3.141592 0
+scl 1 0.9999999 0.9999999
+model TestWall
+material Toon
+pos -3.5 -5 8
+rot 0 1.570796 4.712389
+scl 1 1 1
+model TestWall
+material Toon
+pos 8.5 -2 8
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWall
+material Toon
+pos -1.5 -5 8
+rot 0 1.570796 4.712389
+scl 1 1 1
+model TestWall
+material Toon
+pos -0.5 -5 8
+rot 0 1.570796 4.712389
+scl 1 1 1
+model TestFloor
+material Toon
+texture BrickOldMixedSize0012_1_S
+pos 6 3 8
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWall
+material Toon
+pos 3.5 -5 8
+rot 0 1.570796 4.712389
+scl 1 1 1
+model TestWedge
+material Toon
+pos 8 4.5 8
+rot -5.960464E-08 4.712389 1.570796
+scl 1 1 1
+model TestWall
+material Toon
+pos 1.5 -5 8
+rot 0 1.570796 4.712389
+scl 1 1 1
+model TestFloor
+material Toon
+texture BrickOldMixedSize0012_1_S
+pos 9 0 8
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestFloor
+material Toon
+texture BrickOldMixedSize0012_1_S
+pos 0 3 8
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWall
+material Toon
+pos -6.5 5 8
+rot -5.960464E-08 4.712389 1.570796
+scl 1 1 1
+model TestFloor
+material Toon
+texture BrickOldMixedSize0012_1_S
+pos -9 3 8
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestFloor
+material Toon
+texture BrickOldMixedSize0012_1_S
+pos -3 0 8
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWall
+material Toon
+pos 8.5 4.0814E-05 8
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWall
+material Toon
+pos 6.5 -5 8
+rot 0 1.570796 4.712389
+scl 1 1 1
+model TestWall
+material Toon
+pos 8.5 2 8
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWall
+material Toon
+pos -1.5 5 8
+rot -5.960464E-08 4.712389 1.570796
+scl 1 1 1
+model TestWall
+material Toon
+pos 8.5 -1 8
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestFloor
+material Toon
+texture BrickOldMixedSize0012_1_S
+pos -9 -3 8
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWall
+material Toon
+pos -0.5 5 8
+rot -5.960464E-08 4.712389 1.570796
+scl 1 1 1
+model TestWall
+material Toon
+pos -4.5 -5 8
+rot 0 1.570796 4.712389
+scl 1 1 1
+model TestFloor
+material Toon
+texture BrickOldMixedSize0012_1_S
+pos -6 3 8
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWall
+material Toon
+pos -8.5 2 8
+rot 1.570451 3.141592 0
+scl 1 0.9999999 0.9999999
+model TestWall
+material Toon
+pos 2.5 5 8
+rot -5.960464E-08 4.712389 1.570796
+scl 1 1 1

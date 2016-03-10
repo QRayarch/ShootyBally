@@ -1,0 +1,50 @@
+﻿  compilation object save succeeded; see D:\Users\afl4947\ShootyBally\DirectX11_Starter_2015\Debug\PixelShader.cso
+  compilation object save succeeded; see D:\Users\afl4947\ShootyBally\DirectX11_Starter_2015\Debug\VertexShader.cso
+  Transform.cpp
+  SimpleShader.cpp
+d:\users\afl4947\shootybally\directx11_starter_2015\directx11_starter\simpleshader.cpp(262): warning C4018: '>=': signed/unsigned mismatch
+d:\users\afl4947\shootybally\directx11_starter_2015\directx11_starter\simpleshader.cpp(294): warning C4018: '>=': signed/unsigned mismatch
+d:\users\afl4947\shootybally\directx11_starter_2015\directx11_starter\simpleshader.cpp(535): warning C4018: '>=': signed/unsigned mismatch
+  Resources.cpp
+  Render.cpp
+  DirectXGameCore.cpp
+  dxerr.cpp
+  MyDemoGame.cpp
+  Mesh.cpp
+  Material.cpp
+  Light.cpp
+  EntitySystem.cpp
+  Entity.cpp
+  DrawnMesh.cpp
+  Component.cpp
+  Camera.cpp
+  Generating Code...
+  DirectX11_Starter.vcxproj -> D:\Users\afl4947\ShootyBally\DirectX11_Starter_2015\Debug\DirectX11_Starter.exe
+  The filename, directory name, or volume label syntax is incorrect.
+  D:\Users\afl4947\ShootyBally\DirectX11_Starter_2015\Assets\Maps\Untitled.png
+  D:\Users\afl4947\ShootyBally\DirectX11_Starter_2015\Assets\Maps\Untitled.txt
+  D:\Users\afl4947\ShootyBally\DirectX11_Starter_2015\Assets\Models\cone.obj
+  D:\Users\afl4947\ShootyBally\DirectX11_Starter_2015\Assets\Models\cube.obj
+  D:\Users\afl4947\ShootyBally\DirectX11_Starter_2015\Assets\Models\cylinder.obj
+  D:\Users\afl4947\ShootyBally\DirectX11_Starter_2015\Assets\Models\helix.obj
+  D:\Users\afl4947\ShootyBally\DirectX11_Starter_2015\Assets\Models\sphere.obj
+  D:\Users\afl4947\ShootyBally\DirectX11_Starter_2015\Assets\Models\TestCorner.obj
+  D:\Users\afl4947\ShootyBally\DirectX11_Starter_2015\Assets\Models\TestFloor.obj
+  D:\Users\afl4947\ShootyBally\DirectX11_Starter_2015\Assets\Models\TestWall.obj
+  D:\Users\afl4947\ShootyBally\DirectX11_Starter_2015\Assets\Models\TestWallTop.obj
+  D:\Users\afl4947\ShootyBally\DirectX11_Starter_2015\Assets\Models\TestWedge.obj
+  D:\Users\afl4947\ShootyBally\DirectX11_Starter_2015\Assets\Models\torus.obj
+  D:\Users\afl4947\ShootyBally\DirectX11_Starter_2015\Assets\Textures\BrickOldMixedSize.jpg
+  D:\Users\afl4947\ShootyBally\DirectX11_Starter_2015\Assets\Textures\Checker.jpg
+  D:\Users\afl4947\ShootyBally\DirectX11_Starter_2015\Assets\Textures\ConcreteStucco.jpg
+  D:\Users\afl4947\ShootyBally\DirectX11_Starter_2015\Assets\Textures\Normal.jpg
+  D:\Users\afl4947\ShootyBally\DirectX11_Starter_2015\Assets\Textures\Normal_BrickOldMixedSize.jpg
+  D:\Users\afl4947\ShootyBally\DirectX11_Starter_2015\Assets\Textures\Normal_Checker.jpg
+  D:\Users\afl4947\ShootyBally\DirectX11_Starter_2015\Assets\Textures\Normal_ConcreteStucco.jpg
+  D:\Users\afl4947\ShootyBally\DirectX11_Starter_2015\Assets\Textures\Normal_RockSmooth.jpg
+  D:\Users\afl4947\ShootyBally\DirectX11_Starter_2015\Assets\Textures\Normal_WoodPlanksBare.jpg
+  D:\Users\afl4947\ShootyBally\DirectX11_Starter_2015\Assets\Textures\Normal_WoodRough.jpg
+  D:\Users\afl4947\ShootyBally\DirectX11_Starter_2015\Assets\Textures\RockSmooth.jpg
+  D:\Users\afl4947\ShootyBally\DirectX11_Starter_2015\Assets\Textures\WoodPlanksBare.jpg
+  D:\Users\afl4947\ShootyBally\DirectX11_Starter_2015\Assets\Textures\WoodRough.jpg
+  26 File(s) copied
