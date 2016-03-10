@@ -50,10 +50,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <PostBuildEvent>
-      <Command>mkdir “$(OutDir)Assets\”
-xcopy "$(SolutionDir)Assets" "$(OutDir)Assets" /y /i /e /r</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -69,10 +65,6 @@ xcopy "$(SolutionDir)Assets" "$(OutDir)Assets" /y /i /e /r</Command>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <PostBuildEvent>
-      <Command>mkdir “$(OutDir)Assets\”
-xcopy "$(SolutionDir)Assets" "$(OutDir)Assets" /y /i /e /r</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
