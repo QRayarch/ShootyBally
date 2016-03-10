@@ -14,7 +14,6 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{FEB50FC0-912F-45AC-B79A-03B08704F107}</ProjectGuid>
     <RootNamespace>DirectX11_Starter</RootNamespace>
-    <ProjectName>DirectX11_Starter</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -52,13 +51,9 @@
       <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
-    </PostBuildEvent>
-    <PreBuildEvent>
       <Command>mkdir “$(OutDir)Assets\”
 xcopy "$(SolutionDir)Assets" "$(OutDir)Assets" /y /i /e /r</Command>
-    </PreBuildEvent>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -75,13 +70,9 @@ xcopy "$(SolutionDir)Assets" "$(OutDir)Assets" /y /i /e /r</Command>
       <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
-    </PostBuildEvent>
-    <PreBuildEvent>
       <Command>mkdir “$(OutDir)Assets\”
 xcopy "$(SolutionDir)Assets" "$(OutDir)Assets" /y /i /e /r</Command>
-    </PreBuildEvent>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
@@ -136,6 +127,7 @@ xcopy "$(SolutionDir)Assets" "$(OutDir)Assets" /y /i /e /r</Command>
   </ItemGroup>
   <ItemGroup>
     <None Include="CommonFunctions.hlsl" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

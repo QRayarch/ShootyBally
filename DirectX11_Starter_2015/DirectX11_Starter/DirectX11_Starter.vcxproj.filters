@@ -129,5 +129,6 @@
     <None Include="CommonFunctions.hlsl">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>
