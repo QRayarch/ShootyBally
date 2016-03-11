@@ -11,368 +11,2323 @@ lights
 lType 0
 pos 0 3 0
 rot 0.5512068 6.078999 0.04982172
-color 1 0.9568627 0.8392157 1
+color 0.9249493 0.8529412 1 1
+lIntensity 0.16
 background
 arena
 bounds 9 5.5 9 5.5
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 12.5 -9 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 11.5 -9 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 10.5 -9 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 9.5 -9 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 8.5 -9 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 7.5 -9 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 1.5 -9 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 2.5 -9 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 3.5 -9 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 4.5 -9 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 5.5 -9 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 6.5 -9 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 0.5 -9 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -0.5 -9 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -1.5 -9 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -2.5 -9 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -3.5 -9 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -4.5 -9 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -10.5 -9 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -9.5 -9 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -8.5 -9 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -7.5 -9 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -6.5 -9 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -5.5 -9 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -11.5 -9 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -12.5 -9 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -12.5 -8 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -11.5 -8 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -5.5 -8 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -6.5 -8 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -7.5 -8 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -8.5 -8 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -9.5 -8 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -10.5 -8 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -4.5 -8 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -3.5 -8 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -2.5 -8 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -1.5 -8 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -0.5 -8 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 0.5 -8 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 6.5 -8 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 5.5 -8 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 4.5 -8 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 3.5 -8 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 2.5 -8 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 1.5 -8 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 7.5 -8 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 8.5 -8 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 9.5 -8 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 10.5 -8 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 11.5 -8 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 12.5 -8 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 12.5 -7 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 11.5 -7 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 10.5 -7 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 9.5 -7 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 8.5 -7 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 7.5 -7 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 1.5 -7 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 2.5 -7 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 3.5 -7 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 4.5 -7 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 5.5 -7 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 6.5 -7 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 0.5 -7 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -0.5 -7 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -1.5 -7 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -2.5 -7 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -3.5 -7 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -4.5 -7 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -10.5 -7 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -9.5 -7 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -8.5 -7 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -7.5 -7 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -6.5 -7 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -5.5 -7 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -11.5 -7 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -12.5 -7 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -12.5 -6 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -11.5 -6 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -5.5 -6 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -6.5 -6 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -7.5 -6 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -8.5 -6 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -9.5 -6 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -10.5 -6 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -4.5 -6 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -3.5 -6 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -2.5 -6 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -1.5 -6 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -0.5 -6 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 0.5 -6 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 6.5 -6 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 5.5 -6 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 4.5 -6 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 3.5 -6 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 2.5 -6 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 1.5 -6 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 7.5 -6 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 8.5 -6 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 9.5 -6 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 10.5 -6 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 11.5 -6 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 12.5 -6 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 12.5 9 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 11.5 9 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 10.5 9 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 9.5 9 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 8.5 9 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 7.5 9 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 1.5 9.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 2.5 9.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 3.5 9.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 4.5 9.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 5.5 9.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 6.5 9.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 0.5 9.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -0.5 9.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -1.5 9.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -2.5 9.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -3.5 9.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -4.5 9.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -10.5 9.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -9.5 9.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -8.5 9.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -7.5 9.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -6.5 9.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -5.5 9.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -11.5 9.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -12.5 9.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -12.5 8.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -11.5 8.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -5.5 8.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -6.5 8.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -7.5 8.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -8.5 8.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -9.5 8.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -10.5 8.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -4.5 8.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -3.5 8.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -2.5 8.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -1.5 8.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -0.5 8.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 0.5 8.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 6.5 8.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 5.5 8.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 4.5 8.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 3.5 8.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 2.5 8.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 1.5 8.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 7.5 8 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 8.5 8 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 9.5 8 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 10.5 8 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 11.5 8 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 12.5 8 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 12.5 7 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 11.5 7 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 10.5 7 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 9.5 7 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 8.5 7 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 7.5 7 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 1.5 7.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 2.5 7.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 3.5 7.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 4.5 7.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 5.5 7.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 6.5 7.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 0.5 7.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -0.5 7.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -1.5 7.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -2.5 7.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -3.5 7.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -4.5 7.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -10.5 7.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -9.5 7.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -8.5 7.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -7.5 7.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -6.5 7.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -5.5 7.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -11.5 7.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -12.5 7.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -12.5 6.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -11.5 6.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -5.5 6.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -6.5 6.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -7.5 6.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -8.5 6.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -9.5 6.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -10.5 6.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -4.5 6.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -3.5 6.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -2.5 6.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -1.5 6.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -0.5 6.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 0.5 6.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 6.5 6.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 5.5 6.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 4.5 6.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 3.5 6.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 2.5 6.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 1.5 6.0033 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 7.5 6 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 8.5 6 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 9.5 6 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 10.5 6 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 11.5 6 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 12.5 6 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -12.5 -5 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -12.5 -4 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -12.5 -3 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -12.5 -2 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -12.5 -1 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -12.5 -4.4703E-08 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -12.5 5 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -12.5 4 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -12.5 3 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -12.5 2 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -12.5 1 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -11.5 1 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -11.5 2 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -11.5 3 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -11.5 4 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -11.5 5 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -11.5 -4.4703E-08 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -11.5 -1 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -11.5 -2 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -11.5 -3 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -11.5 -4 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -11.5 -5 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -10.5 -5 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -10.5 -4 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -10.5 -3 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -10.5 -2 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -10.5 -1 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -10.5 -4.4703E-08 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -10.5 5 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -10.5 4 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -10.5 3 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -10.5 2 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -10.5 1 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -9.5 1 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -9.5 2 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -9.5 3 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -9.5 4 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -9.5 5 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -9.5 -4.4703E-08 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -9.5 -1 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -9.5 -2 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -9.5 -3 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -9.5 -4 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -9.5 -5 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -9.5 -5 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -9.5 -4 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -9.5 -3 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -9.5 -2 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -9.5 -1 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -9.5 -4.4703E-08 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -9.5 5 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -9.5 4 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -9.5 3 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -9.5 2 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos -9.5 1 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 12.5 1 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 12.5 2 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 12.5 3 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 12.5 4 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 12.5 5 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 12.5 0 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 12.5 -1 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 12.5 -2 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 12.5 -3 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 12.5 -4 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 12.5 -5 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 12.5 -5 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 12.5 -4 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 12.5 -3 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 12.5 -2 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 12.5 -1 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 12.5 0 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 12.5 5 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 12.5 4 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 12.5 3 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 12.5 2 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 12.5 1 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 11.5 1 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 11.5 2 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 11.5 3 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 11.5 4 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 11.5 5 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 11.5 0 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 11.5 -1 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 11.5 -2 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 11.5 -3 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 11.5 -4 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 11.5 -5 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 10.5 -5 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 10.5 -4 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 10.5 -3 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 10.5 -2 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 10.5 -1 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 10.5 -1.7136E-07 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 10.5 5 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 10.5 4 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 10.5 3 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 10.5 2 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 10.5 1 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 9.5 1 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 9.5 2 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 9.5 3 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 9.5 4 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 9.5 5 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 9.5 0 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 9.5 -1 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 9.5 -2 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 9.5 -3 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 9.5 -4 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
+model TestWallTop
+material Standard
+texture RockSmooth
+pos 9.5 -5 7.5
+rot 4.712734 0 0
+scl 1 0.9999999 0.9999999
 model TestWall
-material Toon
+material Standard
+texture Checker
 pos -6.5 -5 8
 rot 0 1.570796 4.712389
 scl 1 1 1
 model TestWedge
-material Toon
+material Standard
+texture WoodPlanksBare
 pos -8 -4.5 8
 rot -5.960464E-08 1.570796 4.712389
 scl 1 1 1
 model TestFloor
-material Toon
-texture BrickOldMixedSize0012_1_S
+material Standard
+texture BrickOldMixedSize
 pos 9 3 8
 rot 4.712734 0 0
 scl 1 0.9999999 0.9999999
 model TestFloor
-material Toon
-texture BrickOldMixedSize0012_1_S
+material Standard
+texture BrickOldMixedSize
 pos 3 0 8
 rot 4.712734 0 0
 scl 1 0.9999999 0.9999999
 model TestFloor
-material Toon
-texture BrickOldMixedSize0012_1_S
+material Standard
+texture BrickOldMixedSize
 pos 9 -3 8
 rot 4.712734 0 0
 scl 1 0.9999999 0.9999999
 model TestWall
-material Toon
+material Standard
+texture Checker
 pos 4.5 -5 8
 rot 0 1.570796 4.712389
 scl 1 1 1
 model TestFloor
-material Toon
-texture BrickOldMixedSize0012_1_S
+material Standard
+texture BrickOldMixedSize
 pos 6 0 8
 rot 4.712734 0 0
 scl 1 0.9999999 0.9999999
 model TestWall
-material Toon
+material Standard
+texture Checker
 pos -8.5 -3 8
 rot 1.570451 3.141592 0
 scl 1 0.9999999 0.9999999
 model TestWall
-material Toon
+material Standard
+texture Checker
 pos -8.5 -1 8
 rot 1.570451 3.141592 0
 scl 1 0.9999999 0.9999999
 model TestWall
-material Toon
+material Standard
+texture Checker
 pos -3.5 5 8
 rot -5.960464E-08 4.712389 1.570796
 scl 1 1 1
 model TestWedge
-material Toon
+material Standard
+texture WoodPlanksBare
 pos -8 4.5 8
 rot 1.570451 3.141593 0
 scl 1 0.9999999 0.9999999
 model TestWall
-material Toon
+material Standard
+texture Checker
 pos 6.5 5 8
 rot -5.960464E-08 4.712389 1.570796
 scl 1 1 1
 model TestWall
-material Toon
+material Standard
+texture Checker
 pos -5.5 5 8
 rot -5.960464E-08 4.712389 1.570796
 scl 1 1 1
 model TestWall
-material Toon
+material Standard
+texture Checker
 pos 1.5 5 8
 rot -5.960464E-08 4.712389 1.570796
 scl 1 1 1
 model TestWall
-material Toon
+material Standard
+texture Checker
 pos 8.5 1 8
 rot 4.712734 0 0
 scl 1 0.9999999 0.9999999
 model TestFloor
-material Toon
-texture BrickOldMixedSize0012_1_S
+material Standard
+texture BrickOldMixedSize
 pos 3 3 8
 rot 4.712734 0 0
 scl 1 0.9999999 0.9999999
 model TestFloor
-material Toon
-texture BrickOldMixedSize0012_1_S
+material Standard
+texture BrickOldMixedSize
 pos -3 3 8
 rot 4.712734 0 0
 scl 1 0.9999999 0.9999999
 model TestWall
-material Toon
+material Standard
+texture Checker
 pos -5.5 -5 8
 rot 0 1.570796 4.712389
 scl 1 1 1
 model TestWall
-material Toon
+material Standard
+texture Checker
 pos 0.5 5 8
 rot -5.960464E-08 4.712389 1.570796
 scl 1 1 1
 model TestWall
-material Toon
+material Standard
+texture Checker
 pos 2.5 -5 8
 rot 0 1.570796 4.712389
 scl 1 1 1
 model TestWall
-material Toon
+material Standard
+texture Checker
 pos -4.5 5 8
 rot -5.960464E-08 4.712389 1.570796
 scl 1 1 1
 model TestWall
-material Toon
+material Standard
+texture Checker
 pos 4.5 5 8
 rot -5.960464E-08 4.712389 1.570796
 scl 1 1 1
 model TestWall
-material Toon
+material Standard
+texture Checker
 pos -2.5 -5 8
 rot 0 1.570796 4.712389
 scl 1 1 1
 model TestFloor
-material Toon
-texture BrickOldMixedSize0012_1_S
+material Standard
+texture BrickOldMixedSize
 pos -9 0 8
 rot 4.712734 0 0
 scl 1 0.9999999 0.9999999
 model TestWall
-material Toon
+material Standard
+texture Checker
 pos 5.5 5 8
 rot -5.960464E-08 4.712389 1.570796
 scl 1 1 1
 model TestWall
-material Toon
+material Standard
+texture Checker
 pos 3.5 5 8
 rot -5.960464E-08 4.712389 1.570796
 scl 1 1 1
 model TestWall
-material Toon
+material Standard
+texture Checker
 pos 5.5 -5 8
 rot 0 1.570796 4.712389
 scl 1 1 1
 model TestWedge
-material Toon
+material Standard
+texture WoodPlanksBare
 pos 8 -4.5 8
 rot 4.712734 0 0
 scl 1 0.9999999 0.9999999
 model TestFloor
-material Toon
-texture BrickOldMixedSize0012_1_S
+material Standard
+texture BrickOldMixedSize
 pos 6 -3 8
 rot 4.712734 0 0
 scl 1 0.9999999 0.9999999
 model TestFloor
-material Toon
-texture BrickOldMixedSize0012_1_S
+material Standard
+texture BrickOldMixedSize
 pos -6 -3 8
 rot 4.712734 0 0
 scl 1 0.9999999 0.9999999
 model TestFloor
-material Toon
-texture BrickOldMixedSize0012_1_S
+material Standard
+texture BrickOldMixedSize
 pos -3 -3 8
 rot 4.712734 0 0
 scl 1 0.9999999 0.9999999
 model TestFloor
-material Toon
-texture BrickOldMixedSize0012_1_S
+material Standard
+texture BrickOldMixedSize
 pos 0 0 8
 rot 4.712734 0 0
 scl 1 0.9999999 0.9999999
 model TestWall
-material Toon
+material Standard
+texture Checker
 pos 0.5 -5 8
 rot 0 1.570796 4.712389
 scl 1 1 1
 model TestFloor
-material Toon
-texture BrickOldMixedSize0012_1_S
+material Standard
+texture BrickOldMixedSize
 pos 3 -3 8
 rot 4.712734 0 0
 scl 1 0.9999999 0.9999999
 model TestWallTop
 material Particles/VertexLit
-pos -0.12 0 8.989
+pos 0 0 7.981
 rot 4.712734 0 0
 scl 0.04 0.9999999 9.999998
 model TestWall
-material Toon
+material Standard
+texture Checker
 pos -8.5 -2 8
 rot 1.570451 3.141592 0
 scl 1 0.9999999 0.9999999
 model TestWall
-material Toon
+material Standard
+texture Checker
 pos 8.5 3 8
 rot 4.712734 0 0
 scl 1 0.9999999 0.9999999
 model TestWall
-material Toon
+material Standard
+texture Checker
 pos -8.5 1 8
 rot 1.570451 3.141592 0
 scl 1 0.9999999 0.9999999
 model TestFloor
-material Toon
-texture BrickOldMixedSize0012_1_S
+material Standard
+texture BrickOldMixedSize
 pos -6 0 8
 rot 4.712734 0 0
 scl 1 0.9999999 0.9999999
 model TestWall
-material Toon
+material Standard
+texture Checker
 pos -8.5 -2.0117E-07 8
 rot 1.570451 3.141592 0
 scl 1 0.9999999 0.9999999
 model TestWall
-material Toon
+material Standard
+texture Checker
 pos 8.5 -3 8
 rot 4.712734 0 0
 scl 1 0.9999999 0.9999999
 model TestWall
-material Toon
+material Standard
+texture Checker
 pos -2.5 5 8
 rot -5.960464E-08 4.712389 1.570796
 scl 1 1 1
 model TestFloor
-material Toon
-texture BrickOldMixedSize0012_1_S
+material Standard
+texture BrickOldMixedSize
 pos 0 -3 8
 rot 4.712734 0 0
 scl 1 0.9999999 0.9999999
 model TestWall
-material Toon
+material Standard
+texture Checker
 pos -8.5 3 8
 rot 1.570451 3.141592 0
 scl 1 0.9999999 0.9999999
 model TestWall
-material Toon
+material Standard
+texture Checker
 pos -3.5 -5 8
 rot 0 1.570796 4.712389
 scl 1 1 1
 model TestWall
-material Toon
+material Standard
+texture Checker
 pos 8.5 -2 8
 rot 4.712734 0 0
 scl 1 0.9999999 0.9999999
 model TestWall
-material Toon
+material Standard
+texture Checker
 pos -1.5 -5 8
 rot 0 1.570796 4.712389
 scl 1 1 1
 model TestWall
-material Toon
+material Standard
+texture Checker
 pos -0.5 -5 8
 rot 0 1.570796 4.712389
 scl 1 1 1
 model TestFloor
-material Toon
-texture BrickOldMixedSize0012_1_S
+material Standard
+texture BrickOldMixedSize
 pos 6 3 8
 rot 4.712734 0 0
 scl 1 0.9999999 0.9999999
 model TestWall
-material Toon
+material Standard
+texture Checker
 pos 3.5 -5 8
 rot 0 1.570796 4.712389
 scl 1 1 1
 model TestWedge
-material Toon
+material Standard
+texture WoodPlanksBare
 pos 8 4.5 8
 rot -5.960464E-08 4.712389 1.570796
 scl 1 1 1
 model TestWall
-material Toon
+material Standard
+texture Checker
 pos 1.5 -5 8
 rot 0 1.570796 4.712389
 scl 1 1 1
 model TestFloor
-material Toon
-texture BrickOldMixedSize0012_1_S
+material Standard
+texture BrickOldMixedSize
 pos 9 0 8
 rot 4.712734 0 0
 scl 1 0.9999999 0.9999999
 model TestFloor
-material Toon
-texture BrickOldMixedSize0012_1_S
+material Standard
+texture BrickOldMixedSize
 pos 0 3 8
 rot 4.712734 0 0
 scl 1 0.9999999 0.9999999
 model TestWall
-material Toon
+material Standard
+texture Checker
 pos -6.5 5 8
 rot -5.960464E-08 4.712389 1.570796
 scl 1 1 1
 model TestFloor
-material Toon
-texture BrickOldMixedSize0012_1_S
+material Standard
+texture BrickOldMixedSize
 pos -9 3 8
 rot 4.712734 0 0
 scl 1 0.9999999 0.9999999
 model TestFloor
-material Toon
-texture BrickOldMixedSize0012_1_S
+material Standard
+texture BrickOldMixedSize
 pos -3 0 8
 rot 4.712734 0 0
 scl 1 0.9999999 0.9999999
 model TestWall
-material Toon
+material Standard
+texture Checker
 pos 8.5 4.0814E-05 8
 rot 4.712734 0 0
 scl 1 0.9999999 0.9999999
 model TestWall
-material Toon
+material Standard
+texture Checker
 pos 6.5 -5 8
 rot 0 1.570796 4.712389
 scl 1 1 1
 model TestWall
-material Toon
+material Standard
+texture Checker
 pos 8.5 2 8
 rot 4.712734 0 0
 scl 1 0.9999999 0.9999999
 model TestWall
-material Toon
+material Standard
+texture Checker
 pos -1.5 5 8
 rot -5.960464E-08 4.712389 1.570796
 scl 1 1 1
 model TestWall
-material Toon
+material Standard
+texture Checker
 pos 8.5 -1 8
 rot 4.712734 0 0
 scl 1 0.9999999 0.9999999
 model TestFloor
-material Toon
-texture BrickOldMixedSize0012_1_S
+material Standard
+texture BrickOldMixedSize
 pos -9 -3 8
 rot 4.712734 0 0
 scl 1 0.9999999 0.9999999
 model TestWall
-material Toon
+material Standard
+texture Checker
 pos -0.5 5 8
 rot -5.960464E-08 4.712389 1.570796
 scl 1 1 1
 model TestWall
-material Toon
+material Standard
+texture Checker
 pos -4.5 -5 8
 rot 0 1.570796 4.712389
 scl 1 1 1
 model TestFloor
-material Toon
-texture BrickOldMixedSize0012_1_S
+material Standard
+texture BrickOldMixedSize
 pos -6 3 8
 rot 4.712734 0 0
 scl 1 0.9999999 0.9999999
 model TestWall
-material Toon
+material Standard
+texture Checker
 pos -8.5 2 8
 rot 1.570451 3.141592 0
 scl 1 0.9999999 0.9999999
 model TestWall
-material Toon
+material Standard
+texture Checker
 pos 2.5 5 8
 rot -5.960464E-08 4.712389 1.570796
 scl 1 1 1

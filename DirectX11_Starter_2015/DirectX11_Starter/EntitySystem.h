@@ -20,6 +20,8 @@ public:
 
 	bool IsEntityIndexValid(int index);
 	bool IsEntityActive(int index);
+	bool CanAddEntity() { return numEnts + 1 < maxNumberOfEntsCanHold; }
+	int GetNumberOfEnts() { return numEnts; }
 private:
 	Entity* ents;
 	int maxNumberOfEntsCanHold;

@@ -3,25 +3,45 @@
 #include <fstream>
 #include "Logger.h"
 
-Resources::Resources(ID3D11Device* newDevice)
+#include "WICTextureLoader.h"
+
+Resources::Resources(ID3D11Device* newDevice, ID3D11DeviceContext* newDeviceContext)
 {
+	device = newDevice;
+	deviceContext = newDeviceContext;
+
 	defaultModelPath = "Assets/Models/";
 	numberOfMeshes = 0;
-	device = newDevice;
 	meshNameToIndex = new std::string[MAX_NUM_MESHES];
+
+	defaultTexturePath = "Assets/Textures/";
+	numberOfTextures = 0;
 }
 
 
 Resources::~Resources()
 {
-	for (int m = 0; m < numberOfMeshes; m++) {
+	for (int m = 0; m < MAX_NUM_MESHES; m++) {
 		if (meshes[m] != nullptr) {
 			delete meshes[m];
 			meshes[m] = nullptr;
 		}
 	}
 	delete[] meshNameToIndex;
+
+	for (int t = 0; t < MAX_NUM_TEXTURES; t++) {
+		if (textures[t] != nullptr) {
+			if (textures[t]->srv != nullptr) {
+				textures[t]->srv->Release();
+				LogText("RELESE SRV " + t);
+				textures[t]->srv = nullptr;
+			}
+			delete textures[t];
+			textures[t] = nullptr;
+		}
+	}
 }
+#pragma region Mesh
 
 Mesh* Resources::GetMeshIfLoaded(const char * meshName)
 {
@@ -59,11 +79,10 @@ void Resources::LoadMesh(std::string meshName)
 	std::ifstream obj(filePath); // <-- Replace filename with your parameter
 								 // Check for successful open
 	if (!obj.is_open()) {
-		LogText("--ERROR--//Cant find file.");
+		LogText("--ERROR loading Model--//Cant find the model file. Path: " + filePath);
 		return;
 	}
-	LogText("LOADING MODEL");
-	LogText(meshName);
+	LogText("LOADING MODEL: " + filePath);
 	// Variables used while reading the file
 	std::vector<DirectX::XMFLOAT3> positions;     // Positions from the file
 	std::vector<DirectX::XMFLOAT3> normals;       // Normals from the file
@@ -211,3 +230,59 @@ int Resources::FindMesh(std::string meshName)
 	}
 	return -1;
 }
+
+#pragma endregion
+
+#pragma region Texture
+TextureResource* Resources::GetTextureIfLoaded(const char * textureName)
+{
+	int index = FindMesh(textureName);
+	if (index != -1) {
+		return textures[index];
+	}
+	return nullptr;
+}
+
+bool Resources::IsTextureLoaded(const char * textureName)
+{
+	return false;
+}
+
+TextureResource* Resources::LoadTexture(std::string textureName, std::string format)
+{
+	//TODO: check to see if we have space for a texture
+	std::string texturePath = defaultTexturePath + textureName + format;
+	LogText("LOADING TEXTURE: " + texturePath);
+
+	//a hacky way to convert to a wide char, I would eventually like to find a better solution
+	const char* texturePathC = texturePath.c_str();
+	wchar_t buffer[256] = { 0 };
+	MultiByteToWideChar(0, 0, texturePathC, strlen(texturePathC), buffer, strlen(texturePathC));
+
+	TextureResource* newTextureResource = new TextureResource();
+	newTextureResource->name = textureName;
+	newTextureResource->srv = nullptr;
+
+	DirectX::CreateWICTextureFromFile(device, deviceContext, buffer, NULL, &newTextureResource->srv);
+	if (newTextureResource->srv == nullptr) {
+		LogText("--ERROR loading Texture--//Failed to find the texture file. Path: " + texturePath);
+		return nullptr;
+	}
+
+	//Sucessfully loaded the texture
+	textures[numberOfTextures] = newTextureResource;
+	numberOfTextures += 1;
+	return newTextureResource;
+}
+
+int Resources::FindTextureIndex(std::string textureName)
+{
+	for (int t = 0; t < numberOfTextures; t++) {
+		if (textures[t]->name.compare(textureName) == 0) {
+			return t;
+		}
+	}
+	return -1;
+}
+
+#pragma endregion

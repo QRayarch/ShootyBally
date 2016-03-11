@@ -16,6 +16,7 @@ Entity::~Entity()
 
 void Entity::AddComponent(Component* newComponent)
 {
+	if (numberOfComponents >= MAX_NUM_COMPONENTS) return;
 	components[numberOfComponents] = newComponent;
 	components[numberOfComponents]->SetEntiy(this);
 	numberOfComponents++;

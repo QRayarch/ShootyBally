@@ -29,6 +29,7 @@ Entity* EntitySystem::AddEntity()
 {
 	Entity* addedEnt = EnableEntity(numEnabledEnts);
 	if (addedEnt != nullptr) {
+		//TODO: add reset back
 		//addedEnt->Reset();
 	}
 	return addedEnt;

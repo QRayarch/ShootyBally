@@ -101,7 +101,7 @@ MyDemoGame::~MyDemoGame()
 	delete basicMaterial1;
 	delete basicMaterial2;
 
-	if (texture1SRC != nullptr) {
+	/*if (texture1SRC != nullptr) {
 		texture1SRC->Release();
 		texture1SRC = nullptr;
 	}
@@ -116,7 +116,7 @@ MyDemoGame::~MyDemoGame()
 	if (texture2NSRC != nullptr) {
 		texture2NSRC->Release();
 		texture2NSRC = nullptr;
-	}
+	}*/
 	if (samplerState != nullptr) {
 		samplerState->Release();
 		samplerState = nullptr;
@@ -146,8 +146,8 @@ bool MyDemoGame::Init()
 	//  - For your own projects, feel free to expand/replace these.
 
 	render = new Render(deviceContext);
-	res = new Resources(device);
-	entSys = new EntitySystem(200);
+	res = new Resources(device, deviceContext);
+	entSys = new EntitySystem(1000);
 
 	LoadShaders(); 
 	CreateGeometry();
@@ -164,8 +164,8 @@ bool MyDemoGame::Init()
 	light1.GetTransform().SetRotation(XMFLOAT3(1, 0, 0));
 	GameLight light2 = GameLight(LIGHT_POINT ,XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f), XMFLOAT4(0.4f, 0.8f, 0.4f, 1.0f));
 	//light2.GetTransform().SetRotation(XMFLOAT3(1, -1, 0));
-	render->SetLight(light1, 0);
-	render->SetLight(light2, 1);
+	//render->SetLight(light1, 0);
+	//render->SetLight(light2, 1);
 
 	// Successfully initialized
 	return true;
@@ -185,11 +185,15 @@ void MyDemoGame::LoadShaders()
 	pixelShader = new SimplePixelShader(device, deviceContext);
 	pixelShader->LoadShaderFile(L"PixelShader.cso");
 
+	TextureResource* texture1 = res->LoadTexture("BrickOldMixedSize", ".jpg");
+	TextureResource* texture1Normal = res->LoadTexture("Normal_BrickOldMixedSize", ".jpg");
+	TextureResource* texture2 = res->LoadTexture("RockSmooth", ".jpg");
+	TextureResource* texture2Normal = res->LoadTexture("Normal_RockSmooth", ".jpg");
 
-	CreateWICTextureFromFile(device, deviceContext, L"Assets/Textures/BrickOldMixedSize.jpg", NULL, &texture1SRC);
+	/*CreateWICTextureFromFile(device, deviceContext, L"Assets/Textures/BrickOldMixedSize.jpg", NULL, &texture1SRC);
 	CreateWICTextureFromFile(device, deviceContext, L"Assets/Textures/Normal_BrickOldMixedSize.jpg", NULL, &texture1NSRC);
 	CreateWICTextureFromFile(device, deviceContext, L"Assets/Textures/RockSmooth.jpg", NULL, &texture2SRC);
-	CreateWICTextureFromFile(device, deviceContext, L"Assets/Textures/Normal_RockSmooth.jpg", NULL, &texture2NSRC);
+	CreateWICTextureFromFile(device, deviceContext, L"Assets/Textures/Normal_RockSmooth.jpg", NULL, &texture2NSRC);*/
 	//Sampler State
 	D3D11_SAMPLER_DESC samplerDesc = {};
 	samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
@@ -200,8 +204,8 @@ void MyDemoGame::LoadShaders()
 	device->CreateSamplerState(&samplerDesc, &samplerState);
 
 
-	basicMaterial1 = new Material(vertexShader, pixelShader, texture1SRC, texture1NSRC, samplerState);
-	basicMaterial2 = new Material(vertexShader, pixelShader, texture2SRC, texture2NSRC, samplerState);
+	basicMaterial1 = new Material(vertexShader, pixelShader, texture1->srv, texture1Normal->srv, samplerState);
+	basicMaterial2 = new Material(vertexShader, pixelShader, texture2->srv, texture2Normal->srv, samplerState);
 }
 
 void MyDemoGame::TestLoadLevel(char* mapName) {
@@ -216,7 +220,12 @@ void MyDemoGame::TestLoadLevel(char* mapName) {
 	//2 is light
 	//3 is background
 	//4 is arena
+
+	//Stuff to keep track of info
+	int lightIndex = -1;
+
 	char chars[400];
+	Transform* currentTransform = nullptr;
 	Entity* currentEntity = nullptr;
 	while (s.good())
 	{
@@ -228,34 +237,59 @@ void MyDemoGame::TestLoadLevel(char* mapName) {
 			statelessRead = true;
 			state = 4;
 		}
+		else if (std::strstr(chars, "lights"))
+		{
+			statelessRead = true;
+			state = 2;
+		}
 		else if (std::strstr(chars, "pos")) {
 			DirectX::XMFLOAT3 pos;
 			sscanf_s(chars, "pos %f %f %f", &pos.x, &pos.y, &pos.z);
-			if (currentEntity != nullptr) {
-				currentEntity->GetTransform().SetPosition(pos);
+			if (currentTransform != nullptr) {
+				currentTransform->SetPosition(pos);
 			}
 			statelessRead = true;
 		}
 		else if (std::strstr(chars, "rot")) {
 			DirectX::XMFLOAT3 rot;
 			sscanf_s(chars, "rot %f %f %f", &rot.x, &rot.y, &rot.z);
-			if (currentEntity != nullptr) {
-				currentEntity->GetTransform().SetRotation(rot);
+			if (currentTransform != nullptr) {
+				currentTransform->SetRotation(rot);
 			}
 			statelessRead = true;
 		}
 		else if (std::strstr(chars, "scl")) {
 			DirectX::XMFLOAT3 scl;
 			sscanf_s(chars, "scl %f %f %f", &scl.x, &scl.y, &scl.z);
-			if (currentEntity != nullptr) {
-				currentEntity->GetTransform().SetScale(scl);
+			if (currentTransform != nullptr) {
+				currentTransform->SetScale(scl);
 			}
 			statelessRead = true;
 		}
 		if (!statelessRead) {
 			switch (state)
 			{
-			case 4:
+			case 2://Light loading
+				if (std::strstr(chars, "lType"))
+				{
+					lightIndex += 1;
+					currentTransform = &render->GetLight(lightIndex).GetTransform();
+					int type = LIGHT_DIRECTIONAL;
+					sscanf_s(chars, "lType %d", &type);
+					render->GetLight(lightIndex).SetType(type);
+				}
+				else if (std::strstr(chars, "color")) {
+					DirectX::XMFLOAT4 color;
+					sscanf_s(chars, "color %f %f %f %f", &color.x, &color.y, &color.z, &color.w);
+					render->GetLight(lightIndex).SetColor(color);
+				}
+				else if (std::strstr(chars, "lIntensity")) {
+					float intensity = 1.0f;
+					sscanf_s(chars, "lIntensity %f", &intensity);
+					render->GetLight(lightIndex).SetIntensity(intensity);
+				}
+				break;
+			case 4://Arena loading
 				if (std::strstr(chars, "model")) 
 				{
 					std::string modelName = line.substr(6, line.length());
@@ -267,11 +301,17 @@ void MyDemoGame::TestLoadLevel(char* mapName) {
 					newMesh = res->GetMeshIfLoaded(modelName.c_str());
 					if (newMesh != nullptr) {
 						currentEntity = entSys->AddEntity();
-						currentEntity->AddComponent(new DrawnMesh(render, newMesh, basicMaterial2));
-						//ents.push_back(currentEntity);
+						if (currentEntity != nullptr) {
+							currentTransform = &currentEntity->GetTransform();
+							currentEntity->AddComponent(new DrawnMesh(render, newMesh, basicMaterial2));
+						}
+						else {
+							currentTransform = nullptr;
+						}
 					}
 					else {
 						currentEntity = nullptr;
+						currentTransform = nullptr;
 					}
 				}
 				break;

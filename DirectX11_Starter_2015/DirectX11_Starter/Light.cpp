@@ -4,6 +4,7 @@ GameLight::GameLight()
 {
 	renderLight.AmbientColor = DirectX::XMFLOAT4(0.1f, 0.1f, 0.1f, 1);
 	renderLight.DiffuseColor = DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 1);
+	renderLight.Intensity = 0;
 	renderLight.Type = LIGHT_DIRECTIONAL;
 }
 
@@ -11,6 +12,7 @@ GameLight::GameLight(int type, DirectX::XMFLOAT4 newAmbientColor, DirectX::XMFLO
 {
 	renderLight.AmbientColor = newAmbientColor;
 	renderLight.DiffuseColor = newDiffuseColor;
+	renderLight.Intensity = 1;
 	renderLight.Type = type;
 }
 

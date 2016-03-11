@@ -7,6 +7,7 @@ struct Light {
 	//Holds direction for Direction Light
 	//Holds position for point Light
 	float3 Fluid3;
+	float Intensity;
 	//0 is Directional Light
 	//1 is Point Light
 	int Type;
@@ -58,7 +59,7 @@ float4 CalculateLight(Light light, VertexToPixel input, inout float4 baseColor) 
 		//nDotL = pointNdotL;
 		nDotL = dot(input.normal, normalize(light.Fluid3 - input.worldPos)) / length(light.Fluid3 - input.worldPos);
 	}
-
+	nDotL *= light.Intensity;
 #ifdef TOON
 	nDotL = smoothstep(0, 0.03f, nDotL);
 #endif

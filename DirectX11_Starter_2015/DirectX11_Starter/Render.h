@@ -26,7 +26,7 @@ struct RenderInfo {
 class Render
 {
 public:
-	const static int MAX_NUM_OF_RENDERED_OBJECTS = 100;//Very likely to changed
+	const static int MAX_NUM_OF_RENDERED_OBJECTS = 500;//Very likely to changed
 	const static int MAX_NUM_OF_LIGHTS = 2;
 
 	Render(ID3D11DeviceContext* newDeviceContext);
@@ -36,7 +36,7 @@ public:
 	void UpdateAndRender(Camera& camera);
 
 	GameLight& GetLight(int index) { return lights[index]; }
-	void SetLight(GameLight light, int index) { lights[index] = light; }
+	void SetLight(GameLight light, int index) { if(index >= 0 && index < MAX_NUM_OF_LIGHTS) lights[index] = light; }
 
 private:
 	ID3D11DeviceContext* deviceContext;
