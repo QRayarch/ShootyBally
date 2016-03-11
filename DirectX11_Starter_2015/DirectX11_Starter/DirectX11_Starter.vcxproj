@@ -52,7 +52,7 @@
     </Link>
     <PostBuildEvent>
       <Command>mkdir “$(OutDir)Assets\”
-xcopy "$(SolutionDir)Assets" "$(OutDir)Assets" /y /i /e /r</Command>
+xcopy "$(SolutionDir)Assets" "$(OutDir)Assets" /y /s /i /d /e</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -71,7 +71,7 @@ xcopy "$(SolutionDir)Assets" "$(OutDir)Assets" /y /i /e /r</Command>
     </Link>
     <PostBuildEvent>
       <Command>mkdir “$(OutDir)Assets\”
-xcopy "$(SolutionDir)Assets" "$(OutDir)Assets" /y /i /e /r</Command>
+xcopy "$(SolutionDir)Assets" "$(OutDir)Assets" /y /s /i /d /e</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

@@ -33,7 +33,6 @@ Resources::~Resources()
 		if (textures[t] != nullptr) {
 			if (textures[t]->srv != nullptr) {
 				textures[t]->srv->Release();
-				LogText("RELESE SRV " + t);
 				textures[t]->srv = nullptr;
 			}
 			delete textures[t];
@@ -236,7 +235,7 @@ int Resources::FindMesh(std::string meshName)
 #pragma region Texture
 TextureResource* Resources::GetTextureIfLoaded(const char * textureName)
 {
-	int index = FindMesh(textureName);
+	int index = FindTextureIndex(textureName);
 	if (index != -1) {
 		return textures[index];
 	}
@@ -245,7 +244,7 @@ TextureResource* Resources::GetTextureIfLoaded(const char * textureName)
 
 bool Resources::IsTextureLoaded(const char * textureName)
 {
-	return false;
+	return FindTextureIndex(textureName) != -1;
 }
 
 TextureResource* Resources::LoadTexture(std::string textureName, std::string format)
@@ -266,6 +265,7 @@ TextureResource* Resources::LoadTexture(std::string textureName, std::string for
 	DirectX::CreateWICTextureFromFile(device, deviceContext, buffer, NULL, &newTextureResource->srv);
 	if (newTextureResource->srv == nullptr) {
 		LogText("--ERROR loading Texture--//Failed to find the texture file. Path: " + texturePath);
+		delete newTextureResource;
 		return nullptr;
 	}
 

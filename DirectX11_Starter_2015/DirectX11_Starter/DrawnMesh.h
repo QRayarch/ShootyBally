@@ -19,6 +19,7 @@ public:
 	void Update() override;
 
 	Mesh* GetMesh() { return mesh; }
+	void SetMaterial(Material* newMaterial) { material = newMaterial; }
 private:
 	Render* render;
 	Mesh* mesh;

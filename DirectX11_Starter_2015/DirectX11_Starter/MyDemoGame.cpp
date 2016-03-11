@@ -98,25 +98,15 @@ MyDemoGame::~MyDemoGame()
 	delete vertexShader;
 	delete pixelShader;
 
-	delete basicMaterial1;
-	delete basicMaterial2;
+	//delete basicMaterial1;
+	//delete basicMaterial2;
+	for (int m = 0; m < materials.size(); m++) {
+		if (materials[m] != nullptr) {
+			delete materials[m];
+			materials[m] = nullptr;
+		}
+	}
 
-	/*if (texture1SRC != nullptr) {
-		texture1SRC->Release();
-		texture1SRC = nullptr;
-	}
-	if (texture1NSRC != nullptr) {
-		texture1NSRC->Release();
-		texture1NSRC = nullptr;
-	}
-	if (texture2SRC != nullptr) {
-		texture2SRC->Release();
-		texture2SRC = nullptr;
-	}
-	if (texture2NSRC != nullptr) {
-		texture2NSRC->Release();
-		texture2NSRC = nullptr;
-	}*/
 	if (samplerState != nullptr) {
 		samplerState->Release();
 		samplerState = nullptr;
@@ -190,10 +180,6 @@ void MyDemoGame::LoadShaders()
 	TextureResource* texture2 = res->LoadTexture("RockSmooth", ".jpg");
 	TextureResource* texture2Normal = res->LoadTexture("Normal_RockSmooth", ".jpg");
 
-	/*CreateWICTextureFromFile(device, deviceContext, L"Assets/Textures/BrickOldMixedSize.jpg", NULL, &texture1SRC);
-	CreateWICTextureFromFile(device, deviceContext, L"Assets/Textures/Normal_BrickOldMixedSize.jpg", NULL, &texture1NSRC);
-	CreateWICTextureFromFile(device, deviceContext, L"Assets/Textures/RockSmooth.jpg", NULL, &texture2SRC);
-	CreateWICTextureFromFile(device, deviceContext, L"Assets/Textures/Normal_RockSmooth.jpg", NULL, &texture2NSRC);*/
 	//Sampler State
 	D3D11_SAMPLER_DESC samplerDesc = {};
 	samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
@@ -203,9 +189,8 @@ void MyDemoGame::LoadShaders()
 	samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
 	device->CreateSamplerState(&samplerDesc, &samplerState);
 
-
-	basicMaterial1 = new Material(vertexShader, pixelShader, texture1->srv, texture1Normal->srv, samplerState);
-	basicMaterial2 = new Material(vertexShader, pixelShader, texture2->srv, texture2Normal->srv, samplerState);
+	materials.push_back(new Material(vertexShader, pixelShader, texture1->srv, texture1Normal->srv, samplerState));
+	materials.push_back(new Material(vertexShader, pixelShader, texture2->srv, texture2Normal->srv, samplerState));
 }
 
 void MyDemoGame::TestLoadLevel(char* mapName) {
@@ -266,6 +251,42 @@ void MyDemoGame::TestLoadLevel(char* mapName) {
 			}
 			statelessRead = true;
 		}
+		else if (std::strstr(chars, "texture")) {
+			if (currentEntity != nullptr) {
+				char textureName[101];
+				sscanf_s(chars, "texture %s", textureName, 100);
+
+				TextureResource* currentTexture = nullptr;
+				//LogText(textureName);
+				if (!res->IsTextureLoaded(textureName)) {
+					currentTexture = res->LoadTexture(textureName, ".jpg");
+					TextureResource* normal = res->LoadTexture("Normal_" + std::string(textureName), ".jpg");
+					if (currentTexture != nullptr) {
+						if (normal == nullptr) {
+							materials.push_back(new Material(vertexShader, pixelShader, currentTexture->srv, nullptr, samplerState));
+						}
+						else {
+							materials.push_back(new Material(vertexShader, pixelShader, currentTexture->srv, normal->srv, samplerState));
+						}
+					}
+
+				}
+				DrawnMesh* drawnMesh = currentEntity->GetComponent<DrawnMesh>();
+				if (drawnMesh != nullptr) {
+					if (currentTexture == nullptr) {
+						currentTexture = res->GetTextureIfLoaded(textureName);
+					}
+					if (currentTexture != nullptr) {
+						for (int m = 0; m < materials.size(); m++) {
+							if (materials[m]->GetDiffuseSRV() == currentTexture->srv) {
+								drawnMesh->SetMaterial(materials[m]);
+							}
+						}
+
+					}
+				}
+			}
+		}
 		if (!statelessRead) {
 			switch (state)
 			{
@@ -303,7 +324,7 @@ void MyDemoGame::TestLoadLevel(char* mapName) {
 						currentEntity = entSys->AddEntity();
 						if (currentEntity != nullptr) {
 							currentTransform = &currentEntity->GetTransform();
-							currentEntity->AddComponent(new DrawnMesh(render, newMesh, basicMaterial2));
+							currentEntity->AddComponent(new DrawnMesh(render, newMesh, nullptr));
 						}
 						else {
 							currentTransform = nullptr;
@@ -332,7 +353,7 @@ void MyDemoGame::CreateGeometry()
 
 	Mesh* mesh1 = res->GetMeshAndLoadIfNotFound("Helix");
 	Entity* entity1 = entSys->AddEntity();
-	entity1->AddComponent(new DrawnMesh(render, mesh1, basicMaterial1));
+	entity1->AddComponent(new DrawnMesh(render, mesh1, materials[0]));
 	//ents.push_back(entity1);
 
 	float halfSize = 10 * 0.5f;
@@ -347,12 +368,12 @@ void MyDemoGame::CreateGeometry()
 	UINT indices2[] = { 0, 1, 2, 0, 3, 1 };
 	Mesh* mesh2 = res->AddMesh("ground" ,vertices2, 4, indices2, 6);
 	Entity* entity2 = entSys->AddEntity();
-	entity2->AddComponent(new DrawnMesh(render, mesh2, basicMaterial2));
+	entity2->AddComponent(new DrawnMesh(render, mesh2, materials[1]));
 	//ents.push_back(entity2);
 
 	Mesh* mesh3 = res->GetMeshAndLoadIfNotFound("Sphere");//vertices3, 3, indices3, 3
 	Entity* entity3 = entSys->AddEntity();
-	entity3->AddComponent(new DrawnMesh(render, mesh3, basicMaterial1));
+	entity3->AddComponent(new DrawnMesh(render, mesh3, materials[0]));
 	//ents.push_back(entity3);
 }
 

@@ -1,6 +1,7 @@
 #include "DrawnMesh.h"
 #include "Render.h"
 #include "Transform.h"
+#include "Logger.h"
 
 DrawnMesh::DrawnMesh()
 {
@@ -30,7 +31,12 @@ void DrawnMesh::Draw(RenderInfo& renderInfo)
 	UINT stride = sizeof(Vertex);
 	UINT offset = 0;
 
-	material->PrepareMaterial(renderInfo, GetTransform());
+	if (material != nullptr) {
+		material->PrepareMaterial(renderInfo, GetTransform());
+	}
+	else {
+		//LogText("--WARRNING no material--//A drawn mesh is rendering without a material. Things will not work well.");
+	}
 
 	if (renderInfo.currentMesh != mesh) {
 		renderInfo.deviceContext->IASetVertexBuffers(0, 1, mesh->GetVertexBuffer(), &stride, &offset);

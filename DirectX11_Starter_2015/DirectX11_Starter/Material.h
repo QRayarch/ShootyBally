@@ -19,6 +19,7 @@ public:
 	void SetVertexShader(SimpleVertexShader* newVertexShader) { vertexShader = newVertexShader;  }
 	void SetPixelShader(SimplePixelShader* newPixelShader) { pixelShader = newPixelShader; }
 	void SetDiffuseSRV(ID3D11ShaderResourceView* newDiffuseSRV) { diffuseTextureSRV = newDiffuseSRV;  }
+	ID3D11ShaderResourceView* GetDiffuseSRV() const { return diffuseTextureSRV; }
 	void SetNormalMapSRV(ID3D11ShaderResourceView* newNormalMapSRV) { normalMapSRV = newNormalMapSRV; }
 	void SetSamplerState(ID3D11SamplerState* newSamplerState) { samplerState = newSamplerState; }
 	void PrepareMaterial(RenderInfo& renderInfo, Transform& transform);
