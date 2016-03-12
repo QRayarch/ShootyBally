@@ -5,6 +5,12 @@
 
 #include "WICTextureLoader.h"
 
+const char Resources::FILE_FORMAT_OBJ[] = ".obj";
+
+const char Resources::FILE_FORMAT_TGA[] = ".tga";
+const char Resources::FILE_FORMAT_PNG[] = ".png";
+const char Resources::FILE_FORMAT_JPG[] = ".jpg";
+
 Resources::Resources(ID3D11Device* newDevice, ID3D11DeviceContext* newDeviceContext)
 {
 	device = newDevice;
@@ -16,12 +22,20 @@ Resources::Resources(ID3D11Device* newDevice, ID3D11DeviceContext* newDeviceCont
 
 	defaultTexturePath = "Assets/Textures/";
 	numberOfTextures = 0;
+
+	materials = new MaterialResource[MAX_NUM_MATERIALS];
+	numberOfMaterials = 0;
+	for (unsigned int m = 0; m < MAX_NUM_MATERIALS; ++m) {
+		materials[m].material = nullptr;
+		materials[m].name = "";
+	}
 }
 
 
 Resources::~Resources()
 {
-	for (int m = 0; m < MAX_NUM_MESHES; m++) {
+	//Handle clean up of meshes
+	for (unsigned int m = 0; m < MAX_NUM_MESHES; m++) {
 		if (meshes[m] != nullptr) {
 			delete meshes[m];
 			meshes[m] = nullptr;
@@ -29,7 +43,9 @@ Resources::~Resources()
 	}
 	delete[] meshNameToIndex;
 
-	for (int t = 0; t < MAX_NUM_TEXTURES; t++) {
+	//Handle cleanup of textures 
+	//IMPORTANT for textures release the shader resource views
+	for (unsigned int t = 0; t < MAX_NUM_TEXTURES; t++) {
 		if (textures[t] != nullptr) {
 			if (textures[t]->srv != nullptr) {
 				textures[t]->srv->Release();
@@ -39,6 +55,15 @@ Resources::~Resources()
 			textures[t] = nullptr;
 		}
 	}
+
+	//Handle material clean up
+	for (int m = 0; m < MAX_NUM_MATERIALS; ++m) {
+		if (materials[m].material != nullptr) {
+			delete materials[m].material;
+			materials[m].material = nullptr;
+		}
+	}
+	delete[] materials;
 }
 #pragma region Mesh
 
@@ -73,7 +98,7 @@ void Resources::LoadMesh(std::string meshName)
 		LogText("--Not loading Model--//Trying to load a model with a duplicate name, model will not be loaded.");
 		return;
 	}
-	std::string filePath = defaultModelPath + meshName + ".obj";
+	std::string filePath = defaultModelPath + meshName + FILE_FORMAT_OBJ;
 	// File input object
 	std::ifstream obj(filePath); // <-- Replace filename with your parameter
 								 // Check for successful open
@@ -222,7 +247,7 @@ int Resources::GetNextMeshIndex()
 //Finds the first mesh of the given name
 int Resources::FindMesh(std::string meshName)
 {
-	for (int m = 0; m < numberOfMeshes; m++) {
+	for (unsigned int m = 0; m < numberOfMeshes; m++) {
 		if (meshNameToIndex[m].compare(meshName) == 0) {
 			return m;
 		}
@@ -233,11 +258,11 @@ int Resources::FindMesh(std::string meshName)
 #pragma endregion
 
 #pragma region Texture
-TextureResource* Resources::GetTextureIfLoaded(const char * textureName)
+ID3D11ShaderResourceView* Resources::GetTextureIfLoaded(const char * textureName)
 {
 	int index = FindTextureIndex(textureName);
 	if (index != -1) {
-		return textures[index];
+		return textures[index]->srv;
 	}
 	return nullptr;
 }
@@ -247,9 +272,20 @@ bool Resources::IsTextureLoaded(const char * textureName)
 	return FindTextureIndex(textureName) != -1;
 }
 
-TextureResource* Resources::LoadTexture(std::string textureName, std::string format)
+ID3D11ShaderResourceView* Resources::LoadTexture(std::string textureName, std::string format)
 {
-	//TODO: check to see if we have space for a texture
+	//Don't load an already loaded texture
+	int index = FindTextureIndex(textureName);
+	if (index != -1) {
+		return textures[index]->srv;
+	}
+
+	//Make sure we have space for another texture
+	if (numberOfTextures + 1 >= MAX_NUM_TEXTURES) {
+		LogText("-Texture not Loaded--//You have reached your texture loading cap. Load less textures or increase the max number of textures.");
+		return nullptr;
+	}
+
 	std::string texturePath = defaultTexturePath + textureName + format;
 	LogText("LOADING TEXTURE: " + texturePath);
 
@@ -263,6 +299,7 @@ TextureResource* Resources::LoadTexture(std::string textureName, std::string for
 	newTextureResource->srv = nullptr;
 
 	DirectX::CreateWICTextureFromFile(device, deviceContext, buffer, NULL, &newTextureResource->srv);
+	//If the texture didn't load
 	if (newTextureResource->srv == nullptr) {
 		LogText("--ERROR loading Texture--//Failed to find the texture file. Path: " + texturePath);
 		delete newTextureResource;
@@ -272,14 +309,66 @@ TextureResource* Resources::LoadTexture(std::string textureName, std::string for
 	//Sucessfully loaded the texture
 	textures[numberOfTextures] = newTextureResource;
 	numberOfTextures += 1;
-	return newTextureResource;
+	return newTextureResource->srv;
 }
 
 int Resources::FindTextureIndex(std::string textureName)
 {
-	for (int t = 0; t < numberOfTextures; t++) {
+	for (unsigned int t = 0; t < numberOfTextures; t++) {
 		if (textures[t]->name.compare(textureName) == 0) {
 			return t;
+		}
+	}
+	return -1;
+}
+#pragma endregion
+
+#pragma region Material 
+
+Material* Resources::CreateMaterial(SimpleVertexShader * vert, SimplePixelShader * pixel, ID3D11SamplerState * sampler, std::string textrureName, bool loadNormalToo)
+{
+	//TODO: check to see if we can load a material and if one of the same name has already been loaded.
+	int index = GetMaterialIndex(textrureName);
+	if (index != -1) {
+		return materials[index].material;
+	}
+
+	if (numberOfMaterials + 1 >= MAX_NUM_MATERIALS) {
+		LogText("--Not Creating Material--//Max number of materials reached. Create less or increase the max number of materials to hold.");
+		return nullptr;
+	}
+
+	//This might be changed out in the future, for a scanning system that tries to load the best file format works and then tries to load fallbacks
+	ID3D11ShaderResourceView* diffuseMap = LoadTexture(textrureName, Resources::FILE_FORMAT_JPG);
+	ID3D11ShaderResourceView* normalMap = nullptr;
+	if (loadNormalToo) {
+		normalMap = LoadTexture("Normal_" + textrureName, Resources::FILE_FORMAT_JPG);
+	}
+	if (diffuseMap == nullptr) {
+		LogText("--Not creating Material--//No diffuse map was loaded. So no material will be created: " + textrureName);
+		return nullptr;
+	}
+	Material* newMaterial = new Material(vert, pixel, diffuseMap, normalMap, sampler);
+	materials[numberOfMaterials].material = newMaterial;
+	materials[numberOfMaterials].name = textrureName;
+	numberOfMaterials += 1;
+	return newMaterial;
+}
+
+Material* Resources::GetMaterial(std::string materialName)
+{
+	int index = GetMaterialIndex(materialName);
+	if (index != -1) {
+		return materials[index].material;
+	}
+	return nullptr;
+}
+
+int Resources::GetMaterialIndex(std::string materialName)
+{
+	for (unsigned int m = 0; m < numberOfMaterials; ++m) {
+		if (materials[m].name.compare(materialName) == 0) {
+			return m;
 		}
 	}
 	return -1;

@@ -1,6 +1,5 @@
 #pragma once
 #include "SimpleShader.h"
-
 #include "Transform.h"
 
 struct RenderInfo;

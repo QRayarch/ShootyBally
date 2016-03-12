@@ -15,7 +15,6 @@ Material::Material(SimpleVertexShader* newVertexShader,
 	samplerState = newSamplerState;
 }
 
-
 Material::~Material()
 {
 }

@@ -100,12 +100,12 @@ MyDemoGame::~MyDemoGame()
 
 	//delete basicMaterial1;
 	//delete basicMaterial2;
-	for (int m = 0; m < materials.size(); m++) {
+	/*for (unsigned int m = 0; m < materials.size(); m++) {
 		if (materials[m] != nullptr) {
 			delete materials[m];
 			materials[m] = nullptr;
 		}
-	}
+	}*/
 
 	if (samplerState != nullptr) {
 		samplerState->Release();
@@ -139,6 +139,13 @@ bool MyDemoGame::Init()
 	res = new Resources(device, deviceContext);
 	entSys = new EntitySystem(1000);
 
+	GameLight light1 = GameLight(LIGHT_DIRECTIONAL, XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f), XMFLOAT4(0.9f, 0.4f, 0.4f, 1.0f));
+	light1.GetTransform().SetRotation(XMFLOAT3(1, 0, 0));
+	GameLight light2 = GameLight(LIGHT_POINT, XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f), XMFLOAT4(0.4f, 0.8f, 0.4f, 1.0f));
+	//light2.GetTransform().SetRotation(XMFLOAT3(1, -1, 0));
+	render->SetLight(light1, 0);
+	render->SetLight(light2, 1);
+
 	LoadShaders(); 
 	CreateGeometry();
 	TestLoadLevel("Assets/Maps/Untitled.txt");
@@ -150,12 +157,7 @@ bool MyDemoGame::Init()
 	camera = Camera(0.0f, 0.0f, -5.0f);
 	camera.CreatePerspectiveProjectionMatrix(aspectRatio, 0.1f, 100.0f);
 
-	GameLight light1 = GameLight(LIGHT_DIRECTIONAL ,XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f), XMFLOAT4(0.4f, 0.4f, 0.4f, 1.0f));
-	light1.GetTransform().SetRotation(XMFLOAT3(1, 0, 0));
-	GameLight light2 = GameLight(LIGHT_POINT ,XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f), XMFLOAT4(0.4f, 0.8f, 0.4f, 1.0f));
-	//light2.GetTransform().SetRotation(XMFLOAT3(1, -1, 0));
-	//render->SetLight(light1, 0);
-	//render->SetLight(light2, 1);
+
 
 	// Successfully initialized
 	return true;
@@ -175,10 +177,10 @@ void MyDemoGame::LoadShaders()
 	pixelShader = new SimplePixelShader(device, deviceContext);
 	pixelShader->LoadShaderFile(L"PixelShader.cso");
 
-	TextureResource* texture1 = res->LoadTexture("BrickOldMixedSize", ".jpg");
-	TextureResource* texture1Normal = res->LoadTexture("Normal_BrickOldMixedSize", ".jpg");
-	TextureResource* texture2 = res->LoadTexture("RockSmooth", ".jpg");
-	TextureResource* texture2Normal = res->LoadTexture("Normal_RockSmooth", ".jpg");
+	/*ID3D11ShaderResourceView* texture1 = res->LoadTexture("BrickOldMixedSize", Resources::FILE_FORMAT_JPG);
+	ID3D11ShaderResourceView* texture1Normal = res->LoadTexture("Normal_BrickOldMixedSize", Resources::FILE_FORMAT_JPG);
+	ID3D11ShaderResourceView* texture2 = res->LoadTexture("RockSmooth", Resources::FILE_FORMAT_JPG);
+	ID3D11ShaderResourceView* texture2Normal = res->LoadTexture("Normal_RockSmooth", Resources::FILE_FORMAT_JPG);*/
 
 	//Sampler State
 	D3D11_SAMPLER_DESC samplerDesc = {};
@@ -188,9 +190,6 @@ void MyDemoGame::LoadShaders()
 	samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
 	samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
 	device->CreateSamplerState(&samplerDesc, &samplerState);
-
-	materials.push_back(new Material(vertexShader, pixelShader, texture1->srv, texture1Normal->srv, samplerState));
-	materials.push_back(new Material(vertexShader, pixelShader, texture2->srv, texture2Normal->srv, samplerState));
 }
 
 void MyDemoGame::TestLoadLevel(char* mapName) {
@@ -256,32 +255,14 @@ void MyDemoGame::TestLoadLevel(char* mapName) {
 				char textureName[101];
 				sscanf_s(chars, "texture %s", textureName, 100);
 
-				TextureResource* currentTexture = nullptr;
+				Material* currentMaterial = nullptr;
 				//LogText(textureName);
-				if (!res->IsTextureLoaded(textureName)) {
-					currentTexture = res->LoadTexture(textureName, ".jpg");
-					TextureResource* normal = res->LoadTexture("Normal_" + std::string(textureName), ".jpg");
-					if (currentTexture != nullptr) {
-						if (normal == nullptr) {
-							materials.push_back(new Material(vertexShader, pixelShader, currentTexture->srv, nullptr, samplerState));
-						}
-						else {
-							materials.push_back(new Material(vertexShader, pixelShader, currentTexture->srv, normal->srv, samplerState));
-						}
-					}
+				currentMaterial = res->CreateMaterial(vertexShader, pixelShader, samplerState, textureName, true);
 
-				}
 				DrawnMesh* drawnMesh = currentEntity->GetComponent<DrawnMesh>();
 				if (drawnMesh != nullptr) {
-					if (currentTexture == nullptr) {
-						currentTexture = res->GetTextureIfLoaded(textureName);
-					}
-					if (currentTexture != nullptr) {
-						for (int m = 0; m < materials.size(); m++) {
-							if (materials[m]->GetDiffuseSRV() == currentTexture->srv) {
-								drawnMesh->SetMaterial(materials[m]);
-							}
-						}
+					if (currentMaterial != nullptr) {
+						drawnMesh->SetMaterial(currentMaterial);
 
 					}
 				}
@@ -351,9 +332,12 @@ void MyDemoGame::CreateGeometry()
 	XMFLOAT3 normal	= XMFLOAT3(0, 1, 0);
 	XMFLOAT3 tangent = XMFLOAT3(0, 0, 1);
 
+	Material* material1 = res->CreateMaterial(vertexShader, pixelShader, samplerState, "BrickOldMixedSize", true);
+	Material* material2 = res->CreateMaterial(vertexShader, pixelShader, samplerState, "RockSmooth", true);
+
 	Mesh* mesh1 = res->GetMeshAndLoadIfNotFound("Helix");
 	Entity* entity1 = entSys->AddEntity();
-	entity1->AddComponent(new DrawnMesh(render, mesh1, materials[0]));
+	entity1->AddComponent(new DrawnMesh(render, mesh1, material1));
 	//ents.push_back(entity1);
 
 	float halfSize = 10 * 0.5f;
@@ -368,12 +352,12 @@ void MyDemoGame::CreateGeometry()
 	UINT indices2[] = { 0, 1, 2, 0, 3, 1 };
 	Mesh* mesh2 = res->AddMesh("ground" ,vertices2, 4, indices2, 6);
 	Entity* entity2 = entSys->AddEntity();
-	entity2->AddComponent(new DrawnMesh(render, mesh2, materials[1]));
+	entity2->AddComponent(new DrawnMesh(render, mesh2, material2));
 	//ents.push_back(entity2);
 
 	Mesh* mesh3 = res->GetMeshAndLoadIfNotFound("Sphere");//vertices3, 3, indices3, 3
 	Entity* entity3 = entSys->AddEntity();
-	entity3->AddComponent(new DrawnMesh(render, mesh3, materials[0]));
+	entity3->AddComponent(new DrawnMesh(render, mesh3, material1));
 	//ents.push_back(entity3);
 }
 

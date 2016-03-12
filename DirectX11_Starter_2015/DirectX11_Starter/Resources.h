@@ -7,15 +7,32 @@ struct TextureResource {
 	ID3D11ShaderResourceView* srv;
 };
 
+struct MaterialResource {
+	std::string name;
+	Material* material;
+};
+
+
 class Resources
 {
+
 public:
-	const static int MAX_NUM_MESHES = 50;//Max number of meshes we can load
-	const static int MAX_NUM_TEXTURES = 200;
+	//Model file formats
+	static const char FILE_FORMAT_OBJ[];
+	//Image file formats
+	static const char FILE_FORMAT_TGA[];
+	static const char FILE_FORMAT_PNG[];
+	static const char FILE_FORMAT_JPG[];
+
+	const static unsigned int MAX_NUM_MESHES = 50;//Max number of meshes we can load
+	const static unsigned int MAX_NUM_TEXTURES = 200;//Max number of textures we can load
+	const static unsigned int MAX_NUM_MATERIALS = 100;//Max number of materials we can hold
+
 	Resources(ID3D11Device* newDevice, ID3D11DeviceContext* newDeviceContext);
 	~Resources();
 
 	//Mesh Stuff
+	//TODO: refactor
 	Mesh* GetMeshIfLoaded(const char* meshName);//Returns the mesh only if it is loaded
 	Mesh* GetMeshAndLoadIfNotFound(const char* meshName);
 	bool IsMeshLoaded(const char* meshName);
@@ -25,21 +42,32 @@ public:
 	int FindMesh(std::string meshName);
 
 	//Texture Stuff
-	TextureResource* GetTextureIfLoaded(const char* textureName);
+	ID3D11ShaderResourceView* GetTextureIfLoaded(const char* textureName);
 	bool IsTextureLoaded(const char* textureName);
-	TextureResource* LoadTexture(std::string textureName, std::string format);
+	ID3D11ShaderResourceView* LoadTexture(std::string textureName, std::string format);
 	int FindTextureIndex(std::string textureName);
+
+	//Material Stuff
+	//Creates a material with the sampler state, shaders, loads the texture, and possibly the normal to. The shader resource name is equal to the texture name in this case 
+	Material* CreateMaterial(SimpleVertexShader* vert, SimplePixelShader* pixel, ID3D11SamplerState* sampler, std::string textrureName, bool loadNormalToo);
+	Material* GetMaterial(std::string materialName);
+	int GetMaterialIndex(std::string materialName);
 private:
 	ID3D11Device* device;
 	ID3D11DeviceContext* deviceContext;
 
+	//TODO: move some of this info to a mesh resource instead of this
 	std::string defaultModelPath;
 	Mesh* meshes[MAX_NUM_MESHES];
 	std::string* meshNameToIndex;
-	int numberOfMeshes;
+	unsigned int numberOfMeshes;
 
+	//TODO: rework this to use less dynamic memory
 	std::string defaultTexturePath;
 	TextureResource* textures[MAX_NUM_TEXTURES];
-	int numberOfTextures;
+	unsigned int numberOfTextures;
+
+	MaterialResource* materials;
+	unsigned int numberOfMaterials;
 };
 

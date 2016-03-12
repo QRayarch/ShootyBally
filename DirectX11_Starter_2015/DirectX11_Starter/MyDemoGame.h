@@ -58,9 +58,7 @@ private:
 	Camera camera;
 	Resources* res;
 	Render* render;
-	//Material* basicMaterial1;
-	//Material* basicMaterial2;
-	std::vector<Material*> materials;
+//	std::vector<Material*> materials;
 	ID3D11SamplerState* samplerState;
 	EntitySystem* entSys;
 

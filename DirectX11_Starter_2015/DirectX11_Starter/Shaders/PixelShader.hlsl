@@ -74,9 +74,9 @@ float4 CalculateRimLighting(float3 dirToCamera, VertexToPixel input) : COLOR0
 	float scale = 0.17f;
 	float power = 3;
 	float r = 1 - saturate(bias + scale * pow(1 + dot(dirToCamera, input.normal), power));*/
-	float base = 1 - dot(dirToCamera, input.normal);
+	float base = 0.75f - dot(dirToCamera, input.normal);
 	float exp = pow(base, 5);
-	float r = exp + 0 * (1 - exp);
+	float r = exp + 0.0f * (1 - exp);
 	return r.xxxx;
 }
 
@@ -131,5 +131,5 @@ float4 main(VertexToPixel input) : SV_TARGET
 	lights += CalculateLight(light2, input, baseColor);
 
 
-	return  lights + CalculateSpecular(dirToCamera, refl);
+	return  lights;// +CalculateSpecular(dirToCamera, refl);
 }
