@@ -65,6 +65,7 @@ private:
 	// Wrappers for DirectX shaders to provide simplified functionality
 	SimpleVertexShader* vertexShader;
 	SimplePixelShader* pixelShader;
+	SimplePixelShader* pixelShaderNoNormals;
 
 	// The matrices to go from model space to screen space
 	//DirectX::XMFLOAT4X4 worldMatrix;

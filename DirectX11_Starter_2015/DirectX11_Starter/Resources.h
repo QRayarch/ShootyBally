@@ -62,9 +62,8 @@ private:
 	std::string* meshNameToIndex;
 	unsigned int numberOfMeshes;
 
-	//TODO: rework this to use less dynamic memory
 	std::string defaultTexturePath;
-	TextureResource* textures[MAX_NUM_TEXTURES];
+	TextureResource* textures;
 	unsigned int numberOfTextures;
 
 	MaterialResource* materials;

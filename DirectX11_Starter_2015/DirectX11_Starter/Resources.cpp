@@ -21,6 +21,11 @@ Resources::Resources(ID3D11Device* newDevice, ID3D11DeviceContext* newDeviceCont
 	meshNameToIndex = new std::string[MAX_NUM_MESHES];
 
 	defaultTexturePath = "Assets/Textures/";
+	textures = new TextureResource[MAX_NUM_TEXTURES];
+	for (unsigned int t = 0; t < MAX_NUM_TEXTURES; ++t) {
+		textures[t].srv = nullptr;
+		textures[t].name = "";
+	}
 	numberOfTextures = 0;
 
 	materials = new MaterialResource[MAX_NUM_MATERIALS];
@@ -46,14 +51,15 @@ Resources::~Resources()
 	//Handle cleanup of textures 
 	//IMPORTANT for textures release the shader resource views
 	for (unsigned int t = 0; t < MAX_NUM_TEXTURES; t++) {
-		if (textures[t] != nullptr) {
-			if (textures[t]->srv != nullptr) {
-				textures[t]->srv->Release();
-				textures[t]->srv = nullptr;
+			if (textures[t].srv != nullptr) {
+				textures[t].srv->Release();
+				textures[t].srv = nullptr;
 			}
-			delete textures[t];
-			textures[t] = nullptr;
-		}
+	}
+
+	if (textures != nullptr) {
+		delete[] textures;
+		textures = nullptr;
 	}
 
 	//Handle material clean up
@@ -63,7 +69,10 @@ Resources::~Resources()
 			materials[m].material = nullptr;
 		}
 	}
-	delete[] materials;
+	if (materials != nullptr) {
+		delete[] materials;
+		materials = nullptr;
+	}
 }
 #pragma region Mesh
 
@@ -262,7 +271,7 @@ ID3D11ShaderResourceView* Resources::GetTextureIfLoaded(const char * textureName
 {
 	int index = FindTextureIndex(textureName);
 	if (index != -1) {
-		return textures[index]->srv;
+		return textures[index].srv;
 	}
 	return nullptr;
 }
@@ -277,7 +286,7 @@ ID3D11ShaderResourceView* Resources::LoadTexture(std::string textureName, std::s
 	//Don't load an already loaded texture
 	int index = FindTextureIndex(textureName);
 	if (index != -1) {
-		return textures[index]->srv;
+		return textures[index].srv;
 	}
 
 	//Make sure we have space for another texture
@@ -294,28 +303,28 @@ ID3D11ShaderResourceView* Resources::LoadTexture(std::string textureName, std::s
 	wchar_t buffer[256] = { 0 };
 	MultiByteToWideChar(0, 0, texturePathC, strlen(texturePathC), buffer, strlen(texturePathC));
 
-	TextureResource* newTextureResource = new TextureResource();
-	newTextureResource->name = textureName;
-	newTextureResource->srv = nullptr;
+	TextureResource newTextureResource;
+	newTextureResource.name = textureName;
+	newTextureResource.srv = nullptr;
 
-	DirectX::CreateWICTextureFromFile(device, deviceContext, buffer, NULL, &newTextureResource->srv);
+	DirectX::CreateWICTextureFromFile(device, deviceContext, buffer, NULL, &newTextureResource.srv);
 	//If the texture didn't load
-	if (newTextureResource->srv == nullptr) {
+	if (newTextureResource.srv == nullptr) {
 		LogText("--ERROR loading Texture--//Failed to find the texture file. Path: " + texturePath);
-		delete newTextureResource;
+		//delete newTextureResource;
 		return nullptr;
 	}
 
 	//Sucessfully loaded the texture
 	textures[numberOfTextures] = newTextureResource;
 	numberOfTextures += 1;
-	return newTextureResource->srv;
+	return newTextureResource.srv;
 }
 
 int Resources::FindTextureIndex(std::string textureName)
 {
 	for (unsigned int t = 0; t < numberOfTextures; t++) {
-		if (textures[t]->name.compare(textureName) == 0) {
+		if (textures[t].name.compare(textureName) == 0) {
 			return t;
 		}
 	}
@@ -327,7 +336,6 @@ int Resources::FindTextureIndex(std::string textureName)
 
 Material* Resources::CreateMaterial(SimpleVertexShader * vert, SimplePixelShader * pixel, ID3D11SamplerState * sampler, std::string textrureName, bool loadNormalToo)
 {
-	//TODO: check to see if we can load a material and if one of the same name has already been loaded.
 	int index = GetMaterialIndex(textrureName);
 	if (index != -1) {
 		return materials[index].material;

@@ -97,6 +97,7 @@ MyDemoGame::~MyDemoGame()
 	// Delete our simple shaders
 	delete vertexShader;
 	delete pixelShader;
+	delete pixelShaderNoNormals;
 
 	//delete basicMaterial1;
 	//delete basicMaterial2;
@@ -176,6 +177,10 @@ void MyDemoGame::LoadShaders()
 
 	pixelShader = new SimplePixelShader(device, deviceContext);
 	pixelShader->LoadShaderFile(L"PixelShader.cso");
+
+	//This is tempory
+	pixelShaderNoNormals = new SimplePixelShader(device, deviceContext);
+	pixelShaderNoNormals->LoadShaderFile(L"PixelShaderNoNormals.cso");
 
 	/*ID3D11ShaderResourceView* texture1 = res->LoadTexture("BrickOldMixedSize", Resources::FILE_FORMAT_JPG);
 	ID3D11ShaderResourceView* texture1Normal = res->LoadTexture("Normal_BrickOldMixedSize", Resources::FILE_FORMAT_JPG);
@@ -329,15 +334,18 @@ void MyDemoGame::TestLoadLevel(char* mapName) {
 // --------------------------------------------------------
 void MyDemoGame::CreateGeometry()
 {
+	//TODO: come up with a better way to handle and deal with shader, textures and materials in relation to eachother
+
 	XMFLOAT3 normal	= XMFLOAT3(0, 1, 0);
 	XMFLOAT3 tangent = XMFLOAT3(0, 0, 1);
 
 	Material* material1 = res->CreateMaterial(vertexShader, pixelShader, samplerState, "BrickOldMixedSize", true);
 	Material* material2 = res->CreateMaterial(vertexShader, pixelShader, samplerState, "RockSmooth", true);
+	Material* material3 = res->CreateMaterial(vertexShader, pixelShaderNoNormals, samplerState, "Ball", false);
 
-	Mesh* mesh1 = res->GetMeshAndLoadIfNotFound("Helix");
+	Mesh* mesh1 = res->GetMeshAndLoadIfNotFound("Ball");
 	Entity* entity1 = entSys->AddEntity();
-	entity1->AddComponent(new DrawnMesh(render, mesh1, material1));
+	entity1->AddComponent(new DrawnMesh(render, mesh1, material3));
 	//ents.push_back(entity1);
 
 	float halfSize = 10 * 0.5f;
@@ -355,7 +363,7 @@ void MyDemoGame::CreateGeometry()
 	entity2->AddComponent(new DrawnMesh(render, mesh2, material2));
 	//ents.push_back(entity2);
 
-	Mesh* mesh3 = res->GetMeshAndLoadIfNotFound("Sphere");//vertices3, 3, indices3, 3
+	Mesh* mesh3 = res->GetMeshAndLoadIfNotFound("Torus");//vertices3, 3, indices3, 3
 	Entity* entity3 = entSys->AddEntity();
 	entity3->AddComponent(new DrawnMesh(render, mesh3, material1));
 	//ents.push_back(entity3);

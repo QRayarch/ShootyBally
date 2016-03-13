@@ -105,8 +105,7 @@ DirectX::XMFLOAT4X4 Transform::RecalculateWorldMatrix()
 		DirectX::XMStoreFloat4x4(&worldMatrix, DirectX::XMMatrixTranspose(calculatedWorldMatrix));
 	} else {
 		DirectX::XMMATRIX  calculatedWorldMatrix =
-			DirectX::XMMatrixScalingFromVector(DirectX::XMLoadFloat3(&scale)) *
-			DirectX::XMMatrixRotationX(rotation.x) * DirectX::XMMatrixRotationY(rotation.y) * DirectX::XMMatrixRotationZ(rotation.z) *
+			DirectX::XMMatrixScalingFromVector(DirectX::XMLoadFloat3(&scale)) * DirectX::XMMatrixRotationRollPitchYawFromVector(DirectX::XMLoadFloat3(&rotation)) *
 			DirectX::XMMatrixTranslationFromVector(DirectX::XMLoadFloat3(&position));
 		DirectX::XMStoreFloat4x4(&worldMatrix, DirectX::XMMatrixTranspose(
 			DirectX::XMMatrixMultiply(DirectX::XMMatrixTranspose(DirectX::XMLoadFloat4x4(&parrent->GetWorldMatrix())), calculatedWorldMatrix)));
