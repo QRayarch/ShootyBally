@@ -259,7 +259,7 @@ SimpleShaderVariable* ISimpleShader::FindVariable(std::string name, int size)
 
 SimpleShaderVariable* ISimpleShader::FindVariable(int i, int size)
 {
-	if (i < 0 || i >= varTableINT.size())
+	if (i < 0 || i >= (int)varTableINT.size())
 		return 0;
 
 	SimpleShaderVariable* var = &varTableINT[i];
@@ -291,7 +291,7 @@ SimpleConstantBuffer* ISimpleShader::FindConstantBuffer(std::string name)
 
 SimpleConstantBuffer * ISimpleShader::FindConstantBuffer(int i)
 {
-	if (i < 0 || i >= cbTableINT.size())
+	if (i < 0 || i >= (int)cbTableINT.size())
 		return 0;
 	return cbTableINT[i];
 }
@@ -532,7 +532,7 @@ const SimpleSRV* ISimpleShader::GetShaderResourceViewInfo(std::string name)
 
 const SimpleSRV * ISimpleShader::GetShaderResourceView(int index)
 {
-	if (index < 0 || index >= textureTableINT.size()) return nullptr;
+	if (index < 0 || index >= (int)textureTableINT.size()) return nullptr;
 	return textureTableINT[index];
 }
 

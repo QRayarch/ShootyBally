@@ -73,7 +73,7 @@ void Material::PrepareMaterial(RenderInfo& renderInfo, Transform& transform)
 		pixelShader->SetFloat3(0, renderInfo.cameraPosition);
 		pixelShader->SetData(1, &renderInfo.light1, sizeof(RenderLight));
 		pixelShader->SetData(2, &renderInfo.light2, sizeof(RenderLight));
-		for (int t = 0; t < numberOfTextures; ++t) {
+		for (unsigned int t = 0; t < numberOfTextures; ++t) {
 			pixelShader->SetShaderResourceView(t, textures[t]);
 		}
 
