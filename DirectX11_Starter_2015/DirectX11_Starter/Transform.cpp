@@ -94,18 +94,20 @@ DirectX::XMFLOAT3 Transform::GetForwardVector()
 
 DirectX::XMFLOAT4X4 Transform::RecalculateWorldMatrix()
 {
+	//TODO: figure out a better way to handle rotaions
 	if (!GetIsDirty()) return worldMatrix;//Dont know if I want to keep it.
 	DirectX::XMMATRIX allignedWorldMatrix = DirectX::XMLoadFloat4x4(&worldMatrix);
 	if (parrent == nullptr) {
 		DirectX::XMMATRIX  calculatedWorldMatrix =
-			DirectX::XMMatrixScalingFromVector(DirectX::XMLoadFloat3(&scale)) * DirectX::XMMatrixRotationRollPitchYawFromVector(DirectX::XMLoadFloat3(&rotation)) *
+			DirectX::XMMatrixScalingFromVector(DirectX::XMLoadFloat3(&scale)) * //DirectX::XMMatrixRotationRollPitchYawFromVector(DirectX::XMLoadFloat3(&rotation)) *
 			//DirectX::XMMatrixRotationX(rotation.x) * DirectX::XMMatrixRotationY(rotation.y) * DirectX::XMMatrixRotationZ(rotation.z) *
-			//DirectX::XMMatrixRotationQuaternion(DirectX::XMQuaternionRotationRollPitchYawFromVector(DirectX::XMLoadFloat3(&rotation))) * 
+			DirectX::XMMatrixRotationQuaternion(DirectX::XMQuaternionRotationRollPitchYawFromVector(DirectX::XMLoadFloat3(&rotation))) * 
 			DirectX::XMMatrixTranslationFromVector(DirectX::XMLoadFloat3(&position));
 		DirectX::XMStoreFloat4x4(&worldMatrix, DirectX::XMMatrixTranspose(calculatedWorldMatrix));
 	} else {
 		DirectX::XMMATRIX  calculatedWorldMatrix =
-			DirectX::XMMatrixScalingFromVector(DirectX::XMLoadFloat3(&scale)) * DirectX::XMMatrixRotationRollPitchYawFromVector(DirectX::XMLoadFloat3(&rotation)) *
+			DirectX::XMMatrixScalingFromVector(DirectX::XMLoadFloat3(&scale)) * //DirectX::XMMatrixRotationRollPitchYawFromVector(DirectX::XMLoadFloat3(&rotation)) *
+			DirectX::XMMatrixRotationQuaternion(DirectX::XMQuaternionRotationRollPitchYawFromVector(DirectX::XMLoadFloat3(&rotation))) *
 			DirectX::XMMatrixTranslationFromVector(DirectX::XMLoadFloat3(&position));
 		DirectX::XMStoreFloat4x4(&worldMatrix, DirectX::XMMatrixTranspose(
 			DirectX::XMMatrixMultiply(DirectX::XMMatrixTranspose(DirectX::XMLoadFloat4x4(&parrent->GetWorldMatrix())), calculatedWorldMatrix)));

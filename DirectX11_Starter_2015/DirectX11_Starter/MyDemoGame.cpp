@@ -28,8 +28,6 @@
 #include <iostream>
 #include "Logger.h"
 
-#include "WICTextureLoader.h"
-
 // For the DirectX Math library
 using namespace DirectX;
 
@@ -98,15 +96,6 @@ MyDemoGame::~MyDemoGame()
 	delete vertexShader;
 	delete pixelShader;
 	delete pixelShaderNoNormals;
-
-	//delete basicMaterial1;
-	//delete basicMaterial2;
-	/*for (unsigned int m = 0; m < materials.size(); m++) {
-		if (materials[m] != nullptr) {
-			delete materials[m];
-			materials[m] = nullptr;
-		}
-	}*/
 
 	if (samplerState != nullptr) {
 		samplerState->Release();
@@ -178,14 +167,10 @@ void MyDemoGame::LoadShaders()
 	pixelShader = new SimplePixelShader(device, deviceContext);
 	pixelShader->LoadShaderFile(L"PixelShader.cso");
 
-	//This is tempory
+	//This is tempory, 
+	//TODO: create a common shader file. 
 	pixelShaderNoNormals = new SimplePixelShader(device, deviceContext);
 	pixelShaderNoNormals->LoadShaderFile(L"PixelShaderNoNormals.cso");
-
-	/*ID3D11ShaderResourceView* texture1 = res->LoadTexture("BrickOldMixedSize", Resources::FILE_FORMAT_JPG);
-	ID3D11ShaderResourceView* texture1Normal = res->LoadTexture("Normal_BrickOldMixedSize", Resources::FILE_FORMAT_JPG);
-	ID3D11ShaderResourceView* texture2 = res->LoadTexture("RockSmooth", Resources::FILE_FORMAT_JPG);
-	ID3D11ShaderResourceView* texture2Normal = res->LoadTexture("Normal_RockSmooth", Resources::FILE_FORMAT_JPG);*/
 
 	//Sampler State
 	D3D11_SAMPLER_DESC samplerDesc = {};
@@ -197,6 +182,7 @@ void MyDemoGame::LoadShaders()
 	device->CreateSamplerState(&samplerDesc, &samplerState);
 }
 
+//This is here temporarily till more things are figured out
 void MyDemoGame::TestLoadLevel(char* mapName) {
 	std::ifstream s(mapName);
 	if (!s.is_open()) {
@@ -262,7 +248,7 @@ void MyDemoGame::TestLoadLevel(char* mapName) {
 
 				Material* currentMaterial = nullptr;
 				//LogText(textureName);
-				currentMaterial = res->CreateMaterial(vertexShader, pixelShader, samplerState, textureName, true);
+				currentMaterial = res->CreateMaterial(vertexShader, pixelShader, samplerState, textureName, "Normal_" + std::string(textureName));
 
 				DrawnMesh* drawnMesh = currentEntity->GetComponent<DrawnMesh>();
 				if (drawnMesh != nullptr) {
@@ -334,19 +320,17 @@ void MyDemoGame::TestLoadLevel(char* mapName) {
 // --------------------------------------------------------
 void MyDemoGame::CreateGeometry()
 {
-	//TODO: come up with a better way to handle and deal with shader, textures and materials in relation to eachother
 
 	XMFLOAT3 normal	= XMFLOAT3(0, 1, 0);
 	XMFLOAT3 tangent = XMFLOAT3(0, 0, 1);
 
-	Material* material1 = res->CreateMaterial(vertexShader, pixelShader, samplerState, "BrickOldMixedSize", true);
-	Material* material2 = res->CreateMaterial(vertexShader, pixelShader, samplerState, "RockSmooth", true);
-	Material* material3 = res->CreateMaterial(vertexShader, pixelShaderNoNormals, samplerState, "Ball", false);
+	Material* material1 = res->CreateMaterial(vertexShader, pixelShader, samplerState, "BrickOldMixedSize", "Normal_BrickOldMixedSize");
+	Material* material2 = res->CreateMaterial(vertexShader, pixelShader, samplerState, "RockSmooth", "Normal_RockSmooth");
+	Material* material3 = res->CreateMaterial(vertexShader, pixelShaderNoNormals, samplerState, "Ball");
 
 	Mesh* mesh1 = res->GetMeshAndLoadIfNotFound("Ball");
 	Entity* entity1 = entSys->AddEntity();
 	entity1->AddComponent(new DrawnMesh(render, mesh1, material3));
-	//ents.push_back(entity1);
 
 	float halfSize = 10 * 0.5f;
 	float yPos = -2.5f;
@@ -361,12 +345,10 @@ void MyDemoGame::CreateGeometry()
 	Mesh* mesh2 = res->AddMesh("ground" ,vertices2, 4, indices2, 6);
 	Entity* entity2 = entSys->AddEntity();
 	entity2->AddComponent(new DrawnMesh(render, mesh2, material2));
-	//ents.push_back(entity2);
 
 	Mesh* mesh3 = res->GetMeshAndLoadIfNotFound("Torus");//vertices3, 3, indices3, 3
 	Entity* entity3 = entSys->AddEntity();
 	entity3->AddComponent(new DrawnMesh(render, mesh3, material1));
-	//ents.push_back(entity3);
 }
 
 #pragma endregion
@@ -416,9 +398,6 @@ void MyDemoGame::UpdateScene(float deltaTime, float totalTime)
 	entSys->GetEntity(2)->GetTransform().SetParrent(&entSys->GetEntity(0)->GetTransform());
 
 	entSys->Update();
-	/*for (int e = 0; e < ents.size(); e++) {
-		ents[e]->Update();
-	}*/
 
 	//Temp camera and input stuff
 	LONG deltaMouseX = curMousePos.x - prevMousePos.x;

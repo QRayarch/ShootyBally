@@ -334,9 +334,22 @@ int Resources::FindTextureIndex(std::string textureName)
 
 #pragma region Material 
 
-Material* Resources::CreateMaterial(SimpleVertexShader * vert, SimplePixelShader * pixel, ID3D11SamplerState * sampler, std::string textrureName, bool loadNormalToo)
+Material* Resources::CreateMaterial(SimpleVertexShader * vert, SimplePixelShader * pixel, ID3D11SamplerState * sampler, std::string textrureName)
 {
-	int index = GetMaterialIndex(textrureName);
+	return Resources::CreateMaterial(vert, pixel, sampler, textrureName, "", "");
+}
+
+Material * Resources::CreateMaterial(SimpleVertexShader * vert, SimplePixelShader * pixel, ID3D11SamplerState * sampler, std::string textrure1Name, std::string textrure2Name)
+{
+	return Resources::CreateMaterial(vert, pixel, sampler, textrure1Name, textrure2Name, "");
+}
+
+Material* Resources::CreateMaterial(SimpleVertexShader * vert, SimplePixelShader * pixel, ID3D11SamplerState * sampler,
+	std::string textrure1Name, 
+	std::string textrure2Name, 
+	std::string textrure3Name)
+{
+	int index = GetMaterialIndex(textrure1Name);
 	if (index != -1) {
 		return materials[index].material;
 	}
@@ -347,18 +360,24 @@ Material* Resources::CreateMaterial(SimpleVertexShader * vert, SimplePixelShader
 	}
 
 	//This might be changed out in the future, for a scanning system that tries to load the best file format works and then tries to load fallbacks
-	ID3D11ShaderResourceView* diffuseMap = LoadTexture(textrureName, Resources::FILE_FORMAT_JPG);
-	ID3D11ShaderResourceView* normalMap = nullptr;
-	if (loadNormalToo) {
-		normalMap = LoadTexture("Normal_" + textrureName, Resources::FILE_FORMAT_JPG);
+	ID3D11ShaderResourceView* textures[Material::MAX_NUM_TEXTURES];
+	unsigned int numberOfTextures = 1;
+	textures[0] = LoadTexture(textrure1Name, Resources::FILE_FORMAT_JPG);
+	if (textrure2Name != "") {
+		textures[1] = LoadTexture(textrure2Name, Resources::FILE_FORMAT_JPG);
+		numberOfTextures += 1;
 	}
-	if (diffuseMap == nullptr) {
-		LogText("--Not creating Material--//No diffuse map was loaded. So no material will be created: " + textrureName);
+	if (textrure3Name != "") {
+		textures[2] = LoadTexture(textrure3Name, Resources::FILE_FORMAT_JPG);
+		numberOfTextures += 1;
+	}
+	if (textures[0] == nullptr) {
+		LogText("--Not creating Material--//No diffuse map was loaded. So no material will be created: " + textrure1Name);
 		return nullptr;
 	}
-	Material* newMaterial = new Material(vert, pixel, diffuseMap, normalMap, sampler);
+	Material* newMaterial = new Material(vert, pixel, textures, numberOfTextures, sampler);
 	materials[numberOfMaterials].material = newMaterial;
-	materials[numberOfMaterials].name = textrureName;
+	materials[numberOfMaterials].name = textrure1Name;
 	numberOfMaterials += 1;
 	return newMaterial;
 }

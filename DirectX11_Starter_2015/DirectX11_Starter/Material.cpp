@@ -4,14 +4,37 @@
 
 Material::Material(SimpleVertexShader* newVertexShader, 
 					SimplePixelShader* newPixelShader, 
-					ID3D11ShaderResourceView* newDiffuseSRV,
-					ID3D11ShaderResourceView* newNormalMapSRV,
+					ID3D11ShaderResourceView** newTexture,
+					unsigned int newNumText,
 					ID3D11SamplerState* newSamplerState)
 {
+	if (newNumText > MAX_NUM_TEXTURES) {
+		LogText("--ERROR creating material--//Trying to create a texture with more than the max number of allowed textures.");
+		assert(false);
+	}
+	numberOfTextures = newNumText;
 	vertexShader = newVertexShader;
 	pixelShader = newPixelShader;
-	diffuseTextureSRV = newDiffuseSRV;
-	normalMapSRV = newNormalMapSRV;
+	for (unsigned int t = 0; t < numberOfTextures; ++t) {
+		if (newTexture[t] != nullptr) {
+			textures[t] = newTexture[t];
+		}
+	}
+	samplerState = newSamplerState;
+}
+
+Material::Material(SimpleVertexShader* newVertexShader,
+	SimplePixelShader* newPixelShader,
+	ID3D11ShaderResourceView* newTexture,
+	ID3D11SamplerState* newSamplerState)
+{
+	numberOfTextures = 0;
+	vertexShader = newVertexShader;
+	pixelShader = newPixelShader;
+	if (newTexture != nullptr) {
+		textures[0] = newTexture;
+		numberOfTextures = 1;
+	}
 	samplerState = newSamplerState;
 }
 
@@ -44,8 +67,11 @@ void Material::PrepareMaterial(RenderInfo& renderInfo, Transform& transform)
 		pixelShader->SetFloat3(0, renderInfo.cameraPosition);
 		pixelShader->SetData(1, &renderInfo.light1, sizeof(RenderLight));
 		pixelShader->SetData(2, &renderInfo.light2, sizeof(RenderLight));
-		pixelShader->SetShaderResourceView(0, diffuseTextureSRV);
-		pixelShader->SetShaderResourceView(1, normalMapSRV);
+		for (int t = 0; t < numberOfTextures; ++t) {
+			pixelShader->SetShaderResourceView(t, textures[t]);
+		}
+
+		//pixelShader->SetShaderResourceView(1, normalMapSRV);
 		pixelShader->SetSamplerState(0, samplerState);
 		pixelShader->SetShader(true);
 

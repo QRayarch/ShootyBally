@@ -1,5 +1,4 @@
-#define TOON
-
+//#define TOON
 struct Light {
 	float4 AmbientColor;
 	float4 DiffuseColor;
