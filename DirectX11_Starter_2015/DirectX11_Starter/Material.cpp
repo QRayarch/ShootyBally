@@ -10,17 +10,23 @@ Material::Material(SimpleVertexShader* newVertexShader,
 {
 	if (newNumText > MAX_NUM_TEXTURES) {
 		LogText("--ERROR creating material--//Trying to create a texture with more than the max number of allowed textures.");
-		assert(false);
+		numberOfTextures = 0;
+		vertexShader = nullptr;
+		pixelShader = nullptr;
+		samplerState = nullptr;
 	}
-	numberOfTextures = newNumText;
-	vertexShader = newVertexShader;
-	pixelShader = newPixelShader;
-	for (unsigned int t = 0; t < numberOfTextures; ++t) {
-		if (newTexture[t] != nullptr) {
-			textures[t] = newTexture[t];
+	else {
+		numberOfTextures = newNumText;
+		vertexShader = newVertexShader;
+		pixelShader = newPixelShader;
+		for (unsigned int t = 0; t < numberOfTextures; ++t) {
+			if (newTexture[t] != nullptr) {
+				textures[t] = newTexture[t];
+			}
 		}
+		samplerState = newSamplerState;
 	}
-	samplerState = newSamplerState;
+
 }
 
 Material::Material(SimpleVertexShader* newVertexShader,
@@ -67,7 +73,7 @@ void Material::PrepareMaterial(RenderInfo& renderInfo, Transform& transform)
 		pixelShader->SetFloat3(0, renderInfo.cameraPosition);
 		pixelShader->SetData(1, &renderInfo.light1, sizeof(RenderLight));
 		pixelShader->SetData(2, &renderInfo.light2, sizeof(RenderLight));
-		for (int t = 0; t < numberOfTextures; ++t) {
+		for (unsigned int t = 0; t < numberOfTextures; ++t) {
 			pixelShader->SetShaderResourceView(t, textures[t]);
 		}
 

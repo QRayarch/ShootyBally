@@ -1,4 +1,11 @@
+<<<<<<< HEAD
 ﻿  MyDemoGame.cpp
   DirectX11_Starter.vcxproj -> Z:\IGMProfile\Documents\GGP\ShootyBall\DirectX11_Starter_2015\Debug\DirectX11_Starter.exe
+=======
+﻿  SimpleShader.cpp
+  Material.cpp
+  Generating Code...
+  DirectX11_Starter.vcxproj -> Z:\IGMProfile\Documents\ShootyBally\DirectX11_Starter_2015\Debug\DirectX11_Starter.exe
+>>>>>>> 4ee9766163a92511c56e8dd8a163c01ad0a7a379
   The specified path is invalid.
   0 File(s) copied

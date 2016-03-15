@@ -243,18 +243,21 @@ void MyDemoGame::TestLoadLevel(char* mapName) {
 		}
 		else if (std::strstr(chars, "texture")) {
 			if (currentEntity != nullptr) {
-				char textureName[101];
-				sscanf_s(chars, "texture %s", textureName, 100);
+				char texture1Name[31] = "";
+				char texture2Name[31] = "";
+				char texture3Name[31] = "";
+				sscanf_s(chars, "texture %s %s %s", texture1Name, 30, texture2Name, 30, texture3Name, 30);
 
 				Material* currentMaterial = nullptr;
-				//LogText(textureName);
-				currentMaterial = res->CreateMaterial(vertexShader, pixelShader, samplerState, textureName, "Normal_" + std::string(textureName));
+				/*LogText(texture1Name);
+				LogText(texture2Name);
+				LogText(texture3Name);*/
+				currentMaterial = res->CreateMaterial(vertexShader, pixelShader, samplerState, texture1Name, texture2Name, texture3Name);
 
 				DrawnMesh* drawnMesh = currentEntity->GetComponent<DrawnMesh>();
 				if (drawnMesh != nullptr) {
 					if (currentMaterial != nullptr) {
 						drawnMesh->SetMaterial(currentMaterial);
-
 					}
 				}
 			}
@@ -346,7 +349,11 @@ void MyDemoGame::CreateGeometry()
 	Entity* entity2 = entSys->AddEntity();
 	entity2->AddComponent(new DrawnMesh(render, mesh2, material2));
 
+<<<<<<< HEAD
 	Mesh* mesh3 = res->GetMeshAndLoadIfNotFound("Paddle");//vertices3, 3, indices3, 3
+=======
+	Mesh* mesh3 = res->GetMeshAndLoadIfNotFound("Helix");//vertices3, 3, indices3, 3
+>>>>>>> 4ee9766163a92511c56e8dd8a163c01ad0a7a379
 	Entity* entity3 = entSys->AddEntity();
 	entity3->AddComponent(new DrawnMesh(render, mesh3, material1));
 	entSys->GetEntity(2)->GetTransform().SetPosition(XMFLOAT3(-5.75f, 0.0f, 7.5f));
