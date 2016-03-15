@@ -10,17 +10,23 @@ Material::Material(SimpleVertexShader* newVertexShader,
 {
 	if (newNumText > MAX_NUM_TEXTURES) {
 		LogText("--ERROR creating material--//Trying to create a texture with more than the max number of allowed textures.");
-		assert(false);
+		numberOfTextures = 0;
+		vertexShader = nullptr;
+		pixelShader = nullptr;
+		samplerState = nullptr;
 	}
-	numberOfTextures = newNumText;
-	vertexShader = newVertexShader;
-	pixelShader = newPixelShader;
-	for (unsigned int t = 0; t < numberOfTextures; ++t) {
-		if (newTexture[t] != nullptr) {
-			textures[t] = newTexture[t];
+	else {
+		numberOfTextures = newNumText;
+		vertexShader = newVertexShader;
+		pixelShader = newPixelShader;
+		for (unsigned int t = 0; t < numberOfTextures; ++t) {
+			if (newTexture[t] != nullptr) {
+				textures[t] = newTexture[t];
+			}
 		}
+		samplerState = newSamplerState;
 	}
-	samplerState = newSamplerState;
+
 }
 
 Material::Material(SimpleVertexShader* newVertexShader,
