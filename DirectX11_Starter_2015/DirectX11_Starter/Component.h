@@ -12,12 +12,12 @@ public:
 
 	virtual void Update();
 
-	void SetEntiy(Entity* newParrentEntity);
-	Entity* GetEntity() { return parrentEntity; }
-	bool GetHasBeenInialized() const { return hasBeenInialized; }
+	void SetEntity(Entity* newParentEntity);
+	Entity* GetEntity() { return parentEntity; }
+	bool GetHasBeenInitialized() const { return hasBeenInitialized; }
 	Transform& GetTransform();
 private:
-	Entity* parrentEntity;
-	bool hasBeenInialized;
+	Entity* parentEntity;
+	bool hasBeenInitialized;
 };
 

@@ -4,7 +4,7 @@
 Transform::Transform()
 {
 	isDirty = true;
-	parrent = nullptr;
+	parent = nullptr;
 	position = DirectX::XMFLOAT3(0, 0, 0);
 	rotation = DirectX::XMFLOAT3(0, 0, 0);
 	scale = DirectX::XMFLOAT3(1, 1, 1);
@@ -14,7 +14,7 @@ Transform::Transform()
 Transform::Transform(const Transform & other)
 {
 	isDirty = other.isDirty;
-	parrent = other.parrent;
+	parent = other.parent;
 	position = other.position;
 	rotation = other.rotation;
 	scale = other.scale;
@@ -25,7 +25,7 @@ Transform & Transform::operator=(const Transform & other)
 {
 	if (this == &other) return *this;
 	isDirty = other.isDirty;
-	parrent = other.parrent;
+	parent = other.parent;
 	position = other.position;
 	rotation = other.rotation;
 	scale = other.scale;
@@ -64,24 +64,24 @@ void Transform::SetScale(DirectX::XMFLOAT3 newScale)
 	scale = newScale;
 }
 
-void Transform::SetParrent(Transform * newParrent)
+void Transform::SetParent(Transform * newParent)
 {
-	if (newParrent == nullptr || newParrent == this) return;
+	if (newParent == nullptr || newParent == this) return;
 	//TODO: test this function, circular dependency issues should be fixed, but only test on trying to set a transforms parrent to itself
-	Transform* current = newParrent;
-	while(current->GetParrent() != nullptr) {
+	Transform* current = newParent;
+	while(current->GetParent() != nullptr) {
 		if (current == this) return;
-		current = current->GetParrent();
+		current = current->GetParent();
 	}
-	parrent = newParrent;
+	parent = newParent;
 }
 
 bool Transform::GetIsDirty()
 {
-	if (parrent == nullptr) {
+	if (parent == nullptr) {
 		return isDirty;
 	}
-	return isDirty || parrent->GetIsDirty();
+	return isDirty || parent->GetIsDirty();
 }
 
 DirectX::XMFLOAT3 Transform::GetForwardVector()
@@ -97,7 +97,7 @@ DirectX::XMFLOAT4X4 Transform::RecalculateWorldMatrix()
 	//TODO: figure out a better way to handle rotaions
 	if (!GetIsDirty()) return worldMatrix;//Dont know if I want to keep it.
 	DirectX::XMMATRIX allignedWorldMatrix = DirectX::XMLoadFloat4x4(&worldMatrix);
-	if (parrent == nullptr) {
+	if (parent == nullptr) {
 		DirectX::XMMATRIX  calculatedWorldMatrix =
 			DirectX::XMMatrixScalingFromVector(DirectX::XMLoadFloat3(&scale)) * //DirectX::XMMatrixRotationRollPitchYawFromVector(DirectX::XMLoadFloat3(&rotation)) *
 			//DirectX::XMMatrixRotationX(rotation.x) * DirectX::XMMatrixRotationY(rotation.y) * DirectX::XMMatrixRotationZ(rotation.z) *
@@ -110,7 +110,7 @@ DirectX::XMFLOAT4X4 Transform::RecalculateWorldMatrix()
 			DirectX::XMMatrixRotationQuaternion(DirectX::XMQuaternionRotationRollPitchYawFromVector(DirectX::XMLoadFloat3(&rotation))) *
 			DirectX::XMMatrixTranslationFromVector(DirectX::XMLoadFloat3(&position));
 		DirectX::XMStoreFloat4x4(&worldMatrix, DirectX::XMMatrixTranspose(
-			DirectX::XMMatrixMultiply(DirectX::XMMatrixTranspose(DirectX::XMLoadFloat4x4(&parrent->GetWorldMatrix())), calculatedWorldMatrix)));
+			DirectX::XMMatrixMultiply(DirectX::XMMatrixTranspose(DirectX::XMLoadFloat4x4(&parent->GetWorldMatrix())), calculatedWorldMatrix)));
 	}
 	return worldMatrix;
 }

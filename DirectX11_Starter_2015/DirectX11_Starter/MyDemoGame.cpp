@@ -346,9 +346,12 @@ void MyDemoGame::CreateGeometry()
 	Entity* entity2 = entSys->AddEntity();
 	entity2->AddComponent(new DrawnMesh(render, mesh2, material2));
 
-	Mesh* mesh3 = res->GetMeshAndLoadIfNotFound("Torus");//vertices3, 3, indices3, 3
+	Mesh* mesh3 = res->GetMeshAndLoadIfNotFound("Paddle");//vertices3, 3, indices3, 3
 	Entity* entity3 = entSys->AddEntity();
 	entity3->AddComponent(new DrawnMesh(render, mesh3, material1));
+	entSys->GetEntity(2)->GetTransform().SetPosition(XMFLOAT3(-5.75f, 0.0f, 7.5f));
+	entSys->GetEntity(2)->GetTransform().SetRotation(XMFLOAT3(0.0f, XM_PI / 2, -XM_PI / 2));
+	entSys->GetEntity(2)->GetTransform().SetScale(XMFLOAT3(0.8f, 0.8f, 0.8f));
 }
 
 #pragma endregion
@@ -395,7 +398,7 @@ void MyDemoGame::UpdateScene(float deltaTime, float totalTime)
 	DirectX::XMFLOAT3 pos = entSys->GetEntity(0)->GetTransform().GetPosition();
 	pos.x += 0.08f * deltaTime;
 	entSys->GetEntity(0)->GetTransform().SetPosition(pos);
-	entSys->GetEntity(2)->GetTransform().SetParrent(&entSys->GetEntity(0)->GetTransform());
+	
 
 	entSys->Update();
 

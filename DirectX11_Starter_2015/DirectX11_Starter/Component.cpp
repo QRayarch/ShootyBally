@@ -5,11 +5,12 @@ const Component Component::EMPTY = Component();
 
 Component::Component()
 {
-	parrentEntity = nullptr;
-	hasBeenInialized = false;
+	parentEntity = nullptr;
+	hasBeenInitialized = false;
 }
 
-Component::~Component(){    
+Component::~Component()
+{    
 	
 }
 
@@ -17,11 +18,11 @@ void Component::Update()
 {
 }
 
-void Component::SetEntiy(Entity* newParrentEntity)
+void Component::SetEntity(Entity* newParentEntity)
 {
-	parrentEntity = newParrentEntity;
+	parentEntity = newParentEntity;
 }
 
 Transform& Component::GetTransform() {
-	return parrentEntity->GetTransform();
+	return parentEntity->GetTransform();
 }
