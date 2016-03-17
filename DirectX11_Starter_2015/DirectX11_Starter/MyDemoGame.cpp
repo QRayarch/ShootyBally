@@ -130,7 +130,6 @@ bool MyDemoGame::Init()
 
 	render = new Render(deviceContext);
 	res = new Resources(device, deviceContext);
-	DebugDraw::SetUp(device, deviceContext);
 	entSys = new EntitySystem(1000);
 
 	GameLight light1 = GameLight(LIGHT_DIRECTIONAL, XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f), XMFLOAT4(0.9f, 0.4f, 0.4f, 1.0f));
@@ -153,7 +152,7 @@ bool MyDemoGame::Init()
 
 	camera = Camera(0.0f, 0.0f, -5.0f);
 	camera.CreatePerspectiveProjectionMatrix(aspectRatio, 0.1f, 100.0f);
-
+	DebugDraw::SetUp(device, deviceContext, &camera);
 
 
 	// Successfully initialized
@@ -449,9 +448,12 @@ void MyDemoGame::DrawScene(float deltaTime, float totalTime)
 		1.0f,
 		0);
 
-	render->UpdateAndRender(camera);
 
-	DebugDraw::DrawLine(XMFLOAT3(0, 0, 0), render->GetLight(1).GetTransform().GetPosition(), XMFLOAT4(1, 0, 0, 1));
+
+	DebugDraw::DrawRay(XMFLOAT3(0, 0, 0), XMFLOAT3(1, 0, 0), XMFLOAT4(1, 0, 0, 1));
+	DebugDraw::DrawRay(XMFLOAT3(0, 0, 0), XMFLOAT3(0, 1, 0), XMFLOAT4(0, 1, 0, 1));
+	DebugDraw::DrawRay(XMFLOAT3(0, 0, 0), XMFLOAT3(0, 0, 1), XMFLOAT4(0, 0, 1, 1));
+	render->UpdateAndRender(camera);
 
 	// Present the buffer
 	//  - Puts the image we're drawing into the window so the user can see it

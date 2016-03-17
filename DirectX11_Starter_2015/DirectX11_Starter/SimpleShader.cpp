@@ -484,6 +484,11 @@ bool ISimpleShader::SetFloat4(std::string name, const DirectX::XMFLOAT4 data)
 	return this->SetData(name, &data, sizeof(float) * 4);
 }
 
+bool ISimpleShader::SetFloat4(int i, const DirectX::XMFLOAT4 data)
+{
+	return this->SetData(i, &data, sizeof(float) * 4);;
+}
+
 // --------------------------------------------------------
 // Sets a MATRIX (4x4) variable by name in the local data buffer
 // --------------------------------------------------------
