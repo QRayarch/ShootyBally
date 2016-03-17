@@ -27,6 +27,7 @@
 #include <fstream>
 #include <iostream>
 #include "Logger.h"
+#include "DebugDraw.h"
 
 // For the DirectX Math library
 using namespace DirectX;
@@ -104,6 +105,8 @@ MyDemoGame::~MyDemoGame()
 	
 	delete entSys;
 	delete res;
+
+	DebugDraw::Release();
 }
 
 #pragma endregion
@@ -127,6 +130,7 @@ bool MyDemoGame::Init()
 
 	render = new Render(deviceContext);
 	res = new Resources(device, deviceContext);
+	DebugDraw::SetUp(device, deviceContext);
 	entSys = new EntitySystem(1000);
 
 	GameLight light1 = GameLight(LIGHT_DIRECTIONAL, XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f), XMFLOAT4(0.9f, 0.4f, 0.4f, 1.0f));
@@ -396,6 +400,7 @@ void MyDemoGame::UpdateScene(float deltaTime, float totalTime)
 	if (GetAsyncKeyState(VK_ESCAPE))
 		Quit();
 
+
 	DirectX::XMFLOAT3 rot = entSys->GetEntity(0)->GetTransform().GetRotation();
 	float rotRate = 0.5f;
 	rot.x += rotRate * deltaTime;
@@ -423,6 +428,7 @@ void MyDemoGame::UpdateScene(float deltaTime, float totalTime)
 	camera.Update(deltaTime, deltaMouseX, deltaMouseY);
 	prevMousePos.x = curMousePos.x;
 	prevMousePos.y = curMousePos.y;
+
 }
 
 // --------------------------------------------------------
@@ -445,6 +451,7 @@ void MyDemoGame::DrawScene(float deltaTime, float totalTime)
 
 	render->UpdateAndRender(camera);
 
+	DebugDraw::DrawLine(XMFLOAT3(0, 0, 0), render->GetLight(1).GetTransform().GetPosition(), XMFLOAT4(1, 0, 0, 1));
 
 	// Present the buffer
 	//  - Puts the image we're drawing into the window so the user can see it
