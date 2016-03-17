@@ -27,7 +27,6 @@
 #include <fstream>
 #include <iostream>
 #include "Logger.h"
-#include "DebugDraw.h"
 
 // For the DirectX Math library
 using namespace DirectX;
@@ -128,7 +127,6 @@ bool MyDemoGame::Init()
 
 	render = new Render(deviceContext);
 	res = new Resources(device, deviceContext);
-	DebugDraw::SetUp(device, deviceContext);
 	entSys = new EntitySystem(1000);
 
 	GameLight light1 = GameLight(LIGHT_DIRECTIONAL, XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f), XMFLOAT4(0.9f, 0.4f, 0.4f, 1.0f));
@@ -142,9 +140,12 @@ bool MyDemoGame::Init()
 	CreateGeometry();
 	TestLoadLevel("Assets/Maps/Untitled.txt");
 
+	player1 = Player(entSys, 2, 1);
+	player2 = Player(entSys, 3, 2);
+
 	// Tell the input assembler stage of the pipeline what kind of
 	// geometric primitives we'll be using and how to interpret them
-	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);//D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST
+	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	camera = Camera(0.0f, 0.0f, -5.0f);
 	camera.CreatePerspectiveProjectionMatrix(aspectRatio, 0.1f, 100.0f);
@@ -357,11 +358,18 @@ void MyDemoGame::CreateGeometry()
 	entSys->GetEntity(2)->GetTransform().SetPosition(XMFLOAT3(-5.75f, 0.0f, 7.5f));
 	entSys->GetEntity(2)->GetTransform().SetRotation(XMFLOAT3(0.0f, XM_PI / 2, -XM_PI / 2));
 	entSys->GetEntity(2)->GetTransform().SetScale(XMFLOAT3(0.8f, 0.8f, 0.8f));
+
+	Entity* entity4 = entSys->AddEntity();
+	entity4->AddComponent(new DrawnMesh(render, mesh3, material1));
+	entSys->GetEntity(3)->GetTransform().SetPosition(XMFLOAT3(5.75f, 0.0f, 7.5f));
+	entSys->GetEntity(3)->GetTransform().SetRotation(XMFLOAT3(XM_PI, XM_PI / 2, -XM_PI / 2));
+	entSys->GetEntity(3)->GetTransform().SetScale(XMFLOAT3(0.8f, 0.8f, 0.8f));
 }
 
 #pragma endregion
 
 #pragma region Window Resizing
+
 // --------------------------------------------------------
 // Handles resizing DirectX "stuff" to match the (usually) new
 // window size and updating our projection matrix to match
@@ -403,7 +411,9 @@ void MyDemoGame::UpdateScene(float deltaTime, float totalTime)
 	pos.x += 0.08f * deltaTime;
 	entSys->GetEntity(0)->GetTransform().SetPosition(pos);
 	
-	DebugDraw::DrawLine(XMFLOAT3(0, 0, 0), camera.GetTransform().GetPosition(), XMFLOAT3(1, 0, 0));
+	//Player Input
+	player1.GetInput();
+	player2.GetInput();
 
 	entSys->Update();
 
@@ -432,7 +442,9 @@ void MyDemoGame::DrawScene(float deltaTime, float totalTime)
 		D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL,
 		1.0f,
 		0);
+
 	render->UpdateAndRender(camera);
+
 
 	// Present the buffer
 	//  - Puts the image we're drawing into the window so the user can see it
