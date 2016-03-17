@@ -1,6 +1,2 @@
 #TargetFrameworkVersion=v4.0:PlatformToolSet=v140:EnableManagedIncrementalBuild=false:VCToolArchitecture=Native32Bit:WindowsTargetPlatformVersion=8.1
-<<<<<<< HEAD
-Debug|Win32|Z:\IGMProfile\Documents\GGP\ShootyBall\DirectX11_Starter_2015\|
-=======
-Debug|Win32|Z:\IGMProfile\Documents\ShootyBally\DirectX11_Starter_2015\|
->>>>>>> 4ee9766163a92511c56e8dd8a163c01ad0a7a379
+Debug|Win32|D:\Users\afl4947\ShootyBally\DirectX11_Starter_2015\|

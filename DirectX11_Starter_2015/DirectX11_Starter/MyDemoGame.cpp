@@ -349,11 +349,7 @@ void MyDemoGame::CreateGeometry()
 	Entity* entity2 = entSys->AddEntity();
 	entity2->AddComponent(new DrawnMesh(render, mesh2, material2));
 
-<<<<<<< HEAD
 	Mesh* mesh3 = res->GetMeshAndLoadIfNotFound("Paddle");//vertices3, 3, indices3, 3
-=======
-	Mesh* mesh3 = res->GetMeshAndLoadIfNotFound("Helix");//vertices3, 3, indices3, 3
->>>>>>> 4ee9766163a92511c56e8dd8a163c01ad0a7a379
 	Entity* entity3 = entSys->AddEntity();
 	entity3->AddComponent(new DrawnMesh(render, mesh3, material1));
 	entSys->GetEntity(2)->GetTransform().SetPosition(XMFLOAT3(-5.75f, 0.0f, 7.5f));
