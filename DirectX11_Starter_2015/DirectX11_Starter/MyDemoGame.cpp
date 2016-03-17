@@ -140,6 +140,9 @@ bool MyDemoGame::Init()
 	CreateGeometry();
 	TestLoadLevel("Assets/Maps/Untitled.txt");
 
+	player1 = Player(entSys, 2, 1);
+	player2 = Player(entSys, 3, 2);
+
 	// Tell the input assembler stage of the pipeline what kind of
 	// geometric primitives we'll be using and how to interpret them
 	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -355,6 +358,12 @@ void MyDemoGame::CreateGeometry()
 	entSys->GetEntity(2)->GetTransform().SetPosition(XMFLOAT3(-5.75f, 0.0f, 7.5f));
 	entSys->GetEntity(2)->GetTransform().SetRotation(XMFLOAT3(0.0f, XM_PI / 2, -XM_PI / 2));
 	entSys->GetEntity(2)->GetTransform().SetScale(XMFLOAT3(0.8f, 0.8f, 0.8f));
+
+	Entity* entity4 = entSys->AddEntity();
+	entity4->AddComponent(new DrawnMesh(render, mesh3, material1));
+	entSys->GetEntity(3)->GetTransform().SetPosition(XMFLOAT3(5.75f, 0.0f, 7.5f));
+	entSys->GetEntity(3)->GetTransform().SetRotation(XMFLOAT3(XM_PI, XM_PI / 2, -XM_PI / 2));
+	entSys->GetEntity(3)->GetTransform().SetScale(XMFLOAT3(0.8f, 0.8f, 0.8f));
 }
 
 #pragma endregion
@@ -402,6 +411,9 @@ void MyDemoGame::UpdateScene(float deltaTime, float totalTime)
 	pos.x += 0.08f * deltaTime;
 	entSys->GetEntity(0)->GetTransform().SetPosition(pos);
 	
+	//Player Input
+	player1.GetInput();
+	player2.GetInput();
 
 	entSys->Update();
 

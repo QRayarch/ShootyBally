@@ -14,6 +14,7 @@
 #include "Material.h"
 #include "Light.h"
 #include "Resources.h"
+#include "Player.h"
 
 // Include run-time memory checking in debug builds, so 
 // we can be notified of memory leaks
@@ -74,4 +75,7 @@ private:
 	// determining how far the mouse moved in a single frame.
 	POINT prevMousePos;
 	POINT curMousePos;
+
+	Player player1;
+	Player player2;
 };
