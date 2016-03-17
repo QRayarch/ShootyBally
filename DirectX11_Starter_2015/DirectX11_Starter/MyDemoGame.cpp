@@ -27,6 +27,7 @@
 #include <fstream>
 #include <iostream>
 #include "Logger.h"
+#include "DebugDraw.h"
 
 // For the DirectX Math library
 using namespace DirectX;
@@ -127,6 +128,7 @@ bool MyDemoGame::Init()
 
 	render = new Render(deviceContext);
 	res = new Resources(device, deviceContext);
+	DebugDraw::SetUp(device, deviceContext);
 	entSys = new EntitySystem(1000);
 
 	GameLight light1 = GameLight(LIGHT_DIRECTIONAL, XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f), XMFLOAT4(0.9f, 0.4f, 0.4f, 1.0f));
@@ -142,7 +144,7 @@ bool MyDemoGame::Init()
 
 	// Tell the input assembler stage of the pipeline what kind of
 	// geometric primitives we'll be using and how to interpret them
-	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);//D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST
 
 	camera = Camera(0.0f, 0.0f, -5.0f);
 	camera.CreatePerspectiveProjectionMatrix(aspectRatio, 0.1f, 100.0f);
@@ -360,7 +362,6 @@ void MyDemoGame::CreateGeometry()
 #pragma endregion
 
 #pragma region Window Resizing
-
 // --------------------------------------------------------
 // Handles resizing DirectX "stuff" to match the (usually) new
 // window size and updating our projection matrix to match
@@ -402,6 +403,7 @@ void MyDemoGame::UpdateScene(float deltaTime, float totalTime)
 	pos.x += 0.08f * deltaTime;
 	entSys->GetEntity(0)->GetTransform().SetPosition(pos);
 	
+	DebugDraw::DrawLine(XMFLOAT3(0, 0, 0), camera.GetTransform().GetPosition(), XMFLOAT3(1, 0, 0));
 
 	entSys->Update();
 
@@ -430,9 +432,7 @@ void MyDemoGame::DrawScene(float deltaTime, float totalTime)
 		D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL,
 		1.0f,
 		0);
-
 	render->UpdateAndRender(camera);
-
 
 	// Present the buffer
 	//  - Puts the image we're drawing into the window so the user can see it

@@ -77,6 +77,7 @@ xcopy "$(SolutionDir)Assets" "$(OutDir)Assets" /y /s /i /d /e</Command>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="DebugDraw.cpp" />
     <ClCompile Include="DrawnMesh.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntitySystem.cpp" />
@@ -94,6 +95,7 @@ xcopy "$(SolutionDir)Assets" "$(OutDir)Assets" /y /s /i /d /e</Command>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="DebugDraw.h" />
     <ClInclude Include="DrawnMesh.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntitySystem.h" />
