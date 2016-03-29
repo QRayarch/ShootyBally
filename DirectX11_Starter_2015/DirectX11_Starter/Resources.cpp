@@ -309,8 +309,14 @@ ID3D11ShaderResourceView* Resources::LoadTexture(std::string textureName, std::s
 	newTextureResource.name = textureName;
 	newTextureResource.srv = nullptr;
 
-	//TODO: handle DDS loading
-	DirectX::CreateWICTextureFromFile(device, deviceContext, buffer, NULL, &newTextureResource.srv);
+	//Check to see if we have as DDS texture and load it differntly instead
+	if (format.compare(Resources::FILE_FORMAT_DDS) == 0) {
+		DirectX::CreateDDSTextureFromFile(device, deviceContext, buffer, NULL, &newTextureResource.srv);
+	}
+	else {
+		DirectX::CreateWICTextureFromFile(device, deviceContext, buffer, NULL, &newTextureResource.srv);
+	}
+
 	//If the texture didn't load
 	if (newTextureResource.srv == nullptr) {
 		LogText("--ERROR loading Texture--//Failed to find the texture file. Path: " + texturePath);
