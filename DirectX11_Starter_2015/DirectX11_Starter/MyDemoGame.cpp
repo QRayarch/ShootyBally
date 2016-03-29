@@ -450,9 +450,9 @@ void MyDemoGame::DrawScene(float deltaTime, float totalTime)
 
 
 
-	DebugDraw::DrawRay(XMFLOAT3(0, 0, 0), XMFLOAT3(1, 0, 0), XMFLOAT4(1, 0, 0, 1));
-	DebugDraw::DrawRay(XMFLOAT3(0, 0, 0), XMFLOAT3(0, 1, 0), XMFLOAT4(0, 1, 0, 1));
-	DebugDraw::DrawRay(XMFLOAT3(0, 0, 0), XMFLOAT3(0, 0, 1), XMFLOAT4(0, 0, 1, 1));
+	DebugDraw::DrawLine(XMFLOAT3(0, 0, 0), XMFLOAT3(1, 0, 0), XMFLOAT4(1, 0, 0, 1));
+	DebugDraw::DrawLine(XMFLOAT3(0, 0, 0), XMFLOAT3(0, 1, 0), XMFLOAT4(0, 1, 0, 1));
+	DebugDraw::DrawLine(XMFLOAT3(0, 0, 0), XMFLOAT3(0, 0, 1), XMFLOAT4(0, 0, 1, 1));
 	render->UpdateAndRender(camera);
 
 	// Present the buffer

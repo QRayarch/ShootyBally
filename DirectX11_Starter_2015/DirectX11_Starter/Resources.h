@@ -21,6 +21,7 @@ public:
 	static const char FILE_FORMAT_OBJ[];
 	//Image file formats
 	static const char FILE_FORMAT_TGA[];
+	static const char FILE_FORMAT_DDS[];
 	static const char FILE_FORMAT_PNG[];
 	static const char FILE_FORMAT_JPG[];
 

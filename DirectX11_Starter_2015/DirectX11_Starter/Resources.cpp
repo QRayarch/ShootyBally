@@ -4,10 +4,12 @@
 #include "Logger.h"
 
 #include "WICTextureLoader.h"
+#include "DDSTextureLoader.h"
 
 const char Resources::FILE_FORMAT_OBJ[] = ".obj";
 
 const char Resources::FILE_FORMAT_TGA[] = ".tga";
+const char Resources::FILE_FORMAT_DDS[] = ".dds";
 const char Resources::FILE_FORMAT_PNG[] = ".png";
 const char Resources::FILE_FORMAT_JPG[] = ".jpg";
 
@@ -291,7 +293,7 @@ ID3D11ShaderResourceView* Resources::LoadTexture(std::string textureName, std::s
 
 	//Make sure we have space for another texture
 	if (numberOfTextures + 1 >= MAX_NUM_TEXTURES) {
-		LogText("-Texture not Loaded--//You have reached your texture loading cap. Load less textures or increase the max number of textures.");
+		LogText("--Texture not Loaded--//You have reached your texture loading cap. Load less textures or increase the max number of textures.");
 		return nullptr;
 	}
 
@@ -307,6 +309,7 @@ ID3D11ShaderResourceView* Resources::LoadTexture(std::string textureName, std::s
 	newTextureResource.name = textureName;
 	newTextureResource.srv = nullptr;
 
+	//TODO: handle DDS loading
 	DirectX::CreateWICTextureFromFile(device, deviceContext, buffer, NULL, &newTextureResource.srv);
 	//If the texture didn't load
 	if (newTextureResource.srv == nullptr) {

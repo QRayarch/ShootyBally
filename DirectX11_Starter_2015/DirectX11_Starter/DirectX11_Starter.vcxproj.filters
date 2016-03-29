@@ -147,9 +147,9 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="CommonFunctions.hlsl">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="packages.config" />
   </ItemGroup>
 </Project>

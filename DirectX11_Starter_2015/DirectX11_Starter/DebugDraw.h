@@ -19,7 +19,6 @@ public:
 	static void Release();
 
 	static void DrawLine(DirectX::XMFLOAT3 startPos, DirectX::XMFLOAT3 endPos, DirectX::XMFLOAT4 color);
-	static void DrawRay(DirectX::XMFLOAT3 startPos, DirectX::XMFLOAT3 endPos, DirectX::XMFLOAT4 color);
 
 private:
 	static ID3D11Device* device;
