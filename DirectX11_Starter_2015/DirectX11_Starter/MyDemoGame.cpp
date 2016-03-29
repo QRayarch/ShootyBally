@@ -416,8 +416,8 @@ void MyDemoGame::UpdateScene(float deltaTime, float totalTime)
 	entSys->GetEntity(0)->GetTransform().SetPosition(pos);
 	
 	//Player Input
-	player1.GetInput();
-	player2.GetInput();
+	player1.GetInput(deltaTime);
+	player2.GetInput(deltaTime);
 
 	entSys->Update();
 
