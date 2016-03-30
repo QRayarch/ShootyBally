@@ -20,7 +20,7 @@ public:
 	template <class T>
 	T* GetComponent() {
 		for (int c = 0; c < numberOfComponents; c++) {
-			T* possibleComponent = static_cast<T*>(components[c]);
+			T* possibleComponent = dynamic_cast<T*>(components[c]);
 			if (possibleComponent != nullptr) {
 				return possibleComponent;
 			}

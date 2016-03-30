@@ -72,7 +72,7 @@ MyDemoGame::MyDemoGame(HINSTANCE hInstance)
 	// - "Wide" characters take up more space in memory (hence the name)
 	// - This allows for an extended character set (more fancy letters/symbols)
 	// - Lots of Windows functions want "wide characters", so we use the "L"
-	windowCaption = L"My Super Fancy GGP Game";
+	windowCaption = L"Shooty Bally";
 
 	// Custom window size - will be created by Init() later
 	windowWidth = 1280;
@@ -367,6 +367,13 @@ void MyDemoGame::CreateGeometry()
 	entSys->GetEntity(3)->GetTransform().SetPosition(XMFLOAT3(5.75f, 0.0f, 7.5f));
 	entSys->GetEntity(3)->GetTransform().SetRotation(XMFLOAT3(XM_PI, XM_PI / 2, -XM_PI / 2));
 	entSys->GetEntity(3)->GetTransform().SetScale(XMFLOAT3(0.8f, 0.8f, 0.8f));
+
+	// Physics ball.
+	Entity* entity5 = entSys->AddEntity();
+	Transform& transform5 = entity5->GetTransform();
+	entity5->AddComponent(new DrawnMesh(render, mesh1, material3));
+	entity5->AddComponent(new PhysicsBody(&transform5, 1.0f));
+	transform5.SetPosition(XMFLOAT3(-2.0f, 0.0f, 0.0f));
 }
 
 #pragma endregion
@@ -399,6 +406,16 @@ void MyDemoGame::UpdateScene(float deltaTime, float totalTime)
 	if (GetAsyncKeyState(VK_ESCAPE))
 		Quit();
 
+	// Temporarily update the physics ball here until the physics system is figured out.
+	Entity* physicsBall = entSys->GetEntity(4);
+	PhysicsBody* ballPhysicsBody = physicsBall->GetComponent<PhysicsBody>();
+	XMFLOAT4 vel = ballPhysicsBody->GetVelocity();
+	if (physicsBall->GetTransform().GetPosition().y <= -2.0f && vel.y <= 0.0f)
+	{
+		XMStoreFloat4(&vel, -XMLoadFloat4(&vel));
+		ballPhysicsBody->SetVelocity(vel);
+	}
+	ballPhysicsBody->PhysicsUpdate(deltaTime);
 
 	DirectX::XMFLOAT3 rot = entSys->GetEntity(0)->GetTransform().GetRotation();
 	float rotRate = 0.5f;

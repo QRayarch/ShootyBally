@@ -1,6 +1,8 @@
 #pragma once
 #include <DirectXMath.h>
 
+using namespace DirectX;
+
 class Transform
 {
 public:
@@ -10,27 +12,51 @@ public:
 	~Transform();
 
 	//Getter and setters
-	void SetPosition(DirectX::XMFLOAT3 newPos);
+	void SetPosition(XMFLOAT3 newPos);
 	void MoveRelative(float addX, float addY, float addZ);
-	void SetRotation(DirectX::XMFLOAT3 newRot);
-	void SetScale(DirectX::XMFLOAT3 newScale);
+	void SetRotation(XMFLOAT3 newRot);
+	void SetScale(XMFLOAT3 newScale);
 	void SetParent(Transform* newParent);
 	bool GetIsDirty();
-	DirectX::XMFLOAT3 GetPosition() { return position; }
-	DirectX::XMFLOAT3 GetRotation() { return rotation; }
-	DirectX::XMFLOAT3 GetScale() { return scale; }
-	DirectX::XMFLOAT3 GetForwardVector();
-	DirectX::XMFLOAT4X4 GetWorldMatrix() { return RecalculateWorldMatrix(); isDirty = false; }
+	XMFLOAT3 GetPosition() { return position; }
+	XMFLOAT3 GetRotation() { return rotation; }
+	XMFLOAT3 GetScale() { return scale; }
+	XMFLOAT3 GetForwardVector();
+	XMFLOAT4X4 GetWorldMatrix() { return RecalculateWorldMatrix(); isDirty = false; }
 	Transform* GetParent() { return parent; }
 
-	DirectX::XMFLOAT4X4 RecalculateWorldMatrix();
+	XMFLOAT4X4 RecalculateWorldMatrix();
+
+	void XM_CALLCONV Translate(FXMVECTOR translation);
+	void Translate(const XMFLOAT3& translation);
+	void Translate(float x, float y, float z);
+
+	void Rotate(float x, float y, float z);
+
+	void XM_CALLCONV Scale(FXMVECTOR scale);
+	void Scale(const XMFLOAT3& scale);
+	void Scale(float x, float y, float z);
+
 private:
 	//we save the world matrix and only recalculate it when this is true, this is set to true when we change information about the transform
 	Transform* parent;
 	bool isDirty;
-	DirectX::XMFLOAT3 position;
-	DirectX::XMFLOAT3 rotation;
-	DirectX::XMFLOAT3 scale;
-	DirectX::XMFLOAT4X4 worldMatrix;
+	XMFLOAT3 position;
+	XMFLOAT3 rotation;
+	XMFLOAT3 scale;
+	XMFLOAT4X4 worldMatrix;
 };
 
+inline void XM_CALLCONV Transform::Translate(FXMVECTOR translation)
+{
+	XMStoreFloat3(&position, XMVectorAdd(XMLoadFloat3(&position), translation));
+
+	isDirty = true;
+}
+
+inline void XM_CALLCONV Transform::Scale(FXMVECTOR scale)
+{
+	XMStoreFloat3(&this->scale, XMVectorMultiply(XMLoadFloat3(&this->scale), scale));
+
+	isDirty = true;
+}

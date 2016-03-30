@@ -15,6 +15,7 @@
 #include "Light.h"
 #include "Resources.h"
 #include "Player.h"
+#include "PhysicsBody.h"
 
 // Include run-time memory checking in debug builds, so 
 // we can be notified of memory leaks
