@@ -19,7 +19,8 @@ public:
 	Player(EntitySystem* entsys, int entIndex, int playerNumber);
 	~Player();
 
-	void GetInput();
+	void GetInput(float deltaTime);
+	void Fire();
 private:
 	Entity* playerEntity;
 	PlayerNumber playerNum;
@@ -27,5 +28,8 @@ private:
 	float turnRate;
 	float turnDrag;
 	float turnSpeed;
+
+	float timeToLastShot;
+	float shotTimer;
 };
 

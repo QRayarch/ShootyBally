@@ -90,21 +90,27 @@ MyDemoGame::~MyDemoGame()
 		delete ents[e];
 	}*/
 
-
 	delete render;
 
 	// Delete our simple shaders
 	delete vertexShader;
 	delete pixelShader;
 	delete pixelShaderNoNormals;
+	delete vSSkybox;
+	delete pSSkybox;
 
 	if (samplerState != nullptr) {
 		samplerState->Release();
 		samplerState = nullptr;
 	}
-	
+
 	delete entSys;
 	delete res;
+
+
+//	skyTexture->Release();
+	depthState->Release();
+	rasterState->Release();
 
 	DebugDraw::Release();
 }
@@ -173,6 +179,11 @@ void MyDemoGame::LoadShaders()
 	pixelShader = new SimplePixelShader(device, deviceContext);
 	pixelShader->LoadShaderFile(L"PixelShader.cso");
 
+	vSSkybox = new SimpleVertexShader(device, deviceContext);
+	vSSkybox->LoadShaderFile(L"VS_Skybox.cso");
+	pSSkybox = new SimplePixelShader(device, deviceContext);
+	pSSkybox->LoadShaderFile(L"PS_Skybox.cso");
+
 	//This is tempory, 
 	//TODO: create a common shader file. 
 	pixelShaderNoNormals = new SimplePixelShader(device, deviceContext);
@@ -186,6 +197,20 @@ void MyDemoGame::LoadShaders()
 	samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
 	samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
 	device->CreateSamplerState(&samplerDesc, &samplerState);
+
+	// Create the sky rasterizer state
+	D3D11_RASTERIZER_DESC rastDesc = {};
+	rastDesc.FillMode = D3D11_FILL_SOLID;
+	rastDesc.CullMode = D3D11_CULL_FRONT;
+	rastDesc.DepthClipEnable = true;
+	device->CreateRasterizerState(&rastDesc, &rasterState);
+
+	// Sky's depth state
+	D3D11_DEPTH_STENCIL_DESC depthDesc = {};
+	depthDesc.DepthEnable = true;
+	depthDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	depthDesc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
+	device->CreateDepthStencilState(&depthDesc, &depthState);
 }
 
 //This is here temporarily till more things are figured out
@@ -329,6 +354,8 @@ void MyDemoGame::TestLoadLevel(char* mapName) {
 // --------------------------------------------------------
 void MyDemoGame::CreateGeometry()
 {
+	skyboxMesh = res->GetMeshAndLoadIfNotFound("cube");
+	skyTexture = res->LoadTexture("SunnyCubeMap", Resources::FILE_FORMAT_DDS);
 
 	XMFLOAT3 normal	= XMFLOAT3(0, 1, 0);
 	XMFLOAT3 tangent = XMFLOAT3(0, 0, 1);
@@ -353,7 +380,7 @@ void MyDemoGame::CreateGeometry()
 	UINT indices2[] = { 0, 1, 2, 0, 3, 1 };
 	Mesh* mesh2 = res->AddMesh("ground" ,vertices2, 4, indices2, 6);
 	Entity* entity2 = entSys->AddEntity();
-	entity2->AddComponent(new DrawnMesh(render, mesh2, material2));
+	//entity2->AddComponent(new DrawnMesh(render, mesh2, material2));
 
 	Mesh* mesh3 = res->GetMeshAndLoadIfNotFound("Paddle");//vertices3, 3, indices3, 3
 	Entity* entity3 = entSys->AddEntity();
@@ -433,8 +460,8 @@ void MyDemoGame::UpdateScene(float deltaTime, float totalTime)
 	entSys->GetEntity(0)->GetTransform().SetPosition(pos);
 	
 	//Player Input
-	player1.GetInput();
-	player2.GetInput();
+	player1.GetInput(deltaTime);
+	player2.GetInput(deltaTime);
 
 	entSys->Update();
 
@@ -471,6 +498,26 @@ void MyDemoGame::DrawScene(float deltaTime, float totalTime)
 	DebugDraw::DrawLine(XMFLOAT3(0, 0, 0), XMFLOAT3(0, 1, 0), XMFLOAT4(0, 1, 0, 1));
 	DebugDraw::DrawLine(XMFLOAT3(0, 0, 0), XMFLOAT3(0, 0, 1), XMFLOAT4(0, 0, 1, 1));
 	render->UpdateAndRender(camera);
+
+	//TODO: handle skybox better
+	UINT stride = sizeof(Vertex);
+	UINT offset = 0;
+	deviceContext->IASetVertexBuffers(0, 1, skyboxMesh->GetVertexBuffer(), &stride, &offset);
+	deviceContext->IASetIndexBuffer(skyboxMesh->GetIndexBuffer(), DXGI_FORMAT_R32_UINT, 0);
+
+	vSSkybox->SetMatrix4x4(0, camera.GetViewMatrix());
+	vSSkybox->SetMatrix4x4(1, camera.GetProjectionMatrix());
+	vSSkybox->SetShader();
+
+	pSSkybox->SetShaderResourceView(0, skyTexture);
+	pSSkybox->SetShader();
+	deviceContext->RSSetState(rasterState);
+	deviceContext->OMSetDepthStencilState(depthState, 0);
+	deviceContext->DrawIndexed(skyboxMesh->GetNumberOfIndices(), 0, 0);
+
+	// Reset states
+	deviceContext->RSSetState(0);
+	deviceContext->OMSetDepthStencilState(0, 0);
 
 	// Present the buffer
 	//  - Puts the image we're drawing into the window so the user can see it

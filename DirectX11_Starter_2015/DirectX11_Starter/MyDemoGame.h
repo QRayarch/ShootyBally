@@ -69,6 +69,13 @@ private:
 	SimplePixelShader* pixelShader;
 	SimplePixelShader* pixelShaderNoNormals;
 
+	SimpleVertexShader* vSSkybox;
+	SimplePixelShader* pSSkybox;
+	Mesh* skyboxMesh;
+	ID3D11ShaderResourceView* skyTexture;
+	ID3D11RasterizerState*		rasterState;
+	ID3D11DepthStencilState*	depthState;
+
 	// The matrices to go from model space to screen space
 	//DirectX::XMFLOAT4X4 worldMatrix;
 

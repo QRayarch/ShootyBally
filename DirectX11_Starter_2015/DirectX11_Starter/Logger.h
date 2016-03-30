@@ -9,11 +9,11 @@
 
 #ifdef DEBUG_OUTPUT
 #define logWideChar(out) { OutputDebugString(out); OutputDebugString(L"\n"); }
-#define LogText_C(output) { \
+/*#define LogText_C(output) { \
 	wchar_t buffer[256] = { 0 }; \
 	MultiByteToWideChar(0, 0, output, strlen(output), buffer, strlen(output)); \
 	logWideChar(buffer); \
-}
+}*/
 #else
 #define logWideChar(out)
 #define LogText_C(output)
@@ -23,11 +23,11 @@
 
 
 
-/*static void LogText_C(const char* output) {
+static void LogText_C(const char* output) {
 	wchar_t buffer[256] = { 0 };
 	MultiByteToWideChar(0, 0, output, strlen(output), buffer, strlen(output));
 	logWideChar(buffer);
-}*/
+}
 
 static void LogText(std::string output) {
 	LogText_C(output.c_str());
