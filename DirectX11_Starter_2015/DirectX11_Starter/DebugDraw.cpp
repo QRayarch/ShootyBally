@@ -44,6 +44,8 @@ void DebugDraw::Release()
 void DebugDraw::DrawLine(DirectX::XMFLOAT3 startPos, DirectX::XMFLOAT3 endPos, DirectX::XMFLOAT4 color)
 {
 	//This code will really get cleaned up
+
+	//TODO: switch to a dynamic buffer, that doesn't get recreated every frame
 	DebugVertex vertices[] = { {startPos, color}, {endPos, color} };
 
 	D3D11_BUFFER_DESC vbd;
