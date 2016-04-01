@@ -382,18 +382,22 @@ void MyDemoGame::CreateGeometry()
 	Entity* entity2 = entSys->AddEntity();
 	//entity2->AddComponent(new DrawnMesh(render, mesh2, material2));
 
-	Mesh* mesh3 = res->GetMeshAndLoadIfNotFound("Paddle");//vertices3, 3, indices3, 3
+	//Players
+	Mesh* mesh3 = res->GetMeshAndLoadIfNotFound("Paddle");
+
 	Entity* entity3 = entSys->AddEntity();
 	entity3->AddComponent(new DrawnMesh(render, mesh3, material1));
-	entSys->GetEntity(2)->GetTransform().SetPosition(XMFLOAT3(-5.75f, 0.0f, 7.5f));
-	entSys->GetEntity(2)->GetTransform().SetRotation(XMFLOAT3(0.0f, XM_PI / 2, -XM_PI / 2));
-	entSys->GetEntity(2)->GetTransform().SetScale(XMFLOAT3(0.8f, 0.8f, 0.8f));
+	Transform& transform3 = entity3->GetTransform();
+	transform3.SetPosition(XMFLOAT3(-5.75f, -7.5f, 0.0f));
+	transform3.SetRotation(XMFLOAT3(0.0f, XM_PI / 2, 0));
+	transform3.SetScale(XMFLOAT3(0.8f, 0.8f, 0.8f));
 
 	Entity* entity4 = entSys->AddEntity();
 	entity4->AddComponent(new DrawnMesh(render, mesh3, material1));
-	entSys->GetEntity(3)->GetTransform().SetPosition(XMFLOAT3(5.75f, 0.0f, 7.5f));
-	entSys->GetEntity(3)->GetTransform().SetRotation(XMFLOAT3(XM_PI, XM_PI / 2, -XM_PI / 2));
-	entSys->GetEntity(3)->GetTransform().SetScale(XMFLOAT3(0.8f, 0.8f, 0.8f));
+	Transform& transform4 = entity4->GetTransform();
+	transform4.SetPosition(XMFLOAT3(5.75f, -7.5f, 0.0f));
+	transform4.SetRotation(XMFLOAT3(0.0f, -XM_PI / 2, 0.0f));
+	transform4.SetScale(XMFLOAT3(0.8f, 0.8f, 0.8f));
 
 	// Physics ball.
 	Entity* entity5 = entSys->AddEntity();
@@ -401,6 +405,18 @@ void MyDemoGame::CreateGeometry()
 	entity5->AddComponent(new DrawnMesh(render, mesh1, material3));
 	entity5->AddComponent(new PhysicsBody(&transform5, 1.0f));
 	transform5.SetPosition(XMFLOAT3(-2.0f, 0.0f, 0.0f));
+
+	//Bullets (not finished)
+	Mesh* mesh4 = res->GetMeshAndLoadIfNotFound("hpBullet");
+	//Testing, unsure how I want to implement pool for now
+	for (int i = entSys->GetNumberOfEnts(); i < 6; i++)
+	{
+		entSys->AddEntity();
+		entSys->AddComponentToEntity(i, new DrawnMesh(render, mesh4, material1));
+		Transform& tempTransform = entSys->GetEntity(i)->GetTransform();
+		tempTransform.SetPosition(XMFLOAT3(5.75f, -5.5f, 0.0f));
+		tempTransform.SetScale(XMFLOAT3(0.3f, 0.3f, 0.3f));
+	}
 }
 
 #pragma endregion

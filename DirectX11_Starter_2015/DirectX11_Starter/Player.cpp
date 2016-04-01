@@ -44,13 +44,13 @@ void Player::GetInput(float deltaTime)
 	}
 
 	turnSpeed *= turnDrag;
-	curRot.x += turnSpeed;
+	curRot.y += turnSpeed;
 	playerEntity->GetTransform().SetRotation(curRot);
 	timeToLastShot += deltaTime;
 }
 
 void Player::Fire()
 {
-	//Shoot Bullet
+	//TODO: Pull next available bullet from pool, set rotation/position according to player, fire
 	timeToLastShot = 0.0f;
 }
