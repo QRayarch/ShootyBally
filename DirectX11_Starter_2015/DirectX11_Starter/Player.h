@@ -3,6 +3,7 @@
 #include "Entity.h"
 #include "EntitySystem.h"
 #include "DirectXGameCore.h"
+#include "Bullet.h"
 
 using namespace DirectX;
 
@@ -16,7 +17,7 @@ class Player
 {
 public:
 	Player();
-	Player(EntitySystem* entsys, int entIndex, int playerNumber);
+	Player(EntitySystem* entsys, int entIndex, int playerNumber, Bullet* bullets);
 	~Player();
 
 	void GetInput(float deltaTime);
@@ -31,5 +32,6 @@ private:
 
 	float timeToLastShot;
 	float shotTimer;
+	Bullet* bulletPool;
 };
 

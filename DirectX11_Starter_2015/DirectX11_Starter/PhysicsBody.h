@@ -12,7 +12,7 @@ class PhysicsBody : public Component
 {
 public:
 	PhysicsBody();
-	PhysicsBody(Transform* transform, float mass, const XMFLOAT4& gravitationalAcc = XMFLOAT4(0.0f, -9.81f, 0.0f, 0.0f));
+	PhysicsBody(Transform* transform, float mass, const XMFLOAT4& gravitationalAcc = XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f));  //Changed Gravity from y=-9.81f to zero, don't believe we need gravity
 	~PhysicsBody();
 
 	float GetMass() const { return mass; }

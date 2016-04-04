@@ -107,6 +107,10 @@ MyDemoGame::~MyDemoGame()
 	delete entSys;
 	delete res;
 
+	for (int i = 0; i < poolSize; i++)
+	{
+		bulletPool[i] = nullptr;		//Pretty sure this isn't correct, but I suck at releasing/deleting so this is what I have for now to avoid errors
+	}
 
 //	skyTexture->Release();
 	depthState->Release();
@@ -149,8 +153,8 @@ bool MyDemoGame::Init()
 	CreateGeometry();
 	TestLoadLevel("Assets/Maps/Untitled.txt");
 
-	player1 = Player(entSys, 2, 1);
-	player2 = Player(entSys, 3, 2);
+	player1 = Player(entSys, 2, 1, *bulletPool);
+	player2 = Player(entSys, 3, 2, *bulletPool);
 
 	// Tell the input assembler stage of the pipeline what kind of
 	// geometric primitives we'll be using and how to interpret them
@@ -387,35 +391,39 @@ void MyDemoGame::CreateGeometry()
 
 	Entity* entity3 = entSys->AddEntity();
 	entity3->AddComponent(new DrawnMesh(render, mesh3, material1));
-	Transform& transform3 = entity3->GetTransform();
-	transform3.SetPosition(XMFLOAT3(-5.75f, -7.5f, 0.0f));
-	transform3.SetRotation(XMFLOAT3(0.0f, XM_PI / 2, 0));
-	transform3.SetScale(XMFLOAT3(0.8f, 0.8f, 0.8f));
+	//Transform& transform3 = entity3->GetTransform();
+	entity3->GetTransform().SetPosition(XMFLOAT3(-5.75f, -7.5f, 0.0f));
+	entity3->GetTransform().SetRotation(XMFLOAT3(0.0f, XM_PI / 2, 0));
+	entity3->GetTransform().SetScale(XMFLOAT3(0.8f, 0.8f, 0.8f));
 
 	Entity* entity4 = entSys->AddEntity();
 	entity4->AddComponent(new DrawnMesh(render, mesh3, material1));
-	Transform& transform4 = entity4->GetTransform();
-	transform4.SetPosition(XMFLOAT3(5.75f, -7.5f, 0.0f));
-	transform4.SetRotation(XMFLOAT3(0.0f, -XM_PI / 2, 0.0f));
-	transform4.SetScale(XMFLOAT3(0.8f, 0.8f, 0.8f));
+	//Transform& transform4 = entity4->GetTransform();
+	entity4->GetTransform().SetPosition(XMFLOAT3(5.75f, -7.5f, 0.0f));
+	entity4->GetTransform().SetRotation(XMFLOAT3(0.0f, -XM_PI / 2, 0.0f));
+	entity4->GetTransform().SetScale(XMFLOAT3(0.8f, 0.8f, 0.8f));
 
 	// Physics ball.
-	Entity* entity5 = entSys->AddEntity();
-	Transform& transform5 = entity5->GetTransform();
-	entity5->AddComponent(new DrawnMesh(render, mesh1, material3));
-	entity5->AddComponent(new PhysicsBody(&transform5, 1.0f));
-	transform5.SetPosition(XMFLOAT3(-2.0f, 0.0f, 0.0f));
+	//Entity* entity5 = entSys->AddEntity();
+	//Transform& transform5 = entity5->GetTransform();
+	//entity5->AddComponent(new DrawnMesh(render, mesh1, material3));
+	//entity5->AddComponent(new PhysicsBody(&transform5, 1.0f));
+	//transform5.SetPosition(XMFLOAT3(-2.0f, 0.0f, 0.0f));
 
 	//Bullets (not finished)
 	Mesh* mesh4 = res->GetMeshAndLoadIfNotFound("hpBullet");
-	//Testing, unsure how I want to implement pool for now
-	for (int i = entSys->GetNumberOfEnts(); i < 6; i++)
+	int numEnts = entSys->GetNumberOfEnts();
+	for (int i = numEnts; i < numEnts + poolSize; i++)
 	{
 		entSys->AddEntity();
+		Transform* tempTransform = &entSys->GetEntity(i)->GetTransform();
 		entSys->AddComponentToEntity(i, new DrawnMesh(render, mesh4, material1));
-		Transform& tempTransform = entSys->GetEntity(i)->GetTransform();
-		tempTransform.SetPosition(XMFLOAT3(5.75f, -5.5f, 0.0f));
-		tempTransform.SetScale(XMFLOAT3(0.3f, 0.3f, 0.3f));
+		entSys->AddComponentToEntity(i, new PhysicsBody(tempTransform, 1.0f));
+		//tempTransform.SetPosition(XMFLOAT3(i + 5.75f, -5.5f, 0.0f));
+		tempTransform->SetScale(XMFLOAT3(0.08f, 0.08f, 0.08f));
+
+		int poolIndex = i - numEnts;
+		bulletPool[poolIndex] = new Bullet(entSys, i);
 	}
 }
 
@@ -450,15 +458,24 @@ void MyDemoGame::UpdateScene(float deltaTime, float totalTime)
 		Quit();
 
 	// Temporarily update the physics ball here until the physics system is figured out.
-	Entity* physicsBall = entSys->GetEntity(4);
-	PhysicsBody* ballPhysicsBody = physicsBall->GetComponent<PhysicsBody>();
-	XMFLOAT4 vel = ballPhysicsBody->GetVelocity();
-	if (physicsBall->GetTransform().GetPosition().y <= -2.0f && vel.y <= 0.0f)
+	//Entity* physicsBall = entSys->GetEntity(4);
+	//PhysicsBody* ballPhysicsBody = physicsBall->GetComponent<PhysicsBody>();
+	//XMFLOAT4 vel = ballPhysicsBody->GetVelocity();
+	//if (physicsBall->GetTransform().GetPosition().y <= -2.0f && vel.y <= 0.0f)
+	//{
+	//	XMStoreFloat4(&vel, -XMLoadFloat4(&vel));
+	//	ballPhysicsBody->SetVelocity(vel);
+	//}
+	//ballPhysicsBody->PhysicsUpdate(deltaTime);
+
+	//Bullet Physics Loop
+	for (int i = 0; i < poolSize; i++)
 	{
-		XMStoreFloat4(&vel, -XMLoadFloat4(&vel));
-		ballPhysicsBody->SetVelocity(vel);
+		if (bulletPool[i]->GetIsActive())
+		{
+			bulletPool[i]->UpdatePhysics(deltaTime);
+		}
 	}
-	ballPhysicsBody->PhysicsUpdate(deltaTime);
 
 	DirectX::XMFLOAT3 rot = entSys->GetEntity(0)->GetTransform().GetRotation();
 	float rotRate = 0.5f;

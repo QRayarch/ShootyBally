@@ -4,7 +4,7 @@ Player::Player()
 {
 }
 
-Player::Player(EntitySystem* entsys, int entIndex, int playerNumber)
+Player::Player(EntitySystem* entsys, int entIndex, int playerNumber, Bullet* bullets)
 {
 	playerEntity = entsys->GetEntity(entIndex);
 	turnRate = 8;
@@ -13,6 +13,7 @@ Player::Player(EntitySystem* entsys, int entIndex, int playerNumber)
 
 	timeToLastShot = 2.0f;
 	shotTimer = 2.0f;
+	bulletPool = bullets;
 
 	playerNum = PlayerNumber(playerNumber);
 }
@@ -51,6 +52,18 @@ void Player::GetInput(float deltaTime)
 
 void Player::Fire()
 {
-	//TODO: Pull next available bullet from pool, set rotation/position according to player, fire
+	//Currently only works on first shot, attempting to fire any bullet other than the first causes an erro (seems like a 1-off indexing error, but I can't find the source)
+	for (int i = 0; i < 1; i++)//Only allows the first bullet to fire
+	{
+		if (bulletPool[i].GetIsActive())
+		{
+
+		}
+		else
+		{
+			bulletPool[i].Fire(playerEntity->GetTransform());
+			break;
+		}
+	}
 	timeToLastShot = 0.0f;
 }
