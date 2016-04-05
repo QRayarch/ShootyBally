@@ -107,12 +107,6 @@ MyDemoGame::~MyDemoGame()
 	delete entSys;
 	delete res;
 
-	for (int i = 0; i < poolSize; i++)
-	{
-		delete bulletPool[i];
-		bulletPool[i] = nullptr;		//Pretty sure this isn't correct, but I suck at releasing/deleting so this is what I have for now to avoid errors
-	}
-
 //	skyTexture->Release();
 	depthState->Release();
 	rasterState->Release();
@@ -154,8 +148,8 @@ bool MyDemoGame::Init()
 	CreateGeometry();
 	TestLoadLevel("Assets/Maps/Untitled.txt");
 
-	player1 = Player(entSys, 2, 1, *bulletPool);
-	player2 = Player(entSys, 3, 2, *bulletPool);
+	player1 = Player(entSys, 2, 1, bulletPool);
+	player2 = Player(entSys, 3, 2, bulletPool);
 
 	// Tell the input assembler stage of the pipeline what kind of
 	// geometric primitives we'll be using and how to interpret them
@@ -424,7 +418,7 @@ void MyDemoGame::CreateGeometry()
 		tempTransform->SetScale(XMFLOAT3(0.08f, 0.08f, 0.08f));
 
 		int poolIndex = i - numEnts;
-		bulletPool[poolIndex] = new Bullet(entSys, i);
+		bulletPool[poolIndex] = Bullet(entSys, i);
 	}
 }
 
@@ -472,9 +466,9 @@ void MyDemoGame::UpdateScene(float deltaTime, float totalTime)
 	//Bullet Physics Loop
 	for (int i = 0; i < poolSize; i++)
 	{
-		if (bulletPool[i]->GetIsActive())
+		if (bulletPool[i].GetIsActive())
 		{
-			bulletPool[i]->UpdatePhysics(deltaTime);
+			bulletPool[i].UpdatePhysics(deltaTime);
 		}
 	}
 
