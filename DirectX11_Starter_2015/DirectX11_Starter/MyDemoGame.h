@@ -89,5 +89,5 @@ private:
 	Player player2;
 
 	int poolSize = 20;
-	Bullet* bulletPool[20];
+	Bullet bulletPool[20];
 };
