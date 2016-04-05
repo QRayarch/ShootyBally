@@ -53,7 +53,7 @@ void Player::GetInput(float deltaTime)
 void Player::Fire()
 {
 	//Currently only works on first shot, attempting to fire any bullet other than the first causes an erro (seems like a 1-off indexing error, but I can't find the source)
-	for (int i = 0; i < 1; i++)//Only allows the first bullet to fire
+	for (int i = 0; i < 20; i++)//Only allows the first bullet to fire
 	{
 		if (bulletPool[i].GetIsActive())
 		{

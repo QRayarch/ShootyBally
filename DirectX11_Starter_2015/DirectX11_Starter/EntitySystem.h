@@ -13,6 +13,8 @@ public:
 
 	Entity* AddEntity();
 	Entity* EnableEntity(int index);//Enables an entity
+	Entity* DisableEntity(int index);
+	Entity* DisableEntity(Entity* entity);
 	void AddComponentToEntity(int index, Component* addedComponent);//Adds component at index
 																	//Adds Component at last active index
 	void AddComponentToEntity(Component* addedComponent);
