@@ -109,6 +109,7 @@ MyDemoGame::~MyDemoGame()
 
 	for (int i = 0; i < poolSize; i++)
 	{
+		delete bulletPool[i];
 		bulletPool[i] = nullptr;		//Pretty sure this isn't correct, but I suck at releasing/deleting so this is what I have for now to avoid errors
 	}
 
