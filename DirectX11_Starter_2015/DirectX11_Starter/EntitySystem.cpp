@@ -50,12 +50,38 @@ Entity* EntitySystem::EnableEntity(int index)
 	else if (index >= numEnts && index < maxNumberOfEntsCanHold) {
 		std::swap(ents[index], ents[numEnabledEnts]);
 		std::swap(ents[index], ents[numEnts]);
-		numEnts++;
-		numEnabledEnts++;
+		++numEnts;
+		++numEnabledEnts;
 		return &ents[index];
 	}
 	//I fell like I convered all cases, but I could be wrong, this is likely to change
 	return nullptr;
+}
+
+//UNTESTED
+Entity* EntitySystem::DisableEntity(int index)
+{
+	//Index is not in the bounds, we don't care about it
+	if (!IsEntityIndexValid(index)) return nullptr;
+	//Already disabled return it.
+	if (!IsEntityActive(index)) return &ents[index];
+	std::swap(ents[index], ents[numEnabledEnts]);
+	--numEnabledEnts;//Reduce the number of enabled ents
+	return nullptr;
+}
+
+Entity* EntitySystem::DisableEntity(Entity* entity)
+{
+	int index = -1;
+	//Technically only searches enabled entites because why would you want to disable an entity that is already disabled
+	for (int e = 0; e < numEnabledEnts; ++e) {
+		if (&ents[e] == entity) {
+			index = e;
+			break;
+		}
+	}
+	if (index == -1) return nullptr;
+	return DisableEntity(index);
 }
 
 void EntitySystem::AddComponentToEntity(int index, Component * addedComponent)
