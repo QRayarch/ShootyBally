@@ -15,10 +15,16 @@ public:
 	ID3D11Buffer* const* GetVertexBuffer() { return &vertexBuffer;  }
 	ID3D11Buffer* GetIndexBuffer() const { return indexBuffer; }
 	int GetNumberOfIndices() { return numIndices; }
+
+	Vertex* GetVertices() { return meshVertices;  }
+	int GetNumberOfVertices() { return numVertices; }
 private:
 	ID3D11Buffer* vertexBuffer;
 	ID3D11Buffer* indexBuffer;
 	int numIndices;
+
+	Vertex* meshVertices;
+	int numVertices;
 
 	void CalculateTangents(Vertex* verts, int numVerts, UINT* indices, int numIndices);
 };

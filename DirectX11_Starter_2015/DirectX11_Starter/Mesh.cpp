@@ -9,6 +9,9 @@ Mesh::Mesh(Vertex* vertices, int numVerts, UINT* indices, int newNumIndices, ID3
 	//Set the indices
 	numIndices = newNumIndices;
 
+	meshVertices = vertices;
+	numVertices = numVerts;
+
 	D3D11_BUFFER_DESC vbd;
 	vbd.Usage = D3D11_USAGE_IMMUTABLE;
 	vbd.ByteWidth = sizeof(Vertex) * numVerts;

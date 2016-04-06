@@ -12,7 +12,7 @@ Player::Player(EntitySystem* entsys, int entIndex, int playerNumber, Bullet* bul
 	turnSpeed = 0.0f;
 
 	timeToLastShot = 2.0f;
-	shotTimer = 2.0f;
+	shotTimer = 0.5f;
 	bulletPool = bullets;
 
 	playerNum = PlayerNumber(playerNumber);

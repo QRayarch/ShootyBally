@@ -386,17 +386,17 @@ void MyDemoGame::CreateGeometry()
 
 	Entity* entity3 = entSys->AddEntity();
 	entity3->AddComponent(new DrawnMesh(render, mesh3, material1));
-	//Transform& transform3 = entity3->GetTransform();
-	entity3->GetTransform().SetPosition(XMFLOAT3(-5.75f, -7.5f, 0.0f));
-	entity3->GetTransform().SetRotation(XMFLOAT3(0.0f, -XM_PI / 2, 0));
-	entity3->GetTransform().SetScale(XMFLOAT3(0.8f, 0.8f, 0.8f));
+	Transform& transform3 = entity3->GetTransform();
+	transform3.SetPosition(XMFLOAT3(-5.75f, -7.5f, 0.0f));
+	transform3.SetRotation(XMFLOAT3(0.0f, XM_PI / 2, 0));
+	transform3.SetScale(XMFLOAT3(0.8f, 0.8f, 0.8f));
 
 	Entity* entity4 = entSys->AddEntity();
 	entity4->AddComponent(new DrawnMesh(render, mesh3, material1));
-	//Transform& transform4 = entity4->GetTransform();
-	entity4->GetTransform().SetPosition(XMFLOAT3(5.75f, -7.5f, 0.0f));
-	entity4->GetTransform().SetRotation(XMFLOAT3(0.0f, XM_PI / 2, 0.0f));
-	entity4->GetTransform().SetScale(XMFLOAT3(0.8f, 0.8f, 0.8f));
+	Transform& transform4 = entity4->GetTransform();
+	transform4.SetPosition(XMFLOAT3(5.75f, -7.5f, 0.0f));
+	transform4.SetRotation(XMFLOAT3(0.0f, -XM_PI / 2, 0.0f));
+	transform4.SetScale(XMFLOAT3(0.8f, 0.8f, 0.8f));
 
 	// Physics ball.
 	//Entity* entity5 = entSys->AddEntity();
