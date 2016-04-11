@@ -15,13 +15,17 @@ public:
 	~CollisionBox();
 
 	void UpdateCollisionBox(Entity* entity);
+	bool CheckCollisions(CollisionCircle* collider);
 
-	void CheckCollisions(CollisionCircle* collider);
+	XMFLOAT4X4 GetModelMatrix() { return modelMatrix; }
+
 private:
-	Vertex* vertices;
 	int numVertices;
-	XMFLOAT3 minVert, maxVert, centroid;
+	float innerRadius;
+	float scale;
 	float halfWidth, halfLength;
+	XMFLOAT3 minVert, maxVert, centroid;
 	XMFLOAT4X4 modelMatrix;
+	Vertex* vertices;
 };
 
