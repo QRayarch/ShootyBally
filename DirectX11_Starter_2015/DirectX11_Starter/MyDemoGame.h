@@ -54,6 +54,10 @@ private:
 
 	void TestLoadLevel(char* mapName);
 
+	// Particle helper functions.
+	//void DrawSpawn(float dt, float totalTime);
+	//void SwapSOBuffers();
+
 	// Buffers to hold actual geometry data
 	ID3D11Buffer* vertexBuffer;
 	ID3D11Buffer* indexBuffer;
@@ -69,6 +73,8 @@ private:
 	SimpleVertexShader* vertexShader;
 	SimplePixelShader* pixelShader;
 	SimplePixelShader* pixelShaderNoNormals;
+
+	//ID3D11ShaderResourceView* particleTexture;
 
 	SimpleVertexShader* vSSkybox;
 	SimplePixelShader* pSSkybox;
