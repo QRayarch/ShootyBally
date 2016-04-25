@@ -13,6 +13,8 @@ public:
 	CollisionCircle(Vertex* meshVerts, int numVertices);
 	~CollisionCircle();
 
+	void Update() override;
+
 	void UpdateCollisionCircle(Entity* entity);
 	bool IsColliding(CollisionCircle* collider);
 

@@ -9,8 +9,12 @@ Mesh::Mesh(Vertex* vertices, int numVerts, UINT* indices, int newNumIndices, ID3
 	//Set the indices
 	numIndices = newNumIndices;
 
-	meshVertices = vertices;
+	//meshVertices = new Vertex();
+
 	numVertices = numVerts;
+	//memcpy(meshVertices, vertices, sizeof(Vertex) * numVerts);
+	//meshVertices = vertices;
+	
 
 	D3D11_BUFFER_DESC vbd;
 	vbd.Usage = D3D11_USAGE_IMMUTABLE;
