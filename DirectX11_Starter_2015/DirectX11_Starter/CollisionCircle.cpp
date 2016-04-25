@@ -20,6 +20,11 @@ CollisionCircle::~CollisionCircle()
 {
 }
 
+void CollisionCircle::Update()
+{
+	Component::Update();
+}
+
 void CollisionCircle::UpdateCollisionCircle(Entity* entity)
 {
 	modelMatrix = entity->GetTransform().GetWorldMatrix();

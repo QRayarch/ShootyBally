@@ -363,9 +363,14 @@ void MyDemoGame::CreateGeometry()
 	Material* material2 = res->CreateMaterial(vertexShader, pixelShader, samplerState, "RockSmooth", "Normal_RockSmooth");
 	Material* material3 = res->CreateMaterial(vertexShader, pixelShaderNoNormals, samplerState, "Ball");
 
+	//Ball
 	Mesh* mesh1 = res->GetMeshAndLoadIfNotFound("Ball");
 	Entity* entity1 = entSys->AddEntity();
+	Transform& transform1 = entity1->GetTransform();
 	entity1->AddComponent(new DrawnMesh(render, mesh1, material3));
+	entity1->AddComponent(new PhysicsBody(&transform1, 1.0f));
+	//entity1->AddComponent(new CollisionCircle(mesh1->GetVertices(), mesh1->GetNumberOfVertices()));
+	transform1.SetPosition(XMFLOAT3(0.0f, -7.0f, 0.0f));
 
 	float halfSize = 10 * 0.5f;
 	float yPos = -2.5f;
@@ -398,12 +403,9 @@ void MyDemoGame::CreateGeometry()
 	transform4.SetRotation(XMFLOAT3(0.0f, -XM_PI / 2, 0.0f));
 	transform4.SetScale(XMFLOAT3(0.8f, 0.8f, 0.8f));
 
-	// Physics ball.
+	//Ball.
 	//Entity* entity5 = entSys->AddEntity();
-	//Transform& transform5 = entity5->GetTransform();
-	//entity5->AddComponent(new DrawnMesh(render, mesh1, material3));
-	//entity5->AddComponent(new PhysicsBody(&transform5, 1.0f));
-	//transform5.SetPosition(XMFLOAT3(-2.0f, 0.0f, 0.0f));
+	
 
 	//Bullets (not finished)
 	Mesh* mesh4 = res->GetMeshAndLoadIfNotFound("hpBullet");
@@ -414,6 +416,7 @@ void MyDemoGame::CreateGeometry()
 		Transform* tempTransform = &entSys->GetEntity(i)->GetTransform();
 		entSys->AddComponentToEntity(i, new DrawnMesh(render, mesh4, material1));
 		entSys->AddComponentToEntity(i, new PhysicsBody(tempTransform, 1.0f));
+		//entSys->AddComponentToEntity(i, new CollisionCircle(mesh4->GetVertices(), mesh4->GetNumberOfVertices()));
 		//tempTransform.SetPosition(XMFLOAT3(i + 5.75f, -5.5f, 0.0f));
 		tempTransform->SetScale(XMFLOAT3(0.08f, 0.08f, 0.08f));
 
@@ -472,20 +475,20 @@ void MyDemoGame::UpdateScene(float deltaTime, float totalTime)
 		}
 	}
 
-	DirectX::XMFLOAT3 rot = entSys->GetEntity(0)->GetTransform().GetRotation();
-	float rotRate = 0.5f;
-	rot.x += rotRate * deltaTime;
-	rot.y += rotRate * deltaTime;
-	rot.z += rotRate * deltaTime;
+	//DirectX::XMFLOAT3 rot = entSys->GetEntity(0)->GetTransform().GetRotation();
+	//float rotRate = 0.5f;
+	//rot.x += rotRate * deltaTime;
+	//rot.y += rotRate * deltaTime;
+	//rot.z += rotRate * deltaTime;
 	//render->GetLight(0).GetTransform().SetRotation(rot);
-	DirectX::XMFLOAT3 cpos = camera.GetTransform().GetPosition();
+	//DirectX::XMFLOAT3 cpos = camera.GetTransform().GetPosition();
 	//cpos.y = 0;
 	//cpos.z = 0;
-	render->GetLight(1).GetTransform().SetPosition(cpos);
-	entSys->GetEntity(0)->GetTransform().SetRotation(rot);
-	DirectX::XMFLOAT3 pos = entSys->GetEntity(0)->GetTransform().GetPosition();
-	pos.x += 0.08f * deltaTime;
-	entSys->GetEntity(0)->GetTransform().SetPosition(pos);
+	//render->GetLight(1).GetTransform().SetPosition(cpos);
+	//entSys->GetEntity(0)->GetTransform().SetRotation(rot);
+	//DirectX::XMFLOAT3 pos = entSys->GetEntity(0)->GetTransform().GetPosition();
+	//pos.x += 0.08f * deltaTime;
+	//entSys->GetEntity(0)->GetTransform().SetPosition(pos);
 	
 	//Player Input
 	player1.GetInput(deltaTime);

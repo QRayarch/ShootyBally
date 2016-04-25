@@ -17,6 +17,8 @@
 #include "Player.h"
 #include "PhysicsBody.h"
 #include "Bullet.h"
+#include "CollisionBox.h"
+#include "CollisionCircle.h"
 
 // Include run-time memory checking in debug builds, so 
 // we can be notified of memory leaks
@@ -94,6 +96,6 @@ private:
 	Player player1;
 	Player player2;
 
-	int poolSize = 20;
-	Bullet bulletPool[20];
+	int poolSize = 30;
+	Bullet bulletPool[30];
 };
