@@ -41,6 +41,16 @@ void PhysicsBody::PhysicsUpdate(float deltaTime)
 	XMStoreFloat4(&netForce, XMVectorZero());
 }
 
+void PhysicsBody::ResolveCollisions(PhysicsBody otherEnt)
+{
+	//OtherEnt needs to change to an entity, will do later
+	float newVelX1 = (velocity.x * (mass - otherEnt.GetMass()) + (2 * otherEnt.GetMass() * otherEnt.GetVelocity().x)) / (mass + otherEnt.GetMass());
+	float newVelZ1 = (velocity.z * (mass - otherEnt.GetMass()) + (2 * otherEnt.GetMass() * otherEnt.GetVelocity().z)) / (mass + otherEnt.GetMass());
+
+	float newVelX2 = (otherEnt.GetVelocity().x * (otherEnt.GetMass() - mass) + (2 * mass * velocity.x)) / (mass + otherEnt.GetMass());
+	float newVelZ2 = (otherEnt.GetVelocity().z * (otherEnt.GetMass() - mass) + (2 * mass * velocity.z)) / (mass + otherEnt.GetMass());
+}
+
 void PhysicsBody::AddForce(const XMFLOAT4& force)
 {
 	XMStoreFloat4(&netForce, XMVectorAdd(XMLoadFloat4(&netForce), XMLoadFloat4(&force)));

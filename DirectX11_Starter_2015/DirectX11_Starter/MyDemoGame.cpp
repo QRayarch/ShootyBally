@@ -413,12 +413,12 @@ void MyDemoGame::CreateGeometry()
 	for (int i = numEnts; i < numEnts + poolSize; i++)
 	{
 		entSys->AddEntity();
-		Transform* tempTransform = &entSys->GetEntity(i)->GetTransform();
+		Transform& tempTransform = entSys->GetEntity(i)->GetTransform();
 		entSys->AddComponentToEntity(i, new DrawnMesh(render, mesh4, material1));
-		entSys->AddComponentToEntity(i, new PhysicsBody(tempTransform, 1.0f));
+		entSys->AddComponentToEntity(i, new PhysicsBody(&tempTransform, 1.0f));
 		//entSys->AddComponentToEntity(i, new CollisionCircle(mesh4->GetVertices(), mesh4->GetNumberOfVertices()));
 		//tempTransform.SetPosition(XMFLOAT3(i + 5.75f, -5.5f, 0.0f));
-		tempTransform->SetScale(XMFLOAT3(0.08f, 0.08f, 0.08f));
+		tempTransform.SetScale(XMFLOAT3(0.08f, 0.08f, 0.08f));
 
 		int poolIndex = i - numEnts;
 		bulletPool[poolIndex] = Bullet(entSys, i);
