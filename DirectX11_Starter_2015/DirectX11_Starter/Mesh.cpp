@@ -12,8 +12,7 @@ Mesh::Mesh(Vertex* vertices, int numVerts, UINT* indices, int newNumIndices, ID3
 	//meshVertices = new Vertex();
 
 	numVertices = numVerts;
-	//memcpy(meshVertices, vertices, sizeof(Vertex) * numVerts);
-	//meshVertices = vertices;
+	meshVertices = vertices;
 	
 
 	D3D11_BUFFER_DESC vbd;
@@ -42,6 +41,8 @@ Mesh::Mesh(Vertex* vertices, int numVerts, UINT* indices, int newNumIndices, ID3
 	initialIndexData.pSysMem = indices;
 
 	HR(device->CreateBuffer(&ibd, &initialIndexData, &indexBuffer));
+
+	//delete meshVertices;
 }
 
 Mesh::Mesh()
@@ -53,6 +54,10 @@ Mesh::Mesh()
 
 Mesh::~Mesh()
 {
+	if (meshVertices != nullptr) {
+		delete meshVertices;
+		meshVertices = nullptr;
+	}
 	ReleaseMacro(vertexBuffer);
 	ReleaseMacro(indexBuffer);
 }

@@ -369,22 +369,21 @@ void MyDemoGame::CreateGeometry()
 	Transform& transform1 = entity1->GetTransform();
 	entity1->AddComponent(new DrawnMesh(render, mesh1, material3));
 	entity1->AddComponent(new PhysicsBody(&transform1, 1.0f));
-	//entity1->AddComponent(new CollisionCircle(mesh1->GetVertices(), mesh1->GetNumberOfVertices()));
+	mesh1->GetVertices();
+	entity1->AddComponent(new CollisionCircle(mesh1->GetVertices(), mesh1->GetNumberOfVertices()));
 	transform1.SetPosition(XMFLOAT3(0.0f, -7.0f, 0.0f));
 
 	float halfSize = 10 * 0.5f;
 	float yPos = -2.5f;
-	Vertex vertices2[] =
-	{
-		{ XMFLOAT3(-halfSize, +yPos, +halfSize), normal, XMFLOAT2(0, 1), tangent },// 0
-		{ XMFLOAT3(+halfSize, +yPos, -halfSize), normal, XMFLOAT2(1, 0), tangent },// 1
-		{ XMFLOAT3(-halfSize, +yPos, -halfSize), normal, XMFLOAT2(0, 0), tangent },// 2
-		{ XMFLOAT3(+halfSize, +yPos, +halfSize), normal, XMFLOAT2(1, 1), tangent },// 3
-	};
+	Vertex* vertices2 = new Vertex[4];
+	vertices2[0] = { XMFLOAT3(-halfSize, +yPos, +halfSize), normal, XMFLOAT2(0, 1), tangent };
+	vertices2[1] = { XMFLOAT3(+halfSize, +yPos, -halfSize), normal, XMFLOAT2(1, 0), tangent };
+	vertices2[2] = { XMFLOAT3(-halfSize, +yPos, -halfSize), normal, XMFLOAT2(0, 0), tangent };
+	vertices2[3] = { XMFLOAT3(+halfSize, +yPos, +halfSize), normal, XMFLOAT2(1, 1), tangent };
+	
 	UINT indices2[] = { 0, 1, 2, 0, 3, 1 };
 	Mesh* mesh2 = res->AddMesh("ground" ,vertices2, 4, indices2, 6);
 	Entity* entity2 = entSys->AddEntity();
-	//entity2->AddComponent(new DrawnMesh(render, mesh2, material2));
 
 	//Players
 	Mesh* mesh3 = res->GetMeshAndLoadIfNotFound("sbgPaddle");
@@ -403,10 +402,6 @@ void MyDemoGame::CreateGeometry()
 	transform4.SetRotation(XMFLOAT3(0.0f, -XM_PI / 2, 0.0f));
 	transform4.SetScale(XMFLOAT3(0.8f, 0.8f, 0.8f));
 
-	//Ball.
-	//Entity* entity5 = entSys->AddEntity();
-	
-
 	//Bullets (not finished)
 	Mesh* mesh4 = res->GetMeshAndLoadIfNotFound("hpBullet");
 	int numEnts = entSys->GetNumberOfEnts();
@@ -416,7 +411,7 @@ void MyDemoGame::CreateGeometry()
 		Transform& tempTransform = entSys->GetEntity(i)->GetTransform();
 		entSys->AddComponentToEntity(i, new DrawnMesh(render, mesh4, material1));
 		entSys->AddComponentToEntity(i, new PhysicsBody(&tempTransform, 1.0f));
-		//entSys->AddComponentToEntity(i, new CollisionCircle(mesh4->GetVertices(), mesh4->GetNumberOfVertices()));
+		entSys->AddComponentToEntity(i, new CollisionCircle(mesh4->GetVertices(), mesh4->GetNumberOfVertices()));
 		//tempTransform.SetPosition(XMFLOAT3(i + 5.75f, -5.5f, 0.0f));
 		tempTransform.SetScale(XMFLOAT3(0.08f, 0.08f, 0.08f));
 

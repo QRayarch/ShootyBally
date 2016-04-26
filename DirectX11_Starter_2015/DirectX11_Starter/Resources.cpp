@@ -218,6 +218,12 @@ void Resources::LoadMesh(std::string meshName)
 	// Close
 	obj.close();
 
+	Vertex* tempVerts = new Vertex[verts.size()]();
+	for (int i = 0; i < verts.size(); i++)
+	{
+		tempVerts[i] = verts[i];
+	}
+
 	// - At this point, "verts" is a vector of Vertex structs, and can be used
 	//    directly to create a vertex buffer:  &verts[0] is the first vert
 	//
@@ -228,16 +234,18 @@ void Resources::LoadMesh(std::string meshName)
 	if (vertCounter >= 0 && numberOfMeshes + 1 < MAX_NUM_MESHES) {
 		int index = GetNextMeshIndex();
 		if (index != -1) {
-			AddMesh(meshName, &verts[0], vertCounter, &indices[0], vertCounter);
+			AddMesh(meshName, tempVerts, vertCounter, &indices[0], vertCounter);
 		}
 	}
+
+	//delete tempVerts;
 }
 
 Mesh* Resources::AddMesh(std::string meshName, Vertex * vertices, int numVerts, UINT * indices, int newNumIndices)
 {
 	int index = GetNextMeshIndex();
 	if (index != -1) {
-		meshes[index] = new Mesh(&vertices[0], numVerts, &indices[0], newNumIndices, device);
+		meshes[index] = new Mesh(vertices, numVerts, &indices[0], newNumIndices, device);
 		meshNameToIndex[index] = meshName;
 		numberOfMeshes++;
 		return meshes[index];
