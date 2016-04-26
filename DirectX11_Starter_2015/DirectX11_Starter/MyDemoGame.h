@@ -27,6 +27,8 @@
 #include <crtdbg.h>
 #endif
 
+enum GameState { ready, playing, scored };
+
 // --------------------------------------------------------
 // Game class which extends the base DirectXGameCore class
 // --------------------------------------------------------
@@ -98,4 +100,6 @@ private:
 
 	int poolSize = 30;
 	Bullet bulletPool[30];
+
+	GameState gameState;
 };

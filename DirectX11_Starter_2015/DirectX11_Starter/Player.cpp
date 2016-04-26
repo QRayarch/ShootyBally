@@ -67,3 +67,9 @@ void Player::Fire()
 	}
 	timeToLastShot = 0.0f;
 }
+
+void Player::ResetPlayer()
+{
+	score = 0;
+	
+}

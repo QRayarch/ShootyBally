@@ -159,6 +159,7 @@ bool MyDemoGame::Init()
 	camera.CreatePerspectiveProjectionMatrix(aspectRatio, 0.1f, 100.0f);
 	DebugDraw::SetUp(device, deviceContext, &camera);
 
+	gameState = ready;
 
 	// Successfully initialized
 	return true;
