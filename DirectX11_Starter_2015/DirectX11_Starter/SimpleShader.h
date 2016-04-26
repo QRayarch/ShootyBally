@@ -252,7 +252,9 @@ public:
 	ID3D11GeometryShader* GetDirectXShader() { return shader; }
 
 	bool SetShaderResourceView(std::string name, ID3D11ShaderResourceView* srv);
+	bool SetShaderResourceView(int i, ID3D11ShaderResourceView* srv);
 	bool SetSamplerState(std::string name, ID3D11SamplerState* samplerState);
+	bool SetSamplerState(int i, ID3D11SamplerState* samplerState);
 
 	bool CreateCompatibleStreamOutBuffer(ID3D11Buffer** buffer, int vertexCount);
 

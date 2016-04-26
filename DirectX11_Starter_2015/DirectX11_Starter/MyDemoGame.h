@@ -57,8 +57,8 @@ private:
 	void TestLoadLevel(char* mapName);
 
 	// Particle helper functions.
-	//void DrawSpawn(float dt, float totalTime);
-	//void SwapSOBuffers();
+	void DrawSpawn(float dt, float totalTime);
+	void SwapSOBuffers();
 
 	// Buffers to hold actual geometry data
 	ID3D11Buffer* vertexBuffer;
@@ -76,14 +76,46 @@ private:
 	SimplePixelShader* pixelShader;
 	SimplePixelShader* pixelShaderNoNormals;
 
-	//ID3D11ShaderResourceView* particleTexture;
-
 	SimpleVertexShader* vSSkybox;
 	SimplePixelShader* pSSkybox;
 	Mesh* skyboxMesh;
 	ID3D11ShaderResourceView* skyTexture;
 	ID3D11RasterizerState*		rasterState;
 	ID3D11DepthStencilState*	depthState;
+
+	// Particle resources.
+	ID3D11Buffer* particleVB;
+	ID3D11Buffer* soBufferRead;
+	ID3D11Buffer* soBufferWrite;
+	bool spawnFlip;
+	int frameCount;
+
+	SimpleVertexShader* particleVS;
+	SimplePixelShader* particlePS;
+	SimpleGeometryShader* particleGS;
+
+	SimpleVertexShader* spawnVS;
+	SimpleGeometryShader* spawnGS;
+
+	ID3D11Texture1D* randomTexture;
+	ID3D11ShaderResourceView* randomSRV;
+	ID3D11ShaderResourceView* particleTexture;
+	ID3D11BlendState* particleBlendState;
+	ID3D11DepthStencilState* particleDepthState;
+
+	// Particle params.
+	DirectX::XMFLOAT3 particleStartPosition;
+	DirectX::XMFLOAT3 particleStartVelocity;
+	DirectX::XMFLOAT4 particleStartColor;
+	DirectX::XMFLOAT4 particleMidColor;
+	DirectX::XMFLOAT4 particleEndColor;
+	float particleStartSize;
+	float particleMidSize;
+	float particleEndSize;
+
+	float particleAgeToSpawn;
+	float particleMaxLifetime;
+	DirectX::XMFLOAT3 particleConstantAccel;
 
 	// The matrices to go from model space to screen space
 	//DirectX::XMFLOAT4X4 worldMatrix;
