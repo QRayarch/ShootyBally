@@ -25,6 +25,8 @@ public:
 	// Updates the associated transform's position and rotation.
 	void PhysicsUpdate(float deltaTime);
 
+	void ResolveCollisions(PhysicsBody otherEnt);
+
 	// Adds a force to the PhysicsBody which will be applied during update.
 	void XM_CALLCONV AddForce(FXMVECTOR force);
 	void AddForce(const XMFLOAT4& force);

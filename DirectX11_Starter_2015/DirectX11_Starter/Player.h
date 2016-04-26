@@ -22,6 +22,11 @@ public:
 
 	void GetInput(float deltaTime);
 	void Fire();
+
+	short GetScore() { return score; };
+	void AddPoint() { ++score; };
+	void ResetPlayer();
+
 private:
 	Entity* playerEntity;
 	PlayerNumber playerNum;
@@ -33,5 +38,7 @@ private:
 	float timeToLastShot;
 	float shotTimer;
 	Bullet* bulletPool;
+
+	short score;
 };
 
