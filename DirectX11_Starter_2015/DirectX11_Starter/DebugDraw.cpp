@@ -80,3 +80,50 @@ void DebugDraw::DrawLine(DirectX::XMFLOAT3 startPos, DirectX::XMFLOAT3 endPos, D
 	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	vertexBuffer->Release();
 }
+
+void DebugDraw::DrawBox(DirectX::XMFLOAT3 position, DirectX::XMFLOAT3 size, DirectX::XMFLOAT4 color)
+{
+	//Get the half size for simplified calculations
+	DirectX::XMVECTOR halfSize = DirectX::XMVectorMultiply(DirectX::XMLoadFloat3(&size), DirectX::XMVectorSet(0.5f, 0.5f, 0.5f, 0.5f));
+	DirectX::XMStoreFloat3(&size, halfSize);
+	DirectX::HXMVECTOR vecPos = DirectX::XMLoadFloat3(&position);
+	DirectX::XMVECTOR xAxis = DirectX::XMVectorSet(size.x, 0, 0, 0);
+	DirectX::XMVECTOR yAxis = DirectX::XMVectorSet(0, size.y, 0, 0);
+	DirectX::XMVECTOR zAxis = DirectX::XMVectorSet(0, 0, size.z, 0);
+	//Temp variables 
+	DirectX::XMFLOAT3 corner1;
+	DirectX::XMFLOAT3 corner2;
+	DirectX::XMFLOAT3 corner3;
+	DirectX::XMFLOAT3 corner4;
+	DirectX::XMFLOAT3 corner5;
+	DirectX::XMFLOAT3 corner6;
+	DirectX::XMFLOAT3 corner7;
+	DirectX::XMFLOAT3 corner8;
+
+	DirectX::XMStoreFloat3(&corner1, vecPos + xAxis + yAxis + zAxis);
+	DirectX::XMStoreFloat3(&corner2, vecPos - xAxis + yAxis + zAxis);
+
+	DirectX::XMStoreFloat3(&corner3, vecPos + xAxis - yAxis + zAxis);
+	DirectX::XMStoreFloat3(&corner4, vecPos - xAxis - yAxis + zAxis);
+
+	DirectX::XMStoreFloat3(&corner5, vecPos + xAxis + yAxis - zAxis);
+	DirectX::XMStoreFloat3(&corner6, vecPos - xAxis + yAxis - zAxis);
+
+	DirectX::XMStoreFloat3(&corner7, vecPos + xAxis - yAxis - zAxis);
+	DirectX::XMStoreFloat3(&corner8, vecPos - xAxis - yAxis - zAxis);
+
+	DrawLine(corner1, corner2, color);
+	DrawLine(corner3, corner4, color);
+	DrawLine(corner5, corner6, color);
+	DrawLine(corner7, corner8, color);
+
+	DrawLine(corner1, corner3, color);
+	DrawLine(corner2, corner4, color);
+	DrawLine(corner5, corner7, color);
+	DrawLine(corner6, corner8, color);
+
+	DrawLine(corner1, corner5, color);
+	DrawLine(corner2, corner6, color);
+	DrawLine(corner3, corner7, color);
+	DrawLine(corner4, corner8, color);
+}
