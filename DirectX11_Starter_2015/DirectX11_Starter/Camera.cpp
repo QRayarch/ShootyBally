@@ -22,7 +22,7 @@ void Camera::Update(float dt, LONG x, LONG y)
 
 	//Temp Camera Control in here
 	float moveSpeed = 3.4f;
-	float rotateSpeed = 9.9f;
+	float rotateSpeed = 1.9f;
 	float xAxisMovement = 0;
 	float zAxisMovement = 0;
 	DirectX::XMFLOAT3 newPos = transform.GetPosition();

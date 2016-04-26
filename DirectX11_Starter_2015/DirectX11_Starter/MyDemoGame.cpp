@@ -24,6 +24,7 @@
 #include "MyDemoGame.h"
 #include "Vertex.h"
 
+#include <time.h>
 #include <fstream>
 #include <iostream>
 #include "Logger.h"
@@ -77,6 +78,20 @@ MyDemoGame::MyDemoGame(HINSTANCE hInstance)
 	// Custom window size - will be created by Init() later
 	windowWidth = 1280;
 	windowHeight = 720;
+
+	// Particle setup
+	particleStartPosition = XMFLOAT3(2.0f, -5.0f, 0.0f);
+	particleStartVelocity = XMFLOAT3(0.0f, 0.0f, -4.0f);
+	particleStartColor = XMFLOAT4(1.0f, 0.1f, 0.1f, 0.3f);
+	particleMidColor = XMFLOAT4(1.0f, 1.0f, 0.1f, 0.2f);
+	particleEndColor = XMFLOAT4(1.0f, 0.5f, 0.1f, 0.1f);
+	particleStartSize = 10.0f;
+	particleMidSize = 8.0f;
+	particleEndSize = 1.0f;
+
+	particleAgeToSpawn = 0.000001f;
+	particleMaxLifetime = 2.0f;
+	particleConstantAccel = XMFLOAT3(0.0f, 0.0f, -4.0f);
 }
 
 // --------------------------------------------------------
@@ -98,6 +113,11 @@ MyDemoGame::~MyDemoGame()
 	delete pixelShaderNoNormals;
 	delete vSSkybox;
 	delete pSSkybox;
+	delete particleVS;
+	delete particlePS;
+	delete particleGS;
+	delete spawnVS;
+	delete spawnGS;
 
 	if (samplerState != nullptr) {
 		samplerState->Release();
@@ -107,9 +127,17 @@ MyDemoGame::~MyDemoGame()
 	delete entSys;
 	delete res;
 
-//	skyTexture->Release();
 	depthState->Release();
 	rasterState->Release();
+
+	// Particle stuff
+	particleVB->Release();
+	randomSRV->Release();
+	randomTexture->Release();
+	soBufferRead->Release();
+	soBufferWrite->Release();
+	particleBlendState->Release();
+	particleDepthState->Release();
 
 	DebugDraw::Release();
 }
@@ -159,6 +187,7 @@ bool MyDemoGame::Init()
 	camera.CreatePerspectiveProjectionMatrix(aspectRatio, 0.1f, 100.0f);
 	DebugDraw::SetUp(device, deviceContext, &camera);
 
+	gameState = ready;
 
 	// Successfully initialized
 	return true;
@@ -182,6 +211,28 @@ void MyDemoGame::LoadShaders()
 	vSSkybox->LoadShaderFile(L"VS_Skybox.cso");
 	pSSkybox = new SimplePixelShader(device, deviceContext);
 	pSSkybox->LoadShaderFile(L"PS_Skybox.cso");
+
+	// Load particle shaders
+	particleVS = new SimpleVertexShader(device, deviceContext);
+	particleVS->LoadShaderFile(L"VS_Particle.cso");
+
+	particlePS = new SimplePixelShader(device, deviceContext);
+	particlePS->LoadShaderFile(L"PS_Particle.cso");
+
+	particleGS = new SimpleGeometryShader(device, deviceContext);
+	particleGS->LoadShaderFile(L"GS_Particle.cso");
+
+	spawnGS = new SimpleGeometryShader(device, deviceContext, true, false);
+	spawnGS->LoadShaderFile(L"GS_ParticleSpawn.cso");
+
+	spawnVS = new SimpleVertexShader(device, deviceContext);
+	spawnVS->LoadShaderFile(L"VS_ParticleSpawn.cso");
+
+	// Create SO buffers
+	spawnGS->CreateCompatibleStreamOutBuffer(&soBufferRead, 1000000);
+	spawnGS->CreateCompatibleStreamOutBuffer(&soBufferWrite, 1000000);
+	spawnFlip = false;
+	frameCount = 0;
 
 	//This is tempory, 
 	//TODO: create a common shader file. 
@@ -210,6 +261,30 @@ void MyDemoGame::LoadShaders()
 	depthDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
 	depthDesc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
 	device->CreateDepthStencilState(&depthDesc, &depthState);
+
+	// Particle states
+	// Blend state
+	D3D11_BLEND_DESC particleBlendDesc;
+	ZeroMemory(&particleBlendDesc, sizeof(D3D11_BLEND_DESC));
+	particleBlendDesc.AlphaToCoverageEnable = false;
+	particleBlendDesc.IndependentBlendEnable = false;
+	particleBlendDesc.RenderTarget[0].BlendEnable = true;
+	particleBlendDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+	particleBlendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+	particleBlendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_ONE;
+	particleBlendDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+	particleBlendDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+	particleBlendDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ONE;
+	particleBlendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+	device->CreateBlendState(&particleBlendDesc, &particleBlendState);
+
+	// Depth state
+	D3D11_DEPTH_STENCIL_DESC particleDepthDesc;
+	ZeroMemory(&particleDepthDesc, sizeof(D3D11_DEPTH_STENCIL_DESC));
+	particleDepthDesc.DepthEnable = true;
+	particleDepthDesc.DepthFunc = D3D11_COMPARISON_LESS;
+	particleDepthDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
+	device->CreateDepthStencilState(&particleDepthDesc, &particleDepthState);
 }
 
 //This is here temporarily till more things are figured out
@@ -418,6 +493,70 @@ void MyDemoGame::CreateGeometry()
 		int poolIndex = i - numEnts;
 		bulletPool[poolIndex] = Bullet(entSys, i);
 	}
+
+	// Particle geometry.
+	// Set up the vertices to put into the Vertex Buffer.
+	ParticleVertex vertices[1];
+	vertices[0].Type = 0;
+	vertices[0].Age = 0.0f;
+	vertices[0].StartPosition = particleStartPosition;
+	vertices[0].StartVelocity = particleStartVelocity;
+	vertices[0].StartColor = particleStartColor;
+	vertices[0].MidColor = particleMidColor;
+	vertices[0].EndColor = particleEndColor;
+	vertices[0].StartMidEndSize = XMFLOAT3(
+		particleStartSize,
+		particleMidSize,
+		particleEndSize);
+
+	// Create the vertex buffer.
+	D3D11_BUFFER_DESC vbd;
+	vbd.Usage = D3D11_USAGE_IMMUTABLE;
+	vbd.ByteWidth = sizeof(ParticleVertex) * 1;
+	vbd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	vbd.CPUAccessFlags = 0;
+	vbd.MiscFlags = 0;
+	vbd.StructureByteStride = 0;
+	D3D11_SUBRESOURCE_DATA initialVertexData;
+	initialVertexData.pSysMem = vertices;
+	HR(device->CreateBuffer(&vbd, &initialVertexData, &particleVB));
+
+	// Set up "random" resources.
+	unsigned int randomTextureWidth = 1024;
+
+	// Random data for the 1D texture.
+	srand((unsigned int)time(0));
+	std::vector<float> data(randomTextureWidth * 4);
+	for (unsigned int i = 0; i < randomTextureWidth * 4; i++)
+		data[i] = rand() / (float)RAND_MAX * 2.0f - 1.0f;
+
+	// Set up the random texture.
+	D3D11_TEXTURE1D_DESC textureDesc;
+	textureDesc.ArraySize = 1;
+	textureDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+	textureDesc.CPUAccessFlags = 0;
+	textureDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	textureDesc.MipLevels = 1;
+	textureDesc.MiscFlags = 0;
+	textureDesc.Usage = D3D11_USAGE_DEFAULT;
+	textureDesc.Width = 100;
+
+	D3D11_SUBRESOURCE_DATA initData;
+	initData.pSysMem = (void*)&data[0];
+	initData.SysMemPitch = randomTextureWidth * sizeof(float) * 4;
+	initData.SysMemSlicePitch = 0;
+	device->CreateTexture1D(&textureDesc, &initData, &randomTexture);
+
+	// Set up the SRV for the random texture.
+	D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
+	srvDesc.Format = textureDesc.Format;
+	srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE1D;
+	srvDesc.Texture1D.MipLevels = 1;
+	srvDesc.Texture1D.MostDetailedMip = 0;
+	device->CreateShaderResourceView(randomTexture, &srvDesc, &randomSRV);
+
+	// Load the particle texture.
+	particleTexture = res->LoadTexture("particle", Resources::FILE_FORMAT_PNG);
 }
 
 #pragma endregion
@@ -505,6 +644,9 @@ void MyDemoGame::UpdateScene(float deltaTime, float totalTime)
 // --------------------------------------------------------
 void MyDemoGame::DrawScene(float deltaTime, float totalTime)
 {
+	// Handle spawning particles
+	DrawSpawn(deltaTime, totalTime);
+
 	// Background color (Cornflower Blue in this case) for clearing
 	const float color[4] = {0.4f, 0.6f, 0.75f, 0.0f};
 
@@ -518,11 +660,12 @@ void MyDemoGame::DrawScene(float deltaTime, float totalTime)
 		1.0f,
 		0);
 
-
-
 	DebugDraw::DrawLine(XMFLOAT3(0, 0, 0), XMFLOAT3(1, 0, 0), XMFLOAT4(1, 0, 0, 1));
 	DebugDraw::DrawLine(XMFLOAT3(0, 0, 0), XMFLOAT3(0, 1, 0), XMFLOAT4(0, 1, 0, 1));
 	DebugDraw::DrawLine(XMFLOAT3(0, 0, 0), XMFLOAT3(0, 0, 1), XMFLOAT4(0, 0, 1, 1));
+
+	DebugDraw::DrawBox(XMFLOAT3(0, 0, 0), XMFLOAT3(1, 1, 1), XMFLOAT4(1, 1, 1, 1));
+
 	render->UpdateAndRender(camera);
 
 	//TODO: handle skybox better
@@ -545,11 +688,102 @@ void MyDemoGame::DrawScene(float deltaTime, float totalTime)
 	deviceContext->RSSetState(0);
 	deviceContext->OMSetDepthStencilState(0, 0);
 
+	// Draw particles
+	particleGS->SetMatrix4x4("world", XMFLOAT4X4(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)); // Identity
+	particleGS->SetMatrix4x4("view", camera.GetViewMatrix());
+	particleGS->SetMatrix4x4("projection", camera.GetProjectionMatrix());
+
+	particleVS->SetFloat3("acceleration", particleConstantAccel);
+	particleVS->SetFloat("maxLifetime", particleMaxLifetime);
+
+	particlePS->SetSamplerState("trilinear", samplerState);
+	particlePS->SetShaderResourceView("particleTexture", particleTexture);
+
+	particleVS->SetShader(true);
+	particlePS->SetShader(true);
+	particleGS->SetShader(true);
+
+	// Set up states
+	float factor[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+	deviceContext->OMSetBlendState(particleBlendState, factor, 0xffffffff);
+	deviceContext->OMSetDepthStencilState(particleDepthState, 0);
+
+	// Set buffers
+	UINT particleStride = sizeof(ParticleVertex);
+	UINT particleOffset = 0;
+	deviceContext->IASetVertexBuffers(0, 1, &soBufferRead, &particleStride, &particleOffset);
+
+	// Draw auto - draws based on current stream out buffer
+	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
+	deviceContext->DrawAuto();
+
+	// Unset Geometry Shader for next frame and reset states
+	deviceContext->GSSetShader(0, 0, 0);
+	deviceContext->OMSetBlendState(0, factor, 0xffffffff);
+	deviceContext->OMSetDepthStencilState(0, 0);
+
 	// Present the buffer
 	//  - Puts the image we're drawing into the window so the user can see it
 	//  - Do this exactly ONCE PER FRAME
 	//  - Always at the very end of the frame
 	HR(swapChain->Present(0, 0));
+}
+
+// Handles the "drawing" of particle spawns
+void MyDemoGame::DrawSpawn(float dt, float totalTime)
+{
+	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
+	UINT stride = sizeof(ParticleVertex);
+	UINT offset = 0;
+
+	// Set/unset correct shaders
+	// Set the delta time for the spawning
+	spawnGS->SetFloat("dt", dt);
+	spawnGS->SetFloat("ageToSpawn", particleAgeToSpawn);
+	spawnGS->SetFloat("maxLifetime", particleMaxLifetime);
+	spawnGS->SetFloat("totalTime", totalTime);
+	spawnGS->SetSamplerState("randomSampler", samplerState);
+	spawnGS->SetShaderResourceView("randomTexture", randomSRV);
+
+	spawnVS->SetShader();
+	spawnGS->SetShader();
+	deviceContext->PSSetShader(0, 0, 0); // No pixel shader needed
+
+	// Unbind vertex buffers (incase)
+	ID3D11Buffer* unset = 0;
+	deviceContext->IASetVertexBuffers(0, 1, &unset, &stride, &offset);
+
+	// First frame?
+	if (frameCount == 0)
+	{
+		// Draw using the seed vertex
+		deviceContext->IASetVertexBuffers(0, 1, &particleVB, &stride, &offset);
+		deviceContext->SOSetTargets(1, &soBufferWrite, &offset);
+		deviceContext->Draw(1, 0);
+		frameCount++;
+	}
+	else
+	{
+		// Draw using the buffers
+		deviceContext->IASetVertexBuffers(0, 1, &soBufferRead, &stride, &offset);
+		deviceContext->SOSetTargets(1, &soBufferWrite, &offset);
+		deviceContext->DrawAuto();
+	}
+
+	// Unbind SO targets and shader
+	SimpleGeometryShader::UnbindStreamOutStage(deviceContext);
+	deviceContext->GSSetShader(0, 0, 0);
+
+	// Swap after draw
+	SwapSOBuffers();
+}
+
+// Swaps stream out buffers for ping-ponging
+void MyDemoGame::SwapSOBuffers()
+{
+	ID3D11Buffer* temp = soBufferRead;
+	soBufferRead = soBufferWrite;
+	soBufferWrite = temp;
 }
 
 #pragma endregion
