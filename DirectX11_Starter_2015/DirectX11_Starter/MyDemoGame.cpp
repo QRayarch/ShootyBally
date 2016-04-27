@@ -443,10 +443,10 @@ void MyDemoGame::CreateGeometry()
 	Entity* entity1 = entSys->AddEntity();
 	Transform& transform1 = entity1->GetTransform();
 	entity1->AddComponent(new DrawnMesh(render, mesh1, material3));
-	entity1->AddComponent(new PhysicsBody(&transform1, 1.0f));
-	mesh1->GetVertices();
+	entity1->AddComponent(new PhysicsBody(&transform1, 2.0f));
 	entity1->AddComponent(new CollisionCircle(mesh1->GetVertices(), mesh1->GetNumberOfVertices()));
-	transform1.SetPosition(XMFLOAT3(0.0f, -7.0f, 0.0f));
+	entity1->GetComponent<PhysicsBody>()->SetVelocity(XMFLOAT4(-0.2f, 0.0f, 0.0f, 0.0f));
+	transform1.SetPosition(XMFLOAT3(0.0f, -7.5f, 0.0f));
 
 	float halfSize = 10 * 0.5f;
 	float yPos = -2.5f;
@@ -457,7 +457,7 @@ void MyDemoGame::CreateGeometry()
 	vertices2[3] = { XMFLOAT3(+halfSize, +yPos, +halfSize), normal, XMFLOAT2(1, 1), tangent };
 	
 	UINT indices2[] = { 0, 1, 2, 0, 3, 1 };
-	Mesh* mesh2 = res->AddMesh("ground" ,vertices2, 4, indices2, 6);
+	Mesh* mesh2 = res->AddMesh("ground", vertices2, 4, indices2, 6);
 	Entity* entity2 = entSys->AddEntity();
 
 	//Players
@@ -465,6 +465,8 @@ void MyDemoGame::CreateGeometry()
 
 	Entity* entity3 = entSys->AddEntity();
 	entity3->AddComponent(new DrawnMesh(render, mesh3, material1));
+	//entity3->AddComponent(new CollisionCircle(mesh3->GetVertices(), mesh3->GetNumberOfVertices()));
+	//entity3->AddComponent(new CollisionBox(mesh3->GetVertices(), mesh3->GetNumberOfVertices()));
 	Transform& transform3 = entity3->GetTransform();
 	transform3.SetPosition(XMFLOAT3(-5.75f, -7.5f, 0.0f));
 	transform3.SetRotation(XMFLOAT3(0.0f, XM_PI / 2, 0));
@@ -472,12 +474,14 @@ void MyDemoGame::CreateGeometry()
 
 	Entity* entity4 = entSys->AddEntity();
 	entity4->AddComponent(new DrawnMesh(render, mesh3, material1));
+	//entity4->AddComponent(new CollisionCircle(mesh3->GetVertices(), mesh3->GetNumberOfVertices()));
+	//entity4->AddComponent(new CollisionBox(mesh3->GetVertices(), mesh3->GetNumberOfVertices()));
 	Transform& transform4 = entity4->GetTransform();
 	transform4.SetPosition(XMFLOAT3(5.75f, -7.5f, 0.0f));
 	transform4.SetRotation(XMFLOAT3(0.0f, -XM_PI / 2, 0.0f));
 	transform4.SetScale(XMFLOAT3(0.8f, 0.8f, 0.8f));
 
-	//Bullets (not finished)
+	//Bullets
 	Mesh* mesh4 = res->GetMeshAndLoadIfNotFound("hpBullet");
 	int numEnts = entSys->GetNumberOfEnts();
 	for (int i = numEnts; i < numEnts + poolSize; i++)
@@ -589,40 +593,26 @@ void MyDemoGame::UpdateScene(float deltaTime, float totalTime)
 	if (GetAsyncKeyState(VK_ESCAPE))
 		Quit();
 
-	// Temporarily update the physics ball here until the physics system is figured out.
-	//Entity* physicsBall = entSys->GetEntity(4);
-	//PhysicsBody* ballPhysicsBody = physicsBall->GetComponent<PhysicsBody>();
-	//XMFLOAT4 vel = ballPhysicsBody->GetVelocity();
-	//if (physicsBall->GetTransform().GetPosition().y <= -2.0f && vel.y <= 0.0f)
-	//{
-	//	XMStoreFloat4(&vel, -XMLoadFloat4(&vel));
-	//	ballPhysicsBody->SetVelocity(vel);
-	//}
-	//ballPhysicsBody->PhysicsUpdate(deltaTime);
+	//Ball's Collider
+	CollisionCircle* ballCollider = entSys->GetEntity(0)->GetComponent<CollisionCircle>();
+	PhysicsBody* ballPhysicsBody = entSys->GetEntity(0)->GetComponent<PhysicsBody>();
 
-	//Bullet Physics Loop
+	//Bullet Physics & Collision Loop
 	for (int i = 0; i < poolSize; i++)
 	{
 		if (bulletPool[i].GetIsActive())
 		{
+			if (bulletPool[i].GetEntity()->GetComponent<CollisionCircle>()->IsColliding(ballCollider))
+			{
+				bulletPool[i].GetEntity()->GetComponent<PhysicsBody>()->ResolveCollisions(ballPhysicsBody);
+			}
 			bulletPool[i].UpdatePhysics(deltaTime);
 		}
 	}
+	ballPhysicsBody->PhysicsUpdate(deltaTime);
 
-	//DirectX::XMFLOAT3 rot = entSys->GetEntity(0)->GetTransform().GetRotation();
-	//float rotRate = 0.5f;
-	//rot.x += rotRate * deltaTime;
-	//rot.y += rotRate * deltaTime;
-	//rot.z += rotRate * deltaTime;
-	//render->GetLight(0).GetTransform().SetRotation(rot);
-	//DirectX::XMFLOAT3 cpos = camera.GetTransform().GetPosition();
-	//cpos.y = 0;
-	//cpos.z = 0;
-	//render->GetLight(1).GetTransform().SetPosition(cpos);
-	//entSys->GetEntity(0)->GetTransform().SetRotation(rot);
-	//DirectX::XMFLOAT3 pos = entSys->GetEntity(0)->GetTransform().GetPosition();
-	//pos.x += 0.08f * deltaTime;
-	//entSys->GetEntity(0)->GetTransform().SetPosition(pos);
+	//Paddle Collisions
+
 	
 	//Player Input
 	player1.GetInput(deltaTime);

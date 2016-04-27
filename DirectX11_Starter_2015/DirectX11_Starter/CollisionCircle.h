@@ -15,7 +15,7 @@ public:
 
 	void Update() override;
 
-	void UpdateCollisionCircle(Entity* entity);
+	void UpdateCollisionCircle();
 	bool IsColliding(CollisionCircle* collider);
 
 	float GetRadius() { return radius * scale; }
@@ -23,7 +23,7 @@ public:
 private:
 	float radius;
 	float scale;
-	XMFLOAT4X4 modelMatrix;
+
 	XMFLOAT3 center;
 };
 

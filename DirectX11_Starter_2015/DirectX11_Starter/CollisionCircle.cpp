@@ -1,17 +1,16 @@
 #include "CollisionCircle.h"
-
+#include "DebugDraw.h"
+#include "Logger.h"
 
 
 CollisionCircle::CollisionCircle(Vertex* meshVerts, int numVertices)
 {
-	modelMatrix = XMFLOAT4X4();
-
-	radius = meshVerts[0].Position.z;
+	radius = abs(meshVerts[0].Position.x);
 	for (int i = 0; i < numVertices; i++)
 	{
-		if (abs(radius) < abs(meshVerts[i].Position.z))
+		if (abs(radius) < abs(meshVerts[i].Position.x))
 		{
-			radius = meshVerts[i].Position.z;
+			radius = abs(meshVerts[i].Position.x);
 		}
 	}
 }
@@ -23,12 +22,13 @@ CollisionCircle::~CollisionCircle()
 void CollisionCircle::Update()
 {
 	Component::Update();
+	UpdateCollisionCircle();
 }
 
-void CollisionCircle::UpdateCollisionCircle(Entity* entity)
+void CollisionCircle::UpdateCollisionCircle()
 {
-	modelMatrix = entity->GetTransform().GetWorldMatrix();
-	scale = entity->GetTransform().GetScale().x;
+	scale = GetEntity()->GetTransform().GetScale().x;
+	center = GetEntity()->GetTransform().GetPosition();
 }
 
 bool CollisionCircle::IsColliding(CollisionCircle* collider)

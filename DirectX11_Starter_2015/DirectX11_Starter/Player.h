@@ -23,6 +23,9 @@ public:
 	void GetInput(float deltaTime);
 	void Fire();
 
+	//CollisionCircle* GetCircleCollider() { return playerEntity->GetComponent<CollisionCircle>(); }
+	//CollisionBox* GetBoxCollider() { return playerEntity->GetComponent<CollisionBox>(); }
+
 	short GetScore() { return score; };
 	void AddPoint() { ++score; };
 	void ResetPlayer();

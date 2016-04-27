@@ -34,12 +34,14 @@ CollisionBox::CollisionBox(Vertex* meshVertices, int numVerts)
 
 CollisionBox::~CollisionBox()
 {
+	Component::Update();
+	UpdateCollisionBox();
 }
 
-void CollisionBox::UpdateCollisionBox(Entity* entity)
+void CollisionBox::UpdateCollisionBox()
 {
-	modelMatrix = entity->GetTransform().GetWorldMatrix();
-	scale = entity->GetTransform().GetScale().x;
+	modelMatrix = GetEntity()->GetTransform().GetWorldMatrix();
+	scale = GetEntity()->GetTransform().GetScale().x;
 }
 
 bool CollisionBox::CheckCollisions(CollisionCircle* collider)

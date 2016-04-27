@@ -5,6 +5,7 @@
 #include <DirectXMath.h>
 #include "Component.h"
 #include "Transform.h"
+#include "Entity.h"
 
 using namespace DirectX;
 
@@ -25,7 +26,7 @@ public:
 	// Updates the associated transform's position and rotation.
 	void PhysicsUpdate(float deltaTime);
 
-	void ResolveCollisions(PhysicsBody otherEnt);
+	void ResolveCollisions(PhysicsBody* otherPB);
 
 	// Adds a force to the PhysicsBody which will be applied during update.
 	void XM_CALLCONV AddForce(FXMVECTOR force);

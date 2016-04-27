@@ -14,7 +14,7 @@ public:
 	CollisionBox(Vertex* meshVertices, int numVerts);
 	~CollisionBox();
 
-	void UpdateCollisionBox(Entity* entity);
+	void UpdateCollisionBox();
 	bool CheckCollisions(CollisionCircle* collider);
 
 	XMFLOAT4X4 GetModelMatrix() { return modelMatrix; }

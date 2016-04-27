@@ -41,14 +41,29 @@ void PhysicsBody::PhysicsUpdate(float deltaTime)
 	XMStoreFloat4(&netForce, XMVectorZero());
 }
 
-void PhysicsBody::ResolveCollisions(PhysicsBody otherEnt)
+void PhysicsBody::ResolveCollisions(PhysicsBody* otherPB)
 {
-	//OtherEnt needs to change to an entity, will do later
-	float newVelX1 = (velocity.x * (mass - otherEnt.GetMass()) + (2 * otherEnt.GetMass() * otherEnt.GetVelocity().x)) / (mass + otherEnt.GetMass());
-	float newVelZ1 = (velocity.z * (mass - otherEnt.GetMass()) + (2 * otherEnt.GetMass() * otherEnt.GetVelocity().z)) / (mass + otherEnt.GetMass());
+	Entity* ourEnt = GetEntity();
+	Entity* otherEnt = otherPB->GetEntity();
 
-	float newVelX2 = (otherEnt.GetVelocity().x * (otherEnt.GetMass() - mass) + (2 * mass * velocity.x)) / (mass + otherEnt.GetMass());
-	float newVelZ2 = (otherEnt.GetVelocity().z * (otherEnt.GetMass() - mass) + (2 * mass * velocity.z)) / (mass + otherEnt.GetMass());
+	XMFLOAT3 distanceVec;
+	XMStoreFloat3(&distanceVec, XMLoadFloat3(&ourEnt->GetTransform().GetPosition()) - XMLoadFloat3(&otherEnt->GetTransform().GetPosition()));
+	XMStoreFloat3(&distanceVec, XMVector3Normalize(XMLoadFloat3(&distanceVec)));
+
+	//OtherEnt needs to change to an entity, will do later
+	float newVelX1 = (velocity.x * (mass - otherPB->GetMass()) + (2 * otherPB->GetMass() * otherPB->GetVelocity().x)) / (mass + otherPB->GetMass());
+	float newVelZ1 = (velocity.z * (mass - otherPB->GetMass()) + (2 * otherPB->GetMass() * otherPB->GetVelocity().z)) / (mass + otherPB->GetMass());
+
+	float newVelX2 = (otherPB->GetVelocity().x * (otherPB->GetMass() - mass) + (2 * mass * velocity.x)) / (mass + otherPB->GetMass());
+	float newVelZ2 = (otherPB->GetVelocity().z * (otherPB->GetMass() - mass) + (2 * mass * velocity.z)) / (mass + otherPB->GetMass());
+
+	SetVelocity(XMFLOAT4(newVelX1, 0.0f, newVelZ1, 0.0f));
+	//XMFLOAT3 currentPosition = GetEntity()->GetTransform().GetPosition();
+	//GetEntity()->GetTransform().SetPosition(XMFLOAT3(currentPosition.x + newVelX1, currentPosition.y + 0.0f, currentPosition.z + newVelZ1));
+	
+	otherPB->SetVelocity(XMFLOAT4(newVelX2 * distanceVec.x, 0.0f, newVelZ2 * distanceVec.z, 0.0f));
+	//XMFLOAT3 otherPosition = otherEnt->GetEntity()->GetTransform().GetPosition();
+	//otherEnt->GetEntity()->GetTransform().SetPosition(XMFLOAT3(otherPosition.x + newVelX2, otherPosition.y + 0.0f, otherPosition.z + newVelZ2));
 }
 
 void PhysicsBody::AddForce(const XMFLOAT4& force)

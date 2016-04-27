@@ -12,8 +12,9 @@ public:
 	Bullet(EntitySystem* entsys, int entIndex);
 	~Bullet();
 
-	bool GetIsActive();
-	Entity* GetEntity();
+	bool GetIsActive() { return isActive; }
+	void SetIsActive(bool activity) { isActive = activity; }
+	Entity* GetEntity() { return bulletEntity; }
 
 	void Fire(Transform playerTransform);
 	void UpdatePhysics(float deltaTime);

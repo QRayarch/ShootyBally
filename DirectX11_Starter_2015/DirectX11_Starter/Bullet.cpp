@@ -17,16 +17,6 @@ Bullet::~Bullet()
 {
 }
 
-bool Bullet::GetIsActive()
-{
-	return isActive;
-}
-
-Entity* Bullet::GetEntity()
-{
-	return bulletEntity;
-}
-
 void Bullet::UpdatePhysics(float deltaTime)
 {
 	bulletEntity->GetComponent<PhysicsBody>()->PhysicsUpdate(deltaTime);
