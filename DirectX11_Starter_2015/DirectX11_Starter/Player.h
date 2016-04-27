@@ -26,8 +26,8 @@ public:
 	//CollisionCircle* GetCircleCollider() { return playerEntity->GetComponent<CollisionCircle>(); }
 	//CollisionBox* GetBoxCollider() { return playerEntity->GetComponent<CollisionBox>(); }
 
-	short GetScore() { return score; };
-	void AddPoint() { ++score; };
+	short GetScore() { return score; }
+	void AddPoint() { ++score; }
 	void ResetPlayer();
 
 private:

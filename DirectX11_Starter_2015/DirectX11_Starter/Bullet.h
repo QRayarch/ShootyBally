@@ -13,7 +13,7 @@ public:
 	~Bullet();
 
 	bool GetIsActive() { return isActive; }
-	void SetIsActive(bool activity) { isActive = activity; }
+	void SetIsActive(bool activity);
 	Entity* GetEntity() { return bulletEntity; }
 
 	void Fire(Transform playerTransform);

@@ -446,7 +446,7 @@ void MyDemoGame::CreateGeometry()
 	entity1->AddComponent(new DrawnMesh(render, mesh1, material3));
 	entity1->AddComponent(new PhysicsBody(&transform1, 2.0f));
 	entity1->AddComponent(new CollisionCircle(mesh1->GetVertices(), mesh1->GetNumberOfVertices()));
-	entity1->GetComponent<PhysicsBody>()->SetVelocity(XMFLOAT4(-0.2f, 0.0f, 0.0f, 0.0f));
+	entity1->GetComponent<PhysicsBody>()->SetVelocity(XMFLOAT4(-0.2f, 0.0f, 0.01f, 0.0f));
 	transform1.SetPosition(XMFLOAT3(0.0f, -7.5f, 0.0f));
 
 	float halfSize = 10 * 0.5f;
@@ -492,7 +492,7 @@ void MyDemoGame::CreateGeometry()
 		entSys->AddComponentToEntity(i, new DrawnMesh(render, mesh4, material1));
 		entSys->AddComponentToEntity(i, new PhysicsBody(&tempTransform, 1.0f));
 		entSys->AddComponentToEntity(i, new CollisionCircle(mesh4->GetVertices(), mesh4->GetNumberOfVertices()));
-		//tempTransform.SetPosition(XMFLOAT3(i + 5.75f, -5.5f, 0.0f));
+		//tempTransform.SetPosition(XMFLOAT3(0.0f, 5.0f, 0.0f));
 		tempTransform.SetScale(XMFLOAT3(0.08f, 0.08f, 0.08f));
 
 		int poolIndex = i - numEnts;
@@ -606,8 +606,10 @@ void MyDemoGame::UpdateScene(float deltaTime, float totalTime)
 			if (bulletPool[i].GetEntity()->GetComponent<CollisionCircle>()->IsColliding(ballCollider))
 			{
 				bulletPool[i].GetEntity()->GetComponent<PhysicsBody>()->ResolveCollisions(ballPhysicsBody);
+				bulletPool[i].SetIsActive(false);
 			}
-			bulletPool[i].UpdatePhysics(deltaTime);
+			else
+				bulletPool[i].UpdatePhysics(deltaTime);
 		}
 	}
 	ballPhysicsBody->PhysicsUpdate(deltaTime);

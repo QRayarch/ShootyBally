@@ -17,6 +17,15 @@ Bullet::~Bullet()
 {
 }
 
+void Bullet::SetIsActive(bool activity)
+{
+	isActive = activity;
+	if (!activity)
+	{
+		GetEntity()->GetTransform().SetPosition(XMFLOAT3(0.0f, 5.0f, 0.0f));
+	}
+}
+
 void Bullet::UpdatePhysics(float deltaTime)
 {
 	bulletEntity->GetComponent<PhysicsBody>()->PhysicsUpdate(deltaTime);
@@ -31,7 +40,6 @@ void Bullet::Fire(Transform playerTransform)
 	isActive = true;
 	lifespanLeft = lifespan;
 
-	//Transform bulletTransform = bulletEntity->GetTransform();
 	bulletEntity->GetTransform().SetPosition(playerTransform.GetPosition());
 	bulletEntity->GetTransform().SetRotation(playerTransform.GetRotation());
 	
