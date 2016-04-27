@@ -10,7 +10,7 @@ Bullet::Bullet(EntitySystem* entsys, int entIndex)
 {
 	bulletEntity = entsys->GetEntity(entIndex);
 	lifespan = 6.0f;
-	velocity = 5.0f;
+	velocity = 7.0f;
 }
 
 Bullet::~Bullet()

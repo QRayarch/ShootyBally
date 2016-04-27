@@ -10,6 +10,7 @@ Camera::Camera(float xPos, float yPos, float zPos)
 {
 	transform.SetPosition(DirectX::XMFLOAT3(xPos, yPos, zPos));
 	RecalculateViewMatrix();
+	debugMode = false;
 }
 
 
@@ -20,31 +21,39 @@ Camera::~Camera()
 void Camera::Update(float dt, LONG x, LONG y)
 {
 
-	//Temp Camera Control in here
-	float moveSpeed = 3.4f;
-	float rotateSpeed = 1.9f;
-	float xAxisMovement = 0;
-	float zAxisMovement = 0;
-	DirectX::XMFLOAT3 newPos = transform.GetPosition();
-	DirectX::XMFLOAT3 newRot = transform.GetRotation();
-	if (GetAsyncKeyState('W') & 0x8000) { zAxisMovement += moveSpeed * dt; }
-	if (GetAsyncKeyState('S') & 0x8000) { zAxisMovement -= moveSpeed * dt; }
-	if (GetAsyncKeyState('A') & 0x8000) { xAxisMovement -= moveSpeed * dt; }
-	if (GetAsyncKeyState('D') & 0x8000) { xAxisMovement += moveSpeed * dt; }
-	if (GetAsyncKeyState(VK_SPACE) & 0x8000) { newPos.y += moveSpeed * dt; }
-	if (GetAsyncKeyState('X') & 0x8000) { newPos.y -= moveSpeed * dt; }
-	transform.SetPosition(newPos);
-	transform.MoveRelative(xAxisMovement, 0.0f, zAxisMovement);
-	newRot.x += y * rotateSpeed * dt;
-	newRot.y += x * rotateSpeed * dt;
-	if (newRot.x <= -1) {
-		newRot.x = -1;
+	if (debugMode) {
+		if (GetAsyncKeyState('Q') & 0x8000) { debugMode = false; }
+		//Temp Camera Control in here
+		float moveSpeed = 3.4f;
+		float rotateSpeed = 1.9f;
+		float xAxisMovement = 0;
+		float zAxisMovement = 0;
+		DirectX::XMFLOAT3 newPos = transform.GetPosition();
+		DirectX::XMFLOAT3 newRot = transform.GetRotation();
+		if (GetAsyncKeyState('W') & 0x8000) { zAxisMovement += moveSpeed * dt; }
+		if (GetAsyncKeyState('S') & 0x8000) { zAxisMovement -= moveSpeed * dt; }
+		if (GetAsyncKeyState('A') & 0x8000) { xAxisMovement -= moveSpeed * dt; }
+		if (GetAsyncKeyState('D') & 0x8000) { xAxisMovement += moveSpeed * dt; }
+		if (GetAsyncKeyState(VK_SPACE) & 0x8000) { newPos.y += moveSpeed * dt; }
+		if (GetAsyncKeyState('X') & 0x8000) { newPos.y -= moveSpeed * dt; }
+		transform.SetPosition(newPos);
+		transform.MoveRelative(xAxisMovement, 0.0f, zAxisMovement);
+		newRot.x += y * rotateSpeed * dt;
+		newRot.y += x * rotateSpeed * dt;
+		if (newRot.x <= -1) {
+			newRot.x = -1;
+		}
+		else if (newRot.x >= 1) {
+			newRot.x = 1;
+		}
+		transform.SetRotation(newRot);
 	}
-	else if (newRot.x >= 1) {
-		newRot.x = 1;
-	}
-	transform.SetRotation(newRot);
 
+	else {
+		if (GetAsyncKeyState('Q') & 0x8000) { debugMode = true; }
+		transform.SetPosition(XMFLOAT3(0.0f, 6.0f, -3.5f));
+		transform.SetRotation(XMFLOAT3(-4.5f, 3.14f, 0.0f));
+	}
 	//We changed position or rotaion, we need to update the view matrix
 	/*if (transform.GetIsDirty()) {
 		RecalculateViewMatrix();
