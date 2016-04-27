@@ -24,5 +24,6 @@ private:
 	Transform transform;
 	DirectX::XMFLOAT4X4 viewMatrix;
 	DirectX::XMFLOAT4X4 projectionMatrix;
+	bool debugMode;
 };
 
