@@ -465,19 +465,21 @@ void MyDemoGame::CreateGeometry()
 	Mesh* mesh3 = res->GetMeshAndLoadIfNotFound("sbgPaddle");
 
 	Entity* entity3 = entSys->AddEntity();
-	//entity3->AddComponent(new CollisionCircle(mesh3->GetVertices(), mesh3->GetNumberOfVertices()));
-	//entity3->AddComponent(new CollisionBox(mesh3->GetVertices(), mesh3->GetNumberOfVertices()));
+	entity3->AddComponent(new CollisionCircle(mesh3->GetVertices(), mesh3->GetNumberOfVertices()));
+	entity3->AddComponent(new CollisionBox(mesh3->GetVertices(), mesh3->GetNumberOfVertices()));
 	entity3->AddComponent(new DrawnMesh(render, mesh3, material4));
 	Transform& transform3 = entity3->GetTransform();
+	entity3->AddComponent(new PhysicsBody(&transform3, 10.0f));
 	transform3.SetPosition(XMFLOAT3(-5.75f, -7.5f, 0.0f));
 	transform3.SetRotation(XMFLOAT3(0.0f, XM_PI / 2, 0));
 	transform3.SetScale(XMFLOAT3(0.8f, 0.8f, 0.8f));
 
 	Entity* entity4 = entSys->AddEntity();
-	//entity4->AddComponent(new CollisionCircle(mesh3->GetVertices(), mesh3->GetNumberOfVertices()));
-	//entity4->AddComponent(new CollisionBox(mesh3->GetVertices(), mesh3->GetNumberOfVertices()));
+	entity4->AddComponent(new CollisionCircle(mesh3->GetVertices(), mesh3->GetNumberOfVertices()));
+	entity4->AddComponent(new CollisionBox(mesh3->GetVertices(), mesh3->GetNumberOfVertices()));
 	entity4->AddComponent(new DrawnMesh(render, mesh3, material4));
 	Transform& transform4 = entity4->GetTransform();
+	entity4->AddComponent(new PhysicsBody(&transform4, 10.0f));
 	transform4.SetPosition(XMFLOAT3(5.75f, -7.5f, 0.0f));
 	transform4.SetRotation(XMFLOAT3(0.0f, -XM_PI / 2, 0.0f));
 	transform4.SetScale(XMFLOAT3(0.8f, 0.8f, 0.8f));
@@ -492,7 +494,7 @@ void MyDemoGame::CreateGeometry()
 		entSys->AddComponentToEntity(i, new DrawnMesh(render, mesh4, material1));
 		entSys->AddComponentToEntity(i, new PhysicsBody(&tempTransform, 1.0f));
 		entSys->AddComponentToEntity(i, new CollisionCircle(mesh4->GetVertices(), mesh4->GetNumberOfVertices()));
-		//tempTransform.SetPosition(XMFLOAT3(0.0f, 5.0f, 0.0f));
+		tempTransform.SetPosition(XMFLOAT3(0.0f, 5.0f, 0.0f));
 		tempTransform.SetScale(XMFLOAT3(0.08f, 0.08f, 0.08f));
 
 		int poolIndex = i - numEnts;
@@ -594,9 +596,33 @@ void MyDemoGame::UpdateScene(float deltaTime, float totalTime)
 	if (GetAsyncKeyState(VK_ESCAPE))
 		Quit();
 
-	//Ball's Collider
+	//Ball's Collider & PhysicsBody
 	CollisionCircle* ballCollider = entSys->GetEntity(0)->GetComponent<CollisionCircle>();
 	PhysicsBody* ballPhysicsBody = entSys->GetEntity(0)->GetComponent<PhysicsBody>();
+
+	//Paddle Collisions
+	if (ballCollider->IsColliding(player1.GetCircleCollider()))
+	{
+		if (player1.GetBoxCollider()->IsColliding(ballCollider))
+		{
+			player1.GetPlayerPB()->ResolveCollisions(ballPhysicsBody);
+		}
+		else
+		{
+
+		}
+	}
+	if (ballCollider->IsColliding(player2.GetCircleCollider()))
+	{
+		if (player2.GetBoxCollider()->IsColliding(ballCollider))
+		{
+			player2.GetPlayerPB()->ResolveCollisions(ballPhysicsBody);
+		}
+		else
+		{
+
+		}
+	}
 
 	//Bullet Physics & Collision Loop
 	for (int i = 0; i < poolSize; i++)
@@ -613,8 +639,6 @@ void MyDemoGame::UpdateScene(float deltaTime, float totalTime)
 		}
 	}
 	ballPhysicsBody->PhysicsUpdate(deltaTime);
-
-	//Paddle Collisions
 
 	
 	//Player Input

@@ -44,7 +44,7 @@ void CollisionBox::UpdateCollisionBox()
 	scale = GetEntity()->GetTransform().GetScale().x;
 }
 
-bool CollisionBox::CheckCollisions(CollisionCircle* collider)
+bool CollisionBox::IsColliding(CollisionCircle* collider)
 {
 	//Check if within inner radius
 	XMFLOAT3 distanceVec;

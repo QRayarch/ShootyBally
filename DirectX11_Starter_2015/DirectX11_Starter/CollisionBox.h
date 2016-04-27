@@ -15,7 +15,7 @@ public:
 	~CollisionBox();
 
 	void UpdateCollisionBox();
-	bool CheckCollisions(CollisionCircle* collider);
+	bool IsColliding(CollisionCircle* collider);
 
 	XMFLOAT4X4 GetModelMatrix() { return modelMatrix; }
 
