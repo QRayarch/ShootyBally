@@ -35,10 +35,9 @@ CollisionBox::CollisionBox(Vertex* meshVertices, int numVerts)
 CollisionBox::~CollisionBox()
 {
 	Component::Update();
-	UpdateCollisionBox();
 }
 
-void CollisionBox::UpdateCollisionBox()
+void CollisionBox::Update()
 {
 	modelMatrix = GetEntity()->GetTransform().GetWorldMatrix();
 	scale = GetEntity()->GetTransform().GetScale().x;
@@ -46,15 +45,17 @@ void CollisionBox::UpdateCollisionBox()
 
 bool CollisionBox::IsColliding(CollisionCircle* collider)
 {
+	XMMATRIX modelMatrixL = XMLoadFloat4x4(&modelMatrix);
+	XMVECTOR centroidG = XMVector3Transform(XMLoadFloat3(&centroid), modelMatrixL);
 	//Check if within inner radius
 	XMFLOAT3 distanceVec;
-	XMStoreFloat3(&distanceVec, XMLoadFloat3(&centroid) - XMLoadFloat3(&collider->GetCenter()));
+	XMStoreFloat3(&distanceVec, centroidG - XMLoadFloat3(&collider->GetCenter()));
 	float distance = sqrt((distanceVec.x * distanceVec.x) + (distanceVec.z * distanceVec.z));
 	if (distance < innerRadius * scale + collider->GetRadius())
 		return true;
 
 	XMFLOAT3 centerToCenterVector;
-	XMStoreFloat3(&centerToCenterVector, XMLoadFloat3(&collider->GetCenter()) - XMLoadFloat3(&centroid));
+	XMStoreFloat3(&centerToCenterVector, XMLoadFloat3(&collider->GetCenter()) - centroidG);
 	centerToCenterVector.y = 0;
 	XMStoreFloat3(&centerToCenterVector, XMVector3Normalize(XMLoadFloat3(&centerToCenterVector)));
 
@@ -64,7 +65,6 @@ bool CollisionBox::IsColliding(CollisionCircle* collider)
 	//SAT Check
 	//Calculate Normals
 	XMFLOAT3 normals[2];
-	XMMATRIX modelMatrixL = XMLoadFloat4x4(&modelMatrix);
 	XMStoreFloat3(&normals[0], XMVector3Normalize(XMVector4Transform(XMLoadFloat4(&XMFLOAT4(1, 0, 0, 1)), modelMatrixL) - XMVector4Transform(XMLoadFloat4(&XMFLOAT4(0, 0, 0, 1)), modelMatrixL)));
 	XMStoreFloat3(&normals[1], XMVector3Normalize(XMVector4Transform(XMLoadFloat4(&XMFLOAT4(0, 0, 1, 1)), modelMatrixL) - XMVector4Transform(XMLoadFloat4(&XMFLOAT4(0, 0, 0, 1)), modelMatrixL)));
 
@@ -113,4 +113,32 @@ bool CollisionBox::IsColliding(CollisionCircle* collider)
 		return false;
 	//If both fail, should be colliding
 	return true;
+
+
+
+	//////not sure if this will work....
+	//XMMATRIX modelMatrixL = XMLoadFloat4x4(&modelMatrix);
+	//XMFLOAT3 boxToCircle;
+	//XMFLOAT3 boxCenter;
+	//XMStoreFloat3(&boxCenter, XMVector3Transform(XMLoadFloat3(&centroid), modelMatrixL));
+	//XMStoreFloat3(&boxToCircle, XMLoadFloat3(&boxCenter) - XMLoadFloat3(&collider->GetCenter()));
+	//XMFLOAT3 closestCorner;
+
+	//float max = std::numeric_limits<float>::min();
+	//var box2circle : Vector2d = new Vector2d(c.x - center_box.x, c.y - center_box.y)
+	//	var box2circle_normalised : Vector2d = box2circle.unitVector
+
+	//	//get the maximum
+	//	for (var i : int = 1; i < 5; i++)
+	//	{
+	//		current_box_corner = box1.getDot(i)
+	//			v = new Vector2d(
+	//				current_box_corner.x - center_box.x,
+	//				current_box_corner.y - center_box.y);
+	//		var current_proj : Number = v.dotProduct(box2circle_normalised)
+
+	//			if (max < current_proj) max = current_proj;
+	//	}
+	//if (box2circle.magnitude - max - c.radius > 0 && box2circle.magnitude > 0) t.text = "No Collision"
+	//else t.text = "Collision"
 }
