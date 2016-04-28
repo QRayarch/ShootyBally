@@ -6,6 +6,8 @@ ID3D11DeviceContext* DebugDraw::deviceContext = nullptr;
 Camera* DebugDraw::camera = nullptr;
 SimpleVertexShader* DebugDraw::vertexShader = nullptr;
 SimplePixelShader* DebugDraw::pixelShader = nullptr;
+int DebugDraw::numVerts = 0;
+DebugVertex DebugDraw::vertices[MAX_NUMBER_OF_DEBUG_VERTS];
 
 DebugDraw::DebugDraw()
 {
@@ -19,6 +21,7 @@ DebugDraw::~DebugDraw()
 
 void DebugDraw::SetUp(ID3D11Device * newDevice, ID3D11DeviceContext * newDeviceContext, Camera* newCamera)
 {
+	
 	device = newDevice;
 	deviceContext = newDeviceContext;
 	camera = newCamera;
@@ -41,47 +44,19 @@ void DebugDraw::Release()
 	}
 }
 
-void DebugDraw::DrawLine(DirectX::XMFLOAT3 startPos, DirectX::XMFLOAT3 endPos, DirectX::XMFLOAT4 color)
+void DebugDraw::AddLine(DirectX::XMFLOAT3 startPos, DirectX::XMFLOAT3 endPos, DirectX::XMFLOAT4 color)
 {
-	//This code will really get cleaned up
+	if (numVerts + 2 < MAX_NUMBER_OF_DEBUG_VERTS) {
+		vertices[numVerts].Position = startPos;
+		vertices[numVerts].Color = color;
 
-	//TODO: switch to a dynamic buffer, that doesn't get recreated every frame
-	DebugVertex vertices[] = { {startPos, color}, {endPos, color} };
-
-	D3D11_BUFFER_DESC vbd;
-	vbd.Usage = D3D11_USAGE_DYNAMIC;
-	vbd.ByteWidth = sizeof(DebugVertex) * 2;
-	vbd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	vbd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-	vbd.MiscFlags = 0;
-	vbd.StructureByteStride = 0;
-
-	D3D11_SUBRESOURCE_DATA initialVertexData;
-	initialVertexData.pSysMem = vertices;
-	ID3D11Buffer* vertexBuffer;
-	device->CreateBuffer(&vbd, &initialVertexData, &vertexBuffer);
-
-	UINT stride = sizeof(DebugVertex);
-	UINT offset = 0;
-	deviceContext->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
-
-	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
-	vertexShader->SetMatrix4x4(0, DirectX::XMFLOAT4X4(	1, 0, 0, 0, 
-														0, 1, 0, 0, 
-														0, 0, 1, 0, 
-														0, 0, 0, 1));
-	vertexShader->SetMatrix4x4(1, camera->GetViewMatrix());
-	vertexShader->SetMatrix4x4(2, camera->GetProjectionMatrix());
-	vertexShader->SetShader(true);
-	pixelShader->SetShader(true);
-	deviceContext->Draw(2, 0);
-
-
-	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	vertexBuffer->Release();
+		vertices[numVerts + 1].Position = endPos;
+		vertices[numVerts + 1].Color = color;
+		numVerts += 2;
+	}
 }
 
-void DebugDraw::DrawBox(DirectX::XMFLOAT3 position, DirectX::XMFLOAT3 size, DirectX::XMFLOAT4 color)
+void DebugDraw::AddBox(DirectX::XMFLOAT3 position, DirectX::XMFLOAT3 size, DirectX::XMFLOAT4 color)
 {
 	//Get the half size for simplified calculations
 	DirectX::XMVECTOR halfSize = DirectX::XMVectorMultiply(DirectX::XMLoadFloat3(&size), DirectX::XMVectorSet(0.5f, 0.5f, 0.5f, 0.5f));
@@ -112,18 +87,60 @@ void DebugDraw::DrawBox(DirectX::XMFLOAT3 position, DirectX::XMFLOAT3 size, Dire
 	DirectX::XMStoreFloat3(&corner7, vecPos + xAxis - yAxis - zAxis);
 	DirectX::XMStoreFloat3(&corner8, vecPos - xAxis - yAxis - zAxis);
 
-	DrawLine(corner1, corner2, color);
-	DrawLine(corner3, corner4, color);
-	DrawLine(corner5, corner6, color);
-	DrawLine(corner7, corner8, color);
+	AddLine(corner1, corner2, color);
+	AddLine(corner3, corner4, color);
+	AddLine(corner5, corner6, color);
+	AddLine(corner7, corner8, color);
 
-	DrawLine(corner1, corner3, color);
-	DrawLine(corner2, corner4, color);
-	DrawLine(corner5, corner7, color);
-	DrawLine(corner6, corner8, color);
+	AddLine(corner1, corner3, color);
+	AddLine(corner2, corner4, color);
+	AddLine(corner5, corner7, color);
+	AddLine(corner6, corner8, color);
 
-	DrawLine(corner1, corner5, color);
-	DrawLine(corner2, corner6, color);
-	DrawLine(corner3, corner7, color);
-	DrawLine(corner4, corner8, color);
+	AddLine(corner1, corner5, color);
+	AddLine(corner2, corner6, color);
+	AddLine(corner3, corner7, color);
+	AddLine(corner4, corner8, color);
+}
+
+void DebugDraw::DrawAll(bool changesTyplogyBack)
+{
+	if (numVerts > 0) {
+		//Ge the old typology so we can set it back.
+		D3D11_PRIMITIVE_TOPOLOGY oldTypology;
+		deviceContext->IAGetPrimitiveTopology(&oldTypology);
+
+		D3D11_BUFFER_DESC vbd;
+		vbd.Usage = D3D11_USAGE_DYNAMIC;
+		vbd.ByteWidth = sizeof(DebugVertex) * numVerts;
+		vbd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+		vbd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+		vbd.MiscFlags = 0;
+		vbd.StructureByteStride = 0;
+
+		D3D11_SUBRESOURCE_DATA initialVertexData;
+		initialVertexData.pSysMem = vertices;
+		ID3D11Buffer* vertexBuffer;
+		device->CreateBuffer(&vbd, &initialVertexData, &vertexBuffer);
+
+		UINT stride = sizeof(DebugVertex);
+		UINT offset = 0;
+		deviceContext->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
+
+		deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
+		vertexShader->SetMatrix4x4(0, DirectX::XMFLOAT4X4(1, 0, 0, 0,
+			0, 1, 0, 0,
+			0, 0, 1, 0,
+			0, 0, 0, 1));
+		vertexShader->SetMatrix4x4(1, camera->GetViewMatrix());
+		vertexShader->SetMatrix4x4(2, camera->GetProjectionMatrix());
+		vertexShader->SetShader(true);
+		pixelShader->SetShader(true);
+		deviceContext->Draw(numVerts, 0);
+		if (changesTyplogyBack) {
+			deviceContext->IASetPrimitiveTopology(oldTypology);
+		}
+		vertexBuffer->Release();
+		numVerts = 0;
+	}
 }

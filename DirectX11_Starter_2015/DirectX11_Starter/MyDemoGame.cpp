@@ -596,6 +596,13 @@ void MyDemoGame::UpdateScene(float deltaTime, float totalTime)
 	if (GetAsyncKeyState(VK_ESCAPE))
 		Quit();
 
+
+	DebugDraw::AddLine(XMFLOAT3(0, 0, 0), XMFLOAT3(1, 0, 0), XMFLOAT4(1, 0, 0, 1));
+	DebugDraw::AddLine(XMFLOAT3(0, 0, 0), XMFLOAT3(0, 1, 0), XMFLOAT4(0, 1, 0, 1));
+	DebugDraw::AddLine(XMFLOAT3(0, 0, 0), XMFLOAT3(0, 0, 1), XMFLOAT4(0, 0, 1, 1));
+
+	DebugDraw::AddBox(XMFLOAT3(0, 0, 0), XMFLOAT3(1, 1, 1), XMFLOAT4(1, 1, 1, 1));
+
 	//Ball's Collider & PhysicsBody
 	CollisionCircle* ballCollider = entSys->GetEntity(0)->GetComponent<CollisionCircle>();
 	PhysicsBody* ballPhysicsBody = entSys->GetEntity(0)->GetComponent<PhysicsBody>();
@@ -654,6 +661,8 @@ void MyDemoGame::UpdateScene(float deltaTime, float totalTime)
 	prevMousePos.x = curMousePos.x;
 	prevMousePos.y = curMousePos.y;
 
+
+
 }
 
 // --------------------------------------------------------
@@ -677,12 +686,9 @@ void MyDemoGame::DrawScene(float deltaTime, float totalTime)
 		1.0f,
 		0);
 
-	DebugDraw::DrawLine(XMFLOAT3(0, 0, 0), XMFLOAT3(1, 0, 0), XMFLOAT4(1, 0, 0, 1));
-	DebugDraw::DrawLine(XMFLOAT3(0, 0, 0), XMFLOAT3(0, 1, 0), XMFLOAT4(0, 1, 0, 1));
-	DebugDraw::DrawLine(XMFLOAT3(0, 0, 0), XMFLOAT3(0, 0, 1), XMFLOAT4(0, 0, 1, 1));
-
-	DebugDraw::DrawBox(XMFLOAT3(0, 0, 0), XMFLOAT3(1, 1, 1), XMFLOAT4(1, 1, 1, 1));
-
+	
+	DebugDraw::DrawAll(false);
+	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	render->UpdateAndRender(camera);
 
 	//TODO: handle skybox better
