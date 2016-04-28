@@ -338,6 +338,17 @@ ID3D11ShaderResourceView* Resources::LoadTexture(std::string textureName, std::s
 	return newTextureResource.srv;
 }
 
+ID3D11ShaderResourceView * Resources::LoadTextureFindFormat(std::string textureName)
+{
+	//tries to load PNGs, then JPGS
+	ID3D11ShaderResourceView* possibleTexture = LoadTexture(textureName, Resources::FILE_FORMAT_PNG);
+	if (possibleTexture != nullptr) return possibleTexture;
+	possibleTexture = LoadTexture(textureName, Resources::FILE_FORMAT_JPG);
+	if (possibleTexture != nullptr) return possibleTexture;
+
+	return nullptr;
+}
+
 int Resources::FindTextureIndex(std::string textureName)
 {
 	for (unsigned int t = 0; t < numberOfTextures; t++) {
@@ -379,13 +390,13 @@ Material* Resources::CreateMaterial(SimpleVertexShader * vert, SimplePixelShader
 	//This might be changed out in the future, for a scanning system that tries to load the best file format works and then tries to load fallbacks
 	ID3D11ShaderResourceView* textures[Material::MAX_NUM_TEXTURES];
 	unsigned int numberOfTextures = 1;
-	textures[0] = LoadTexture(textrure1Name, Resources::FILE_FORMAT_JPG);
+	textures[0] = LoadTextureFindFormat(textrure1Name);
 	if (textrure2Name != "") {
-		textures[1] = LoadTexture(textrure2Name, Resources::FILE_FORMAT_JPG);
+		textures[1] = LoadTextureFindFormat(textrure2Name);
 		numberOfTextures += 1;
 	}
 	if (textrure3Name != "") {
-		textures[2] = LoadTexture(textrure3Name, Resources::FILE_FORMAT_JPG);
+		textures[2] = LoadTextureFindFormat(textrure3Name);
 		numberOfTextures += 1;
 	}
 	if (textures[0] == nullptr) {

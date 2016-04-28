@@ -1,5 +1,5 @@
 #include "CollisionBox.h"
-
+#include "DebugDraw.h"
 
 
 CollisionBox::CollisionBox(Vertex* meshVertices, int numVerts)
@@ -34,13 +34,15 @@ CollisionBox::CollisionBox(Vertex* meshVertices, int numVerts)
 
 CollisionBox::~CollisionBox()
 {
-	Component::Update();
+	
 }
 
 void CollisionBox::Update()
 {
+	Component::Update();
 	modelMatrix = GetEntity()->GetTransform().GetWorldMatrix();
 	scale = GetEntity()->GetTransform().GetScale().x;
+	DebugDraw::AddBox(GetEntity()->GetTransform().GetPosition(), GetEntity()->GetTransform().GetScale(), DirectX::XMFLOAT4(1, 1, 1, 1));
 }
 
 bool CollisionBox::IsColliding(CollisionCircle* collider)

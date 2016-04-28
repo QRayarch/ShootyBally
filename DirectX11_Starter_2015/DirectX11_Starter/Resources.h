@@ -46,6 +46,7 @@ public:
 	ID3D11ShaderResourceView* GetTextureIfLoaded(const char* textureName);
 	bool IsTextureLoaded(const char* textureName);
 	ID3D11ShaderResourceView* LoadTexture(std::string textureName, std::string format);
+	ID3D11ShaderResourceView* LoadTextureFindFormat(std::string textureName);
 	int FindTextureIndex(std::string textureName);
 
 	//Material Stuff

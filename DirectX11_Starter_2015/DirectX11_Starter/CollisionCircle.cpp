@@ -29,6 +29,7 @@ void CollisionCircle::UpdateCollisionCircle()
 {
 	scale = GetEntity()->GetTransform().GetScale().x;
 	center = GetEntity()->GetTransform().GetPosition();
+	DebugDraw::AddSphere(center, GetRadius(), DirectX::XMFLOAT4(1, 1, 1, 1));
 }
 
 bool CollisionCircle::IsColliding(CollisionCircle* collider)

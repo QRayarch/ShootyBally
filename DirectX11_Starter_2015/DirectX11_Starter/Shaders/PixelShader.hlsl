@@ -121,7 +121,7 @@ float4 main(VertexToPixel input) : SV_TARGET
 	float3 dirToCamera = normalize(cameraPosition - input.worldPos);
 
 	float4 baseColor = diffuseTexture.Sample(samplerState, input.uv);
-	baseColor = baseColor + CalculateRimLighting(dirToCamera, input);
+	//baseColor = baseColor + CalculateRimLighting(dirToCamera, input);
 	//return CalculateRimLighting(dirToCamera, input);
 
 	float3 refl = reflect(-dirToCamera, input.normal);

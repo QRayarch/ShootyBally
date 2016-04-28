@@ -437,7 +437,7 @@ void MyDemoGame::CreateGeometry()
 	Material* material1 = res->CreateMaterial(vertexShader, pixelShader, samplerState, "BrickOldMixedSize", "Normal_BrickOldMixedSize");
 	Material* material2 = res->CreateMaterial(vertexShader, pixelShader, samplerState, "RockSmooth", "Normal_RockSmooth");
 	Material* material3 = res->CreateMaterial(vertexShader, pixelShaderNoNormals, samplerState, "Ball");
-	Material* material4 = res->CreateMaterial(vertexShader, pixelShader, samplerState, "BrickOldMixedSize", "Normal_Paddle");
+	Material* material4 = res->CreateMaterial(vertexShader, pixelShader, samplerState, "Normal_Paddle", "Normal_Paddle");
 
 	//Ball
 	Mesh* mesh1 = res->GetMeshAndLoadIfNotFound("Ball");
@@ -601,7 +601,8 @@ void MyDemoGame::UpdateScene(float deltaTime, float totalTime)
 	DebugDraw::AddLine(XMFLOAT3(0, 0, 0), XMFLOAT3(0, 1, 0), XMFLOAT4(0, 1, 0, 1));
 	DebugDraw::AddLine(XMFLOAT3(0, 0, 0), XMFLOAT3(0, 0, 1), XMFLOAT4(0, 0, 1, 1));
 
-	DebugDraw::AddBox(XMFLOAT3(0, 0, 0), XMFLOAT3(1, 1, 1), XMFLOAT4(1, 1, 1, 1));
+	//DebugDraw::AddBox(XMFLOAT3(0, 0, 0), XMFLOAT3(1, 1, 1), XMFLOAT4(1, 1, 1, 1));
+	DebugDraw::AddSphere(XMFLOAT3(0, 0, 0), 1, XMFLOAT4(1, 1, 1, 1));
 
 	//Ball's Collider & PhysicsBody
 	CollisionCircle* ballCollider = entSys->GetEntity(0)->GetComponent<CollisionCircle>();

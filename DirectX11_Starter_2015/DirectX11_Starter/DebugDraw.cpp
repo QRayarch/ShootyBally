@@ -103,6 +103,34 @@ void DebugDraw::AddBox(DirectX::XMFLOAT3 position, DirectX::XMFLOAT3 size, Direc
 	AddLine(corner4, corner8, color);
 }
 
+void DebugDraw::AddSphere(DirectX::XMFLOAT3 position, float radius, DirectX::XMFLOAT4 color)
+{
+	float res = 24;
+	float anglePerRes = DirectX::XM_2PI / res;//DirectX::XM_2PI / res;
+	
+
+	for (int x = 0; x < res; ++x) {
+		float cosStart = 0;
+		float sinStart = 0;
+		DirectX::XMScalarSinCos(&sinStart, &cosStart, x * anglePerRes);
+		float cosEnd = 0;
+		float sinEnd = 0;
+		DirectX::XMScalarSinCos(&sinEnd, &cosEnd, (x+1) * anglePerRes);
+		cosStart *= radius;
+		sinStart *= radius;
+		cosEnd *= radius;
+		sinEnd *= radius;
+
+		//Didn't feel like dealing with the right way of doing the math
+		//X Axis
+		AddLine(DirectX::XMFLOAT3(position.x, cosStart + position.y, sinStart + position.z), DirectX::XMFLOAT3(position.x, cosEnd + position.y, sinEnd + position.z), color);
+		//Y axis
+		AddLine(DirectX::XMFLOAT3(cosStart + position.x, position.y, sinStart + position.z), DirectX::XMFLOAT3(cosEnd + position.x, position.y, sinEnd + position.z), color);
+		//Z Axis
+		AddLine(DirectX::XMFLOAT3(cosStart + position.x, sinStart + position.y, position.z), DirectX::XMFLOAT3(cosEnd + position.x, sinEnd + position.y, position.z), color);
+	}
+}
+
 void DebugDraw::DrawAll(bool changesTyplogyBack)
 {
 	if (numVerts > 0) {
