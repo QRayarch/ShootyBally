@@ -1,5 +1,6 @@
 #include "Camera.h"
 #include "Logger.h"
+#include "Input.h"
 
 Camera::Camera()
 {
@@ -20,9 +21,9 @@ Camera::~Camera()
 
 void Camera::Update(float dt, LONG x, LONG y)
 {
-
+	if (Input::IsKeyDownThisFrame('Q')) { debugMode = !debugMode; }
 	if (debugMode) {
-		if (GetAsyncKeyState('Q') & 0x8000) { debugMode = false; }
+
 		//Temp Camera Control in here
 		float moveSpeed = 3.4f;
 		float rotateSpeed = 1.9f;
@@ -30,12 +31,12 @@ void Camera::Update(float dt, LONG x, LONG y)
 		float zAxisMovement = 0;
 		DirectX::XMFLOAT3 newPos = transform.GetPosition();
 		DirectX::XMFLOAT3 newRot = transform.GetRotation();
-		if (GetAsyncKeyState('W') & 0x8000) { zAxisMovement += moveSpeed * dt; }
-		if (GetAsyncKeyState('S') & 0x8000) { zAxisMovement -= moveSpeed * dt; }
-		if (GetAsyncKeyState('A') & 0x8000) { xAxisMovement -= moveSpeed * dt; }
-		if (GetAsyncKeyState('D') & 0x8000) { xAxisMovement += moveSpeed * dt; }
-		if (GetAsyncKeyState(VK_SPACE) & 0x8000) { newPos.y += moveSpeed * dt; }
-		if (GetAsyncKeyState('X') & 0x8000) { newPos.y -= moveSpeed * dt; }
+		if (Input::IsKeyDown('W')) { zAxisMovement += moveSpeed * dt; }
+		if (Input::IsKeyDown('S')) { zAxisMovement -= moveSpeed * dt; }
+		if (Input::IsKeyDown('A')) { xAxisMovement -= moveSpeed * dt; }
+		if (Input::IsKeyDown('D')) { xAxisMovement += moveSpeed * dt; }
+		if (Input::IsKeyDown(VK_SPACE)) { newPos.y += moveSpeed * dt; }
+		if (Input::IsKeyDown('X')) { newPos.y -= moveSpeed * dt; }
 		transform.SetPosition(newPos);
 		transform.MoveRelative(xAxisMovement, 0.0f, zAxisMovement);
 		newRot.x += y * rotateSpeed * dt;
@@ -50,7 +51,6 @@ void Camera::Update(float dt, LONG x, LONG y)
 	}
 
 	else {
-		if (GetAsyncKeyState('Q') & 0x8000) { debugMode = true; }
 		transform.SetPosition(XMFLOAT3(0.0f, 6.0f, -3.5f));
 		transform.SetRotation(XMFLOAT3(-4.5f, 3.14f, 0.0f));
 	}

@@ -29,6 +29,7 @@
 #include <iostream>
 #include "Logger.h"
 #include "DebugDraw.h"
+#include "Input.h"
 
 // For the DirectX Math library
 using namespace DirectX;
@@ -595,7 +596,7 @@ void MyDemoGame::UpdateScene(float deltaTime, float totalTime)
 	// Quit if the escape key is pressed
 	if (GetAsyncKeyState(VK_ESCAPE))
 		Quit();
-
+	Input::Update();
 
 	DebugDraw::AddLine(XMFLOAT3(0, 0, 0), XMFLOAT3(1, 0, 0), XMFLOAT4(1, 0, 0, 1));
 	DebugDraw::AddLine(XMFLOAT3(0, 0, 0), XMFLOAT3(0, 1, 0), XMFLOAT4(0, 1, 0, 1));
@@ -656,14 +657,10 @@ void MyDemoGame::UpdateScene(float deltaTime, float totalTime)
 	entSys->Update();
 
 	//Temp camera and input stuff
-	LONG deltaMouseX = curMousePos.x - prevMousePos.x;
-	LONG deltaMouseY = curMousePos.y - prevMousePos.y;
-	camera.Update(deltaTime, deltaMouseX, deltaMouseY);
-	prevMousePos.x = curMousePos.x;
-	prevMousePos.y = curMousePos.y;
+	camera.Update(deltaTime, Input::GetMouseDeltaX(), Input::GetMouseDeltaY());
 
-
-
+	//THIS HAS TO GO LAST FOR THE FRAME
+	Input::EndFrameUpdate();
 }
 
 // --------------------------------------------------------
@@ -823,13 +820,7 @@ void MyDemoGame::SwapSOBuffers()
 // --------------------------------------------------------
 void MyDemoGame::OnMouseDown(WPARAM btnState, int x, int y)
 {
-	if (prevMousePos.x == 0 && prevMousePos.y == 0) {
-		prevMousePos.x = curMousePos.x;
-		prevMousePos.y = curMousePos.y;
-	}
-	// Save the previous mouse position, so we have it for the future
-	curMousePos.x = x;
-	curMousePos.y = y;
+	Input::SetMouseInfo(btnState, x, y);
 
 	// Caputure the mouse so we keep getting mouse move
 	// events even if the mouse leaves the window.  we'll be
@@ -844,6 +835,7 @@ void MyDemoGame::OnMouseDown(WPARAM btnState, int x, int y)
 // --------------------------------------------------------
 void MyDemoGame::OnMouseUp(WPARAM btnState, int x, int y)
 {
+	Input::SetMouseInfo(btnState, x, y);
 	// We don't care about the tracking the cursor outside
 	// the window anymore (we're not dragging if the mouse is up)
 	ReleaseCapture();
@@ -858,12 +850,6 @@ void MyDemoGame::OnMouseUp(WPARAM btnState, int x, int y)
 // --------------------------------------------------------
 void MyDemoGame::OnMouseMove(WPARAM btnState, int x, int y)
 {
-	if (prevMousePos.x == 0 && prevMousePos.y == 0) {
-		prevMousePos.x = curMousePos.x;
-		prevMousePos.y = curMousePos.y;
-	}
-	// Save the previous mouse position, so we have it for the future
-	curMousePos.x = x;
-	curMousePos.y = y;
+	Input::SetMouseInfo(btnState, x, y);
 }
 #pragma endregion

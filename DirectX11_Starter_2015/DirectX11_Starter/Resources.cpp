@@ -219,7 +219,7 @@ void Resources::LoadMesh(std::string meshName)
 	obj.close();
 
 	Vertex* tempVerts = new Vertex[verts.size()]();
-	for (int i = 0; i < verts.size(); i++)
+	for (unsigned int i = 0; i < verts.size(); i++)
 	{
 		tempVerts[i] = verts[i];
 	}

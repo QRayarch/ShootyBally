@@ -119,14 +119,6 @@ private:
 	float particleMaxLifetime;
 	DirectX::XMFLOAT3 particleConstantAccel;
 
-	// The matrices to go from model space to screen space
-	//DirectX::XMFLOAT4X4 worldMatrix;
-
-	// Keeps track of the old mouse position.  Useful for 
-	// determining how far the mouse moved in a single frame.
-	POINT prevMousePos;
-	POINT curMousePos;
-
 	Player player1;
 	Player player2;
 
