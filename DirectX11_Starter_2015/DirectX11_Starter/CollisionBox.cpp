@@ -44,14 +44,23 @@ void CollisionBox::Update()
 	XMFLOAT3 flo;
 	//XMStoreFloat3(&flo, XMVectorAdd(XMLoadFloat3(&centroid), XMLoadFloat3(&GetEntity()->GetTransform().GetPosition())));
 	//XMStoreFloat3(&flo, XMVector3Rotate(XMLoadFloat3(&flo), XMLoadFloat3(&GetEntity()->GetTransform().GetRotation())));
-	XMStoreFloat3(&flo, XMVectorAdd(XMVector3Transform(XMLoadFloat3(&centroid), XMLoadFloat4x4(&modelMatrix)), XMLoadFloat3(&GetEntity()->GetTransform().GetPosition())));
+	XMStoreFloat3(&flo, XMVector3Transform(XMLoadFloat3(&centroid), XMMatrixTranspose(XMLoadFloat4x4(&modelMatrix))));
 	//XMStoreFloat3(&flo, 
 	DebugDraw::AddBox(flo, DirectX::XMFLOAT3(halfWidth * 2, 1, halfLength * 2), DirectX::XMFLOAT4(1, 1, 1, 1));
+
+	XMMATRIX modelMatrixL = XMLoadFloat4x4(&modelMatrix);
+	modelMatrixL = XMMatrixTranspose(modelMatrixL);
+	XMVECTOR centroidG = XMVector3Transform(XMLoadFloat3(&centroid), modelMatrixL);
+	//centroidG = XMVectorAdd(centroidG, XMLoadFloat3(&GetEntity()->GetTransform().GetPosition()));
+	XMFLOAT3 blep;
+	XMStoreFloat3(&blep, centroidG);
+	DebugDraw::AddLine(XMFLOAT3(0, 0, 0), blep, XMFLOAT4(1, 1, 1, 1));
 }
 
 bool CollisionBox::IsColliding(CollisionCircle* collider)
 {
 	XMMATRIX modelMatrixL = XMLoadFloat4x4(&modelMatrix);
+	modelMatrixL = XMMatrixTranspose(modelMatrixL);
 	XMVECTOR centroidG = XMVector3Transform(XMLoadFloat3(&centroid), modelMatrixL);
 	//Check if within inner radius
 	XMFLOAT3 distanceVec;
