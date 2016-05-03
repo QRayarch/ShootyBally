@@ -13,7 +13,7 @@ struct VSInput
 struct VStoGS
 {
 	int type		: TEXCOORD0;
-	float3 position	: POSITION;
+	float4 position	: SV_POSITION;
 	float4 color	: COLOR;
 	float size		: TEXCOORD1;
 };
@@ -64,7 +64,7 @@ VStoGS main(VSInput input)
 
 	// Handle the position.
 	float t = input.age;
-	output.position = 0.5f * t * t * acceleration + t * input.startVel + input.startPos;
+	output.position = float4(0.5f * t * t * acceleration + t * input.startVel + input.startPos, 1.0f);
 
 	// Interpolate the color and size.
 	float agePercent = t / maxLifetime;
