@@ -11,5 +11,5 @@ struct VertexToPixel
 float4 main(VertexToPixel input) : SV_TARGET
 {
 	//float4(input.uv, 0, 1); //
-	return diffuseTexture.Sample(samplerState, input.uv);
+	return  diffuseTexture.Sample(samplerState, input.uv);
 }

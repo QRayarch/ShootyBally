@@ -471,7 +471,7 @@ void MyDemoGame::CreateGeometry()
 
 	//Generates a 9 patch
 	float halfSize = 1.0f;
-	float boarderSize = 0.2f;
+	float boarderSize = 0.016f;
 	XMFLOAT3 normal = XMFLOAT3(0, 0, 0);
 	XMFLOAT3 innerVertex = XMFLOAT3(1, 1, 1);
 	XMFLOAT3 tangent = XMFLOAT3(0, 0, 0);
@@ -505,12 +505,16 @@ void MyDemoGame::CreateGeometry()
 	Mesh* mesh2 = res->AddMesh("ground", vertices2, 16, indices2, 54);
 
 	Entity* entity2 = entSys->AddEntity();
+
 	ShaderInfoElement<float> aspectData;
-	aspectData.shaderIndex = 3;
+	aspectData.shaderIndex = 4;
 	aspectData.data = aspectRatio;
 	uiMat->GetVertexMaterialInfo()->AddFloat(aspectData);
 	entity2->AddComponent(new DrawnMesh(render, mesh2, uiMat));
 	entity2->GetTransform().SetScale(XMFLOAT3(0.25f, 0.25f, 0));
+	ShaderInfoElement<XMFLOAT3> scaleData;
+	scaleData.shaderIndex = 3;
+	scaleData.data = entity2->GetTransform().GetScale();
 	entity2->GetTransform().SetPosition(XMFLOAT3(-1 + 0.25f, 1 - 0.25f, 0));
 
 	//Players
