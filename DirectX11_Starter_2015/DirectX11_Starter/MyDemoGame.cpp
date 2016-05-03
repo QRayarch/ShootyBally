@@ -473,6 +473,7 @@ void MyDemoGame::CreateGeometry()
 	float halfSize = 1.0f;
 	float boarderSize = 0.2f;
 	XMFLOAT3 normal = XMFLOAT3(0, 0, 0);
+	XMFLOAT3 innerVertex = XMFLOAT3(1, 1, 1);
 	XMFLOAT3 tangent = XMFLOAT3(0, 0, 0);
 	Vertex* vertices2 = new Vertex[16];
 	//Top Row
@@ -483,14 +484,14 @@ void MyDemoGame::CreateGeometry()
 
 	//Top Lower Row
 	vertices2[4] = { XMFLOAT3(-halfSize, halfSize - boarderSize, 0), normal, XMFLOAT2(0, 1 - boarderSize), tangent };
-	vertices2[5] = { XMFLOAT3(-halfSize + boarderSize, halfSize - boarderSize, 0), normal, XMFLOAT2(boarderSize, 1 - boarderSize), tangent };
-	vertices2[6] = { XMFLOAT3(+halfSize - boarderSize, halfSize - boarderSize, 0), normal, XMFLOAT2(1 - boarderSize, 1 - boarderSize), tangent };
+	vertices2[5] = { XMFLOAT3(-halfSize + boarderSize, halfSize - boarderSize, 0), innerVertex, XMFLOAT2(boarderSize, 1 - boarderSize), tangent };
+	vertices2[6] = { XMFLOAT3(+halfSize - boarderSize, halfSize - boarderSize, 0), innerVertex, XMFLOAT2(1 - boarderSize, 1 - boarderSize), tangent };
 	vertices2[7] = { XMFLOAT3(halfSize, halfSize - boarderSize, 0), normal, XMFLOAT2(1, 1 - boarderSize), tangent };
 
 	//Bottom Upper Row
 	vertices2[8] = { XMFLOAT3(-halfSize, -halfSize + boarderSize, 0), normal, XMFLOAT2(0, boarderSize), tangent };
-	vertices2[9] = { XMFLOAT3(-halfSize + boarderSize, -halfSize + boarderSize, 0), normal, XMFLOAT2(boarderSize, boarderSize), tangent };
-	vertices2[10] = { XMFLOAT3(+halfSize - boarderSize, -halfSize + boarderSize, 0), normal, XMFLOAT2(1 - boarderSize, boarderSize), tangent };
+	vertices2[9] = { XMFLOAT3(-halfSize + boarderSize, -halfSize + boarderSize, 0), innerVertex, XMFLOAT2(boarderSize, boarderSize), tangent };
+	vertices2[10] = { XMFLOAT3(+halfSize - boarderSize, -halfSize + boarderSize, 0), innerVertex, XMFLOAT2(1 - boarderSize, boarderSize), tangent };
 	vertices2[11] = { XMFLOAT3(halfSize, -halfSize + boarderSize, 0), normal, XMFLOAT2(1, boarderSize), tangent };
 
 	//Bottom Row
@@ -504,6 +505,10 @@ void MyDemoGame::CreateGeometry()
 	Mesh* mesh2 = res->AddMesh("ground", vertices2, 16, indices2, 54);
 
 	Entity* entity2 = entSys->AddEntity();
+	ShaderInfoElement<float> aspectData;
+	aspectData.shaderIndex = 3;
+	aspectData.data = aspectRatio;
+	uiMat->GetVertexMaterialInfo()->AddFloat(aspectData);
 	entity2->AddComponent(new DrawnMesh(render, mesh2, uiMat));
 	entity2->GetTransform().SetScale(XMFLOAT3(0.25f, 0.25f, 0));
 	entity2->GetTransform().SetPosition(XMFLOAT3(-1 + 0.25f, 1 - 0.25f, 0));
@@ -628,6 +633,13 @@ void MyDemoGame::OnResize()
 
 	// Update our projection matrix since the window size changed
 	camera.CreatePerspectiveProjectionMatrix(aspectRatio, 0.1f, 100.0f);
+
+	if (res != nullptr) {
+		Material* uiMat = res->GetMaterial("UI_Panel");
+		if (uiMat) {
+			uiMat->GetVertexMaterialInfo()->GetFloat(0)->data = aspectRatio;
+		}
+	}
 }
 #pragma endregion
 

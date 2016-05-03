@@ -7,6 +7,7 @@
 #include "Transform.h"
 #include "Mesh.h"
 #include "DrawnMesh.h"
+#include "MaterialInfo.h"
 #include "Render.h"
 #include "Entity.h"
 #include "EntitySystem.h"

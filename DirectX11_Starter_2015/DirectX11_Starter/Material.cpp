@@ -68,6 +68,8 @@ void Material::PrepareMaterial(RenderInfo& renderInfo, Transform& transform)
 	if (renderInfo.currentMaterial != this) {
 		vertexShader->SetMatrix4x4(1, renderInfo.viewMatrix);
 		vertexShader->SetMatrix4x4(2, renderInfo.projectionMatrix);
+		infoForVertex.SetShaderData(vertexShader);
+
 		vertexShader->SetShader(true);
 
 		pixelShader->SetFloat3(0, renderInfo.cameraPosition);
@@ -76,8 +78,8 @@ void Material::PrepareMaterial(RenderInfo& renderInfo, Transform& transform)
 		for (unsigned int t = 0; t < numberOfTextures; ++t) {
 			pixelShader->SetShaderResourceView(t, textures[t]);
 		}
+		infoForPixel.SetShaderData(pixelShader);
 
-		//pixelShader->SetShaderResourceView(1, normalMapSRV);
 		pixelShader->SetSamplerState(0, samplerState);
 		pixelShader->SetShader(true);
 

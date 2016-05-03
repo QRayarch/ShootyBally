@@ -80,6 +80,7 @@ public:
 
 	bool SetInt(std::string name, int data);
 	bool SetFloat(std::string name, float data);
+	bool SetFloat(int i, float data);
 	bool SetFloat2(std::string name, const float data[2]);
 	bool SetFloat2(std::string name, const DirectX::XMFLOAT2 data);
 	bool SetFloat3(std::string name, const float data[3]);
