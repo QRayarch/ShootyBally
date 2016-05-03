@@ -15,7 +15,7 @@ public:
 	DrawnMesh(Render* newRender, Mesh* newMesh, Material* newMaterial);
 	~DrawnMesh();
 
-	void Draw(RenderInfo& renderInfo);
+	virtual void Draw(RenderInfo& renderInfo);
 	void Update() override;
 
 	Mesh* GetMesh() { return mesh; }

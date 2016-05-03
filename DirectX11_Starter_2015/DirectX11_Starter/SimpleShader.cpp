@@ -431,6 +431,11 @@ bool ISimpleShader::SetFloat(std::string name, float data)
 	return this->SetData(name, (void*)(&data), sizeof(float));
 }
 
+bool ISimpleShader::SetFloat(int i, float data)
+{
+	return this->SetData(i, &data, sizeof(float));
+}
+
 // --------------------------------------------------------
 // Sets a FLOAT2 variable by name in the local data buffer
 // --------------------------------------------------------
