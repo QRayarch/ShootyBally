@@ -172,12 +172,24 @@ bool MyDemoGame::Init()
 // --------------------------------------------------------
 void MyDemoGame::LoadShaders()
 {
+	//default shaders
 	vertexShader = new SimpleVertexShader(device, deviceContext);
-	vertexShader->LoadShaderFile(L"VertexShader.cso");
+	vertexShader->LoadShaderFile(L"DefaultVS.cso");
 
 	pixelShader = new SimplePixelShader(device, deviceContext);
-	pixelShader->LoadShaderFile(L"PixelShader.cso");
+	pixelShader->LoadShaderFile(L"DefaultPS.cso");
 
+	//toon shaders
+	ToonVS = new SimpleVertexShader(device, deviceContext);
+	ToonVS->LoadShaderFile(L"ToonVS.cso");
+
+	ToonGS = new SimpleGeometryShader(device, deviceContext);
+	ToonGS->LoadShaderFile(L"ToonGS.cso");
+
+	ToonPS = new SimplePixelShader(device, deviceContext);
+	ToonPS->LoadShaderFile(L"ToonPS.cso");
+
+	//skybox shaders
 	vSSkybox = new SimpleVertexShader(device, deviceContext);
 	vSSkybox->LoadShaderFile(L"VS_Skybox.cso");
 	pSSkybox = new SimplePixelShader(device, deviceContext);
@@ -186,7 +198,7 @@ void MyDemoGame::LoadShaders()
 	//This is tempory, 
 	//TODO: create a common shader file. 
 	pixelShaderNoNormals = new SimplePixelShader(device, deviceContext);
-	pixelShaderNoNormals->LoadShaderFile(L"PixelShaderNoNormals.cso");
+	pixelShaderNoNormals->LoadShaderFile(L"NoNormalDefaultPS.cso");
 
 	//Sampler State
 	D3D11_SAMPLER_DESC samplerDesc = {};
@@ -282,7 +294,7 @@ void MyDemoGame::TestLoadLevel(char* mapName) {
 				/*LogText(texture1Name);
 				LogText(texture2Name);
 				LogText(texture3Name);*/
-				currentMaterial = res->CreateMaterial(vertexShader, pixelShader, samplerState, texture1Name, texture2Name, texture3Name);
+				currentMaterial = res->CreateMaterial(ToonVS, ToonPS, ToonGS, ShadingTechnique::Toon, samplerState, texture1Name, texture2Name, texture3Name);
 
 				DrawnMesh* drawnMesh = currentEntity->GetComponent<DrawnMesh>();
 				if (drawnMesh != nullptr) {
@@ -359,9 +371,9 @@ void MyDemoGame::CreateGeometry()
 	XMFLOAT3 normal	= XMFLOAT3(0, 1, 0);
 	XMFLOAT3 tangent = XMFLOAT3(0, 0, 1);
 
-	Material* material1 = res->CreateMaterial(vertexShader, pixelShader, samplerState, "BrickOldMixedSize", "Normal_BrickOldMixedSize");
-	Material* material2 = res->CreateMaterial(vertexShader, pixelShader, samplerState, "RockSmooth", "Normal_RockSmooth");
-	Material* material3 = res->CreateMaterial(vertexShader, pixelShaderNoNormals, samplerState, "Ball");
+	Material* material1 = res->CreateMaterial(ToonVS, ToonPS, ToonGS, ShadingTechnique::Toon, samplerState, "BrickOldMixedSize", "Normal_BrickOldMixedSize");
+	Material* material2 = res->CreateMaterial(ToonVS, ToonPS, ToonGS, ShadingTechnique::Toon, samplerState, "RockSmooth", "Normal_RockSmooth");
+	Material* material3 = res->CreateMaterial(vertexShader, pixelShaderNoNormals, ShadingTechnique::Default, samplerState, "Ball");
 
 	Mesh* mesh1 = res->GetMeshAndLoadIfNotFound("Ball");
 	Entity* entity1 = entSys->AddEntity();
@@ -379,7 +391,7 @@ void MyDemoGame::CreateGeometry()
 	UINT indices2[] = { 0, 1, 2, 0, 3, 1 };
 	Mesh* mesh2 = res->AddMesh("ground" ,vertices2, 4, indices2, 6);
 	Entity* entity2 = entSys->AddEntity();
-	//entity2->AddComponent(new DrawnMesh(render, mesh2, material2));
+	entity2->AddComponent(new DrawnMesh(render, mesh2, material2));
 
 	//Players
 	Mesh* mesh3 = res->GetMeshAndLoadIfNotFound("sbgPaddle");
@@ -526,6 +538,8 @@ void MyDemoGame::DrawScene(float deltaTime, float totalTime)
 	DebugDraw::DrawLine(XMFLOAT3(0, 0, 0), XMFLOAT3(0, 1, 0), XMFLOAT4(0, 1, 0, 1));
 	DebugDraw::DrawLine(XMFLOAT3(0, 0, 0), XMFLOAT3(0, 0, 1), XMFLOAT4(0, 0, 1, 1));
 	render->UpdateAndRender(camera);
+
+
 
 	//TODO: handle skybox better
 	UINT stride = sizeof(Vertex);

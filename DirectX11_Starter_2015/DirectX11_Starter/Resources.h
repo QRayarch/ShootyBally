@@ -50,9 +50,12 @@ public:
 
 	//Material Stuff
 	//Creates a material with the sampler state, shaders, loads the texture, and possibly the normal to. The shader resource name is equal to the texture name in this case 
-	Material* CreateMaterial(SimpleVertexShader* vert, SimplePixelShader* pixel, ID3D11SamplerState* sampler, std::string textrureName);
-	Material* CreateMaterial(SimpleVertexShader* vert, SimplePixelShader* pixel, ID3D11SamplerState* sampler, std::string textrure1Name, std::string textrure2Name);
-	Material* CreateMaterial(SimpleVertexShader* vert, SimplePixelShader* pixel, ID3D11SamplerState* sampler, std::string textrure1Name, std::string textrure2Name, std::string textrure3Name);
+	Material* CreateMaterial(SimpleVertexShader* vert, SimplePixelShader* pixel, int technique, ID3D11SamplerState* sampler, std::string textrureName);
+	Material* CreateMaterial(SimpleVertexShader* vert, SimplePixelShader* pixel, int technique, ID3D11SamplerState* sampler, std::string textrure1Name, std::string textrure2Name);
+	Material* CreateMaterial(SimpleVertexShader* vert, SimplePixelShader* pixel, int technique, ID3D11SamplerState* sampler, std::string textrure1Name, std::string textrure2Name, std::string textrure3Name);
+	Material* CreateMaterial(SimpleVertexShader* vert, SimplePixelShader* pixel, SimpleGeometryShader* geometry, int technique, ID3D11SamplerState* sampler, std::string textrureName);
+	Material* CreateMaterial(SimpleVertexShader* vert, SimplePixelShader* pixel, SimpleGeometryShader* geometry, int technique, ID3D11SamplerState* sampler, std::string textrure1Name, std::string textrure2Name);
+	Material* CreateMaterial(SimpleVertexShader* vert, SimplePixelShader* pixel, SimpleGeometryShader* geometry, int technique, ID3D11SamplerState* sampler, std::string textrure1Name, std::string textrure2Name, std::string textrure3Name);
 	Material* GetMaterial(std::string materialName);
 	int GetMaterialIndex(std::string materialName);
 private:

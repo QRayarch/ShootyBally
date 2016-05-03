@@ -44,4 +44,6 @@ void Render::UpdateAndRender(Camera& camera)
 		renderList[r]->Draw(renderInfo);
 	}
 	endIndex = 0;
+
+	deviceContext->GSSetShader(NULL, NULL, 0);
 }

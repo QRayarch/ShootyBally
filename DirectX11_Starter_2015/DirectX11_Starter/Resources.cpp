@@ -343,19 +343,19 @@ int Resources::FindTextureIndex(std::string textureName)
 
 #pragma region Material 
 
-Material* Resources::CreateMaterial(SimpleVertexShader * vert, SimplePixelShader * pixel, ID3D11SamplerState * sampler, std::string textrureName)
+Material* Resources::CreateMaterial(SimpleVertexShader * vert, SimplePixelShader * pixel, int technique, ID3D11SamplerState * sampler, std::string textrureName)
 {
-	return Resources::CreateMaterial(vert, pixel, sampler, textrureName, "", "");
+	return Resources::CreateMaterial(vert, pixel, technique, sampler, textrureName, "", "");
 }
 
-Material * Resources::CreateMaterial(SimpleVertexShader * vert, SimplePixelShader * pixel, ID3D11SamplerState * sampler, std::string textrure1Name, std::string textrure2Name)
+Material * Resources::CreateMaterial(SimpleVertexShader * vert, SimplePixelShader * pixel, int technique, ID3D11SamplerState * sampler, std::string textrure1Name, std::string textrure2Name)
 {
-	return Resources::CreateMaterial(vert, pixel, sampler, textrure1Name, textrure2Name, "");
+	return Resources::CreateMaterial(vert, pixel, technique, sampler, textrure1Name, textrure2Name, "");
 }
 
-Material* Resources::CreateMaterial(SimpleVertexShader * vert, SimplePixelShader * pixel, ID3D11SamplerState * sampler,
-	std::string textrure1Name, 
-	std::string textrure2Name, 
+Material* Resources::CreateMaterial(SimpleVertexShader * vert, SimplePixelShader * pixel, int technique, ID3D11SamplerState * sampler,
+	std::string textrure1Name,
+	std::string textrure2Name,
 	std::string textrure3Name)
 {
 	int index = GetMaterialIndex(textrure1Name);
@@ -384,7 +384,55 @@ Material* Resources::CreateMaterial(SimpleVertexShader * vert, SimplePixelShader
 		LogText("--Not creating Material--//No diffuse map was loaded. So no material will be created: " + textrure1Name);
 		return nullptr;
 	}
-	Material* newMaterial = new Material(vert, pixel, textures, numberOfTextures, sampler);
+	Material* newMaterial = new Material(vert, pixel, technique, textures, numberOfTextures, sampler);
+	materials[numberOfMaterials].material = newMaterial;
+	materials[numberOfMaterials].name = textrure1Name;
+	numberOfMaterials += 1;
+	return newMaterial;
+}
+
+Material* Resources::CreateMaterial(SimpleVertexShader * vert, SimplePixelShader * pixel, SimpleGeometryShader * geometry, int technique, ID3D11SamplerState * sampler, std::string textrureName)
+{
+	return Resources::CreateMaterial(vert, pixel, geometry, technique, sampler, textrureName, "", "");
+}
+
+Material * Resources::CreateMaterial(SimpleVertexShader * vert, SimplePixelShader * pixel, SimpleGeometryShader * geometry, int technique, ID3D11SamplerState * sampler, std::string textrure1Name, std::string textrure2Name)
+{
+	return Resources::CreateMaterial(vert, pixel, geometry, technique, sampler, textrure1Name, textrure2Name, "");
+}
+
+Material* Resources::CreateMaterial(SimpleVertexShader * vert, SimplePixelShader * pixel, SimpleGeometryShader * geometry, int technique, ID3D11SamplerState * sampler,
+	std::string textrure1Name,
+	std::string textrure2Name,
+	std::string textrure3Name)
+{
+	int index = GetMaterialIndex(textrure1Name);
+	if (index != -1) {
+		return materials[index].material;
+	}
+
+	if (numberOfMaterials + 1 >= MAX_NUM_MATERIALS) {
+		LogText("--Not Creating Material--//Max number of materials reached. Create less or increase the max number of materials to hold.");
+		return nullptr;
+	}
+
+	//This might be changed out in the future, for a scanning system that tries to load the best file format works and then tries to load fallbacks
+	ID3D11ShaderResourceView* textures[Material::MAX_NUM_TEXTURES];
+	unsigned int numberOfTextures = 1;
+	textures[0] = LoadTexture(textrure1Name, Resources::FILE_FORMAT_JPG);
+	if (textrure2Name != "") {
+		textures[1] = LoadTexture(textrure2Name, Resources::FILE_FORMAT_JPG);
+		numberOfTextures += 1;
+	}
+	if (textrure3Name != "") {
+		textures[2] = LoadTexture(textrure3Name, Resources::FILE_FORMAT_JPG);
+		numberOfTextures += 1;
+	}
+	if (textures[0] == nullptr) {
+		LogText("--Not creating Material--//No diffuse map was loaded. So no material will be created: " + textrure1Name);
+		return nullptr;
+	}
+	Material* newMaterial = new Material(vert, pixel, geometry, technique, textures, numberOfTextures, sampler);
 	materials[numberOfMaterials].material = newMaterial;
 	materials[numberOfMaterials].name = textrure1Name;
 	numberOfMaterials += 1;

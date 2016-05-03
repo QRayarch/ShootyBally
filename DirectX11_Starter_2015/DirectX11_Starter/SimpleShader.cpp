@@ -1479,6 +1479,21 @@ bool SimpleGeometryShader::SetShaderResourceView(std::string name, ID3D11ShaderR
 	return true;
 }
 
+bool SimpleGeometryShader::SetShaderResourceView(int i, ID3D11ShaderResourceView * srv)
+{
+	// Look for the variable and verify
+	const SimpleSRV* srvInfo = GetShaderResourceViewInfo(i);
+	if (srvInfo == 0)
+		return false;
+
+	// Set the shader resource view
+	deviceContext->GSSetShaderResources(srvInfo->BindIndex, 1, &srv);
+
+	// Success
+	return true;
+}
+
+
 // --------------------------------------------------------
 // Sets a sampler state in the Geometry shader stage
 //
@@ -1491,6 +1506,20 @@ bool SimpleGeometryShader::SetSamplerState(std::string name, ID3D11SamplerState*
 {
 	// Look for the variable and verify
 	const SimpleSampler* sampInfo = GetSamplerInfo(name);
+	if (sampInfo == 0)
+		return false;
+
+	// Set the shader resource view
+	deviceContext->GSSetSamplers(sampInfo->BindIndex, 1, &samplerState);
+
+	// Success
+	return true;
+}
+
+bool SimpleGeometryShader::SetSamplerState(int i, ID3D11SamplerState * samplerState)
+{
+	// Look for the variable and verify
+	const SimpleSampler* sampInfo = GetSamplerInfo(i);
 	if (sampInfo == 0)
 		return false;
 

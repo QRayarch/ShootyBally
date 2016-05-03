@@ -74,6 +74,11 @@ private:
 	SimplePixelShader* pixelShader;
 	SimplePixelShader* pixelShaderNoNormals;
 
+	//toon shaders
+	SimpleVertexShader* ToonVS;
+	SimpleGeometryShader* ToonGS;
+	SimplePixelShader* ToonPS;
+
 	//ID3D11ShaderResourceView* particleTexture;
 
 	SimpleVertexShader* vSSkybox;
