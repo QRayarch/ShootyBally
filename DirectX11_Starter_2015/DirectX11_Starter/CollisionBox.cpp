@@ -1,7 +1,6 @@
 #include "CollisionBox.h"
 #include "DebugDraw.h"
 
-
 CollisionBox::CollisionBox(Vertex* meshVertices, int numVerts)
 {
 	vertices = meshVertices;
@@ -25,8 +24,8 @@ CollisionBox::CollisionBox(Vertex* meshVertices, int numVerts)
 	centroid.x = (minVert.x + maxVert.x) / 2;
 	centroid.z = (minVert.z + maxVert.z) / 2;
 
-	halfWidth = maxVert.x - minVert.x;
-	halfLength = maxVert.z - minVert.z;
+	halfWidth = (maxVert.x - minVert.x) / 2;
+	halfLength = (maxVert.z - minVert.z) / 2;
 
 	innerRadius = std::fminf(halfWidth, halfLength);
 }
@@ -42,7 +41,12 @@ void CollisionBox::Update()
 	Component::Update();
 	modelMatrix = GetEntity()->GetTransform().GetWorldMatrix();
 	scale = GetEntity()->GetTransform().GetScale().x;
-	DebugDraw::AddBox(GetEntity()->GetTransform().GetPosition(), GetEntity()->GetTransform().GetScale(), DirectX::XMFLOAT4(1, 1, 1, 1));
+	XMFLOAT3 flo;
+	//XMStoreFloat3(&flo, XMVectorAdd(XMLoadFloat3(&centroid), XMLoadFloat3(&GetEntity()->GetTransform().GetPosition())));
+	//XMStoreFloat3(&flo, XMVector3Rotate(XMLoadFloat3(&flo), XMLoadFloat3(&GetEntity()->GetTransform().GetRotation())));
+	XMStoreFloat3(&flo, XMVectorAdd(XMVector3Transform(XMLoadFloat3(&centroid), XMLoadFloat4x4(&modelMatrix)), XMLoadFloat3(&GetEntity()->GetTransform().GetPosition())));
+	//XMStoreFloat3(&flo, 
+	DebugDraw::AddBox(flo, DirectX::XMFLOAT3(halfWidth * 2, 1, halfLength * 2), DirectX::XMFLOAT4(1, 1, 1, 1));
 }
 
 bool CollisionBox::IsColliding(CollisionCircle* collider)

@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "Input.h"
 
 Player::Player()
 {
@@ -29,19 +30,19 @@ void Player::GetInput(float deltaTime)
 	if (playerNum == ONE)
 	{
 		//Movement
-		if (GetAsyncKeyState('P') & 0x8000) { turnSpeed += 0.05f * turnRate * deltaTime; }
-		if (GetAsyncKeyState('I') & 0x8000) { turnSpeed -= 0.05f * turnRate * deltaTime; }
+		if (Input::IsKeyDown('P')) { turnSpeed += 0.05f * turnRate * deltaTime; }
+		if (Input::IsKeyDown('I')) { turnSpeed -= 0.05f * turnRate * deltaTime; }
 
 		//Firing
-		if (GetAsyncKeyState('O') & 0x8000 && timeToLastShot >= shotTimer) { Fire(); }
+		if (Input::IsKeyDown('O') && timeToLastShot >= shotTimer) { Fire(); }
 	}
 	else if (playerNum == TWO)
 	{
-		if (GetAsyncKeyState('J') & 0x8000) { turnSpeed += 0.05f * turnRate * deltaTime; }
-		if (GetAsyncKeyState('L') & 0x8000) { turnSpeed -= 0.05f * turnRate * deltaTime; }
+		if (Input::IsKeyDown('J')) { turnSpeed += 0.05f * turnRate * deltaTime; }
+		if (Input::IsKeyDown('L')) { turnSpeed -= 0.05f * turnRate * deltaTime; }
 
 		//Firing
-		if (GetAsyncKeyState('K') & 0x8000 && timeToLastShot >= shotTimer) { Fire(); }
+		if (Input::IsKeyDown('K') && timeToLastShot >= shotTimer) { Fire(); }
 	}
 
 	turnSpeed *= turnDrag;
@@ -52,14 +53,10 @@ void Player::GetInput(float deltaTime)
 
 void Player::Fire()
 {
-	//Currently only works on first shot, attempting to fire any bullet other than the first causes an erro (seems like a 1-off indexing error, but I can't find the source)
-	for (int i = 0; i < 20; i++)//Only allows the first bullet to fire
+	for (int i = 0; i < 20; i++)
 	{
-		if (bulletPool[i].GetIsActive())
-		{
-
-		}
-		else
+		//Fire first inactive bullet
+		if (!bulletPool[i].GetIsActive())
 		{
 			bulletPool[i].Fire(playerEntity->GetTransform());
 			break;
