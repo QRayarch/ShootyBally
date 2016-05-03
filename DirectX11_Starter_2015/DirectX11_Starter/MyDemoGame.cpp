@@ -114,6 +114,8 @@ MyDemoGame::~MyDemoGame()
 	delete pixelShaderNoNormals;
 	delete vSSkybox;
 	delete pSSkybox;
+	delete vsUI;
+	delete psUI;
 	delete particleVS;
 	delete particlePS;
 	delete particleGS;
@@ -212,6 +214,11 @@ void MyDemoGame::LoadShaders()
 	vSSkybox->LoadShaderFile(L"VS_Skybox.cso");
 	pSSkybox = new SimplePixelShader(device, deviceContext);
 	pSSkybox->LoadShaderFile(L"PS_Skybox.cso");
+
+	vsUI = new SimpleVertexShader(device, deviceContext);
+	vsUI->LoadShaderFile(L"VS_UI.cso");
+	psUI = new SimplePixelShader(device, deviceContext);
+	psUI->LoadShaderFile(L"PS_UI.cso");
 
 	// Load particle shaders
 	particleVS = new SimpleVertexShader(device, deviceContext);
@@ -432,13 +439,13 @@ void MyDemoGame::CreateGeometry()
 	skyboxMesh = res->GetMeshAndLoadIfNotFound("cube");
 	skyTexture = res->LoadTexture("SunnyCubeMap", Resources::FILE_FORMAT_DDS);
 
-	XMFLOAT3 normal	= XMFLOAT3(0, 1, 0);
-	XMFLOAT3 tangent = XMFLOAT3(0, 0, 1);
+
 
 	Material* material1 = res->CreateMaterial(vertexShader, pixelShader, samplerState, "BrickOldMixedSize", "Normal_BrickOldMixedSize");
 	Material* material2 = res->CreateMaterial(vertexShader, pixelShader, samplerState, "RockSmooth", "Normal_RockSmooth");
 	Material* material3 = res->CreateMaterial(vertexShader, pixelShaderNoNormals, samplerState, "Ball");
 	Material* material4 = res->CreateMaterial(vertexShader, pixelShader, samplerState, "Normal_Paddle", "Normal_Paddle");
+	Material* uiMat = res->CreateMaterial(vsUI, psUI, samplerState, "UI_Panel");//WoodRough
 
 	//Ball
 	Mesh* mesh1 = res->GetMeshAndLoadIfNotFound("Ball");
@@ -450,17 +457,56 @@ void MyDemoGame::CreateGeometry()
 	entity1->GetComponent<PhysicsBody>()->SetVelocity(XMFLOAT4(-0.2f, 0.0f, 0.01f, 0.0f));
 	transform1.SetPosition(XMFLOAT3(0.0f, -7.5f, 0.0f));
 
-	float halfSize = 10 * 0.5f;
-	float yPos = -2.5f;
+	//Generates a rectangle
+	/*float halfSize = 1.0f;
+	XMFLOAT3 normal = XMFLOAT3(0, 0, 0);
+	XMFLOAT3 tangent = XMFLOAT3(0, 0, 0);
 	Vertex* vertices2 = new Vertex[4];
-	vertices2[0] = { XMFLOAT3(-halfSize, +yPos, +halfSize), normal, XMFLOAT2(0, 1), tangent };
-	vertices2[1] = { XMFLOAT3(+halfSize, +yPos, -halfSize), normal, XMFLOAT2(1, 0), tangent };
-	vertices2[2] = { XMFLOAT3(-halfSize, +yPos, -halfSize), normal, XMFLOAT2(0, 0), tangent };
-	vertices2[3] = { XMFLOAT3(+halfSize, +yPos, +halfSize), normal, XMFLOAT2(1, 1), tangent };
-	
+	vertices2[0] = { XMFLOAT3(-halfSize, +halfSize, 0), normal, XMFLOAT2(0, 1), tangent };
+	vertices2[1] = { XMFLOAT3(+halfSize, -halfSize, 0), normal, XMFLOAT2(1, 0), tangent };
+	vertices2[2] = { XMFLOAT3(-halfSize, -halfSize, 0), normal, XMFLOAT2(0, 0), tangent };
+	vertices2[3] = { XMFLOAT3(+halfSize, +halfSize, 0), normal, XMFLOAT2(1, 1), tangent };
 	UINT indices2[] = { 0, 1, 2, 0, 3, 1 };
-	Mesh* mesh2 = res->AddMesh("ground", vertices2, 4, indices2, 6);
+	Mesh* mesh2 = res->AddMesh("ground", vertices2, 4, indices2, 6);*/
+
+	//Generates a 9 patch
+	float halfSize = 1.0f;
+	float boarderSize = 0.2f;
+	XMFLOAT3 normal = XMFLOAT3(0, 0, 0);
+	XMFLOAT3 tangent = XMFLOAT3(0, 0, 0);
+	Vertex* vertices2 = new Vertex[16];
+	//Top Row
+	vertices2[0] = { XMFLOAT3(-halfSize, halfSize, 0), normal, XMFLOAT2(0, 1), tangent };
+	vertices2[1] = { XMFLOAT3(-halfSize + boarderSize, halfSize, 0), normal, XMFLOAT2(boarderSize, 1), tangent };
+	vertices2[2] = { XMFLOAT3(+halfSize - boarderSize, halfSize, 0), normal, XMFLOAT2(1 - boarderSize, 1), tangent };
+	vertices2[3] = { XMFLOAT3(halfSize, halfSize, 0), normal, XMFLOAT2(1, 1), tangent };
+
+	//Top Lower Row
+	vertices2[4] = { XMFLOAT3(-halfSize, halfSize - boarderSize, 0), normal, XMFLOAT2(0, 1 - boarderSize), tangent };
+	vertices2[5] = { XMFLOAT3(-halfSize + boarderSize, halfSize - boarderSize, 0), normal, XMFLOAT2(boarderSize, 1 - boarderSize), tangent };
+	vertices2[6] = { XMFLOAT3(+halfSize - boarderSize, halfSize - boarderSize, 0), normal, XMFLOAT2(1 - boarderSize, 1 - boarderSize), tangent };
+	vertices2[7] = { XMFLOAT3(halfSize, halfSize - boarderSize, 0), normal, XMFLOAT2(1, 1 - boarderSize), tangent };
+
+	//Bottom Upper Row
+	vertices2[8] = { XMFLOAT3(-halfSize, -halfSize + boarderSize, 0), normal, XMFLOAT2(0, boarderSize), tangent };
+	vertices2[9] = { XMFLOAT3(-halfSize + boarderSize, -halfSize + boarderSize, 0), normal, XMFLOAT2(boarderSize, boarderSize), tangent };
+	vertices2[10] = { XMFLOAT3(+halfSize - boarderSize, -halfSize + boarderSize, 0), normal, XMFLOAT2(1 - boarderSize, boarderSize), tangent };
+	vertices2[11] = { XMFLOAT3(halfSize, -halfSize + boarderSize, 0), normal, XMFLOAT2(1, boarderSize), tangent };
+
+	//Bottom Row
+	vertices2[12] = { XMFLOAT3(-halfSize, -halfSize, 0), normal, XMFLOAT2(0, 0), tangent };
+	vertices2[13] = { XMFLOAT3(-halfSize + boarderSize, -halfSize, 0), normal, XMFLOAT2(boarderSize, 0), tangent };
+	vertices2[14] = { XMFLOAT3(+halfSize - boarderSize, -halfSize, 0), normal, XMFLOAT2(1 - boarderSize, 0), tangent };
+	vertices2[15] = { XMFLOAT3(halfSize, -halfSize, 0), normal, XMFLOAT2(1, 0), tangent };
+	UINT indices2[] = { 0, 1, 4, 1, 5, 4, 1, 2, 5, 2, 6, 5, 2, 3, 6, 3, 7, 6,	
+		4, 5, 8, 5, 9, 8, 5, 6, 9, 6, 10, 9, 6, 7, 10, 7, 11, 10,	
+		8, 9, 12, 9, 13, 12, 9, 10, 13, 10, 14, 13, 10, 11, 14, 11, 15, 14};
+	Mesh* mesh2 = res->AddMesh("ground", vertices2, 16, indices2, 54);
+
 	Entity* entity2 = entSys->AddEntity();
+	entity2->AddComponent(new DrawnMesh(render, mesh2, uiMat));
+	entity2->GetTransform().SetScale(XMFLOAT3(0.25f, 0.25f, 0));
+	entity2->GetTransform().SetPosition(XMFLOAT3(-1 + 0.25f, 1 - 0.25f, 0));
 
 	//Players
 	Mesh* mesh3 = res->GetMeshAndLoadIfNotFound("sbgPaddle");
@@ -596,7 +642,11 @@ void MyDemoGame::UpdateScene(float deltaTime, float totalTime)
 	// Quit if the escape key is pressed
 	if (GetAsyncKeyState(VK_ESCAPE))
 		Quit();
-	Input::Update();
+	Input::Update();//This should be near the begining of the frame to get a better user experence
+
+	if (Input::IsKeyDownThisFrame(VK_OEM_3)) {
+		drawDebug = !drawDebug;
+	}
 
 	DebugDraw::AddLine(XMFLOAT3(0, 0, 0), XMFLOAT3(1, 0, 0), XMFLOAT4(1, 0, 0, 1));
 	DebugDraw::AddLine(XMFLOAT3(0, 0, 0), XMFLOAT3(0, 1, 0), XMFLOAT4(0, 1, 0, 1));
@@ -684,8 +734,9 @@ void MyDemoGame::DrawScene(float deltaTime, float totalTime)
 		1.0f,
 		0);
 
-	
-	DebugDraw::DrawAll(false);
+	if (drawDebug) {
+		DebugDraw::DrawAll(false);
+	}
 	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	render->UpdateAndRender(camera);
 

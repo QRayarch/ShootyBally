@@ -372,6 +372,7 @@ Material * Resources::CreateMaterial(SimpleVertexShader * vert, SimplePixelShade
 	return Resources::CreateMaterial(vert, pixel, sampler, textrure1Name, textrure2Name, "");
 }
 
+//TODO:have a better way of handeling materials, as in if you try to create a material with a duplicate fists texture name it won't be created and will instead return the first one
 Material* Resources::CreateMaterial(SimpleVertexShader * vert, SimplePixelShader * pixel, ID3D11SamplerState * sampler,
 	std::string textrure1Name, 
 	std::string textrure2Name, 

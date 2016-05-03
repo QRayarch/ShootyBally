@@ -77,6 +77,8 @@ private:
 	SimpleVertexShader* vertexShader;
 	SimplePixelShader* pixelShader;
 	SimplePixelShader* pixelShaderNoNormals;
+	SimplePixelShader* psUI;
+	SimpleVertexShader* vsUI;
 
 	SimpleVertexShader* vSSkybox;
 	SimplePixelShader* pSSkybox;
@@ -126,4 +128,5 @@ private:
 	Bullet bulletPool[30];
 
 	GameState gameState;
+	bool drawDebug;
 };
