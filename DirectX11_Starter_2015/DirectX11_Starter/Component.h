@@ -11,6 +11,7 @@ public:
 	~Component();
 
 	virtual void Update();
+	virtual void ParentSet();
 
 	void SetEntity(Entity* newParentEntity);
 	Entity* GetEntity() { return parentEntity; }

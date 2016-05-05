@@ -98,6 +98,7 @@ xcopy "$(SolutionDir)Assets" "$(OutDir)Assets" /y /s /i /d /e</Command>
     <ClCompile Include="Resources.cpp" />
     <ClCompile Include="SimpleShader.cpp" />
     <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="UIElement.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bullet.h" />
@@ -124,6 +125,7 @@ xcopy "$(SolutionDir)Assets" "$(OutDir)Assets" /y /s /i /d /e</Command>
     <ClInclude Include="Resources.h" />
     <ClInclude Include="SimpleShader.h" />
     <ClInclude Include="Transform.h" />
+    <ClInclude Include="UIElement.h" />
     <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>

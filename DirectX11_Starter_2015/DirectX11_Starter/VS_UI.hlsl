@@ -1,10 +1,11 @@
 cbuffer externalData : register(b0)
 {
-	matrix world;
-	matrix view;
-	matrix projection;
-	float3 scale;
-	float aspectRatio;
+	matrix world;//0
+	matrix view;//1
+	matrix projection;//2
+	float3 scale;//3
+	float3 color;//4
+	float aspectRatio;//5
 };
 
 struct VertexShaderInput
@@ -18,6 +19,7 @@ struct VertexShaderInput
 struct VertexToPixel
 {
 	float4 position		: SV_POSITION;
+	float3 color		: COLOR0;
 	float2 uv			: TEXCOORD;
 };
 
@@ -26,22 +28,14 @@ VertexToPixel main(VertexShaderInput input)
 	VertexToPixel output;
 
 	input.position.z = 0;
-	if (input.normal.x == 1) {
-		input.position.x -= (1 - abs(input.position.x)) / (aspectRatio) * sign(input.position.x);
-		input.position.y -= (1 - abs(input.position.y)) / (1/aspectRatio)* sign(input.position.y);
-		//input.position.y *= 1 / aspectRatio;
-	} 
+	float ar = (scale.x / scale.y) * aspectRatio;
+	input.position.x -= input.normal.x * ((1 - abs(input.position.x)) / (ar) * sign(input.position.x));
+	input.position.y -= input.normal.x * ((1 - abs(input.position.y)) / (1/ar)* sign(input.position.y));
 
 	output.position = mul(float4(input.position, 1.0f), world);
 	output.position.z = 0;
 	output.uv = input.uv;
-	/*if (input.normal.x == 1) {
-		output.uv = float2(0, 0);
-	}
-	else {
-		output.uv = float2(0.5, 0.5);
-	}*/
-	//output.uv *= scale.xy;
+	output.color = color;
 
 	return output;
 }

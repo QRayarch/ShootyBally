@@ -18,9 +18,14 @@ void Component::Update()
 {
 }
 
+void Component::ParentSet()
+{
+}
+
 void Component::SetEntity(Entity* newParentEntity)
 {
 	parentEntity = newParentEntity;
+	ParentSet();
 }
 
 Transform& Component::GetTransform() {

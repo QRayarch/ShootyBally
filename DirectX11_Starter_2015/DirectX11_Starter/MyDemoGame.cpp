@@ -507,15 +507,20 @@ void MyDemoGame::CreateGeometry()
 	Entity* entity2 = entSys->AddEntity();
 
 	ShaderInfoElement<float> aspectData;
-	aspectData.shaderIndex = 4;
+	aspectData.shaderIndex = 5;
 	aspectData.data = aspectRatio;
 	uiMat->GetVertexMaterialInfo()->AddFloat(aspectData);
 	entity2->AddComponent(new DrawnMesh(render, mesh2, uiMat));
-	entity2->GetTransform().SetScale(XMFLOAT3(0.25f, 0.25f, 0));
+	entity2->GetTransform().SetScale(XMFLOAT3(0.5f, 0.5f, 0.0f));
 	ShaderInfoElement<XMFLOAT3> scaleData;
 	scaleData.shaderIndex = 3;
 	scaleData.data = entity2->GetTransform().GetScale();
-	entity2->GetTransform().SetPosition(XMFLOAT3(-1 + 0.25f, 1 - 0.25f, 0));
+	uiMat->GetVertexMaterialInfo()->AddFloat3(scaleData);
+	ShaderInfoElement<XMFLOAT3> colorData;
+	colorData.shaderIndex = 4;
+	colorData.data = XMFLOAT3(1.0f, 1.0f, 1.0f);
+	uiMat->GetVertexMaterialInfo()->AddFloat3(colorData);
+	//entity2->GetTransform().SetPosition(XMFLOAT3(-1 + 0.25f, 1 - 0.25f, 0));
 
 	//Players
 	Mesh* mesh3 = res->GetMeshAndLoadIfNotFound("sbgPaddle");

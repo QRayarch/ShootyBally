@@ -20,8 +20,13 @@ public:
 
 	Mesh* GetMesh() { return mesh; }
 	void SetMaterial(Material* newMaterial) { material = newMaterial; }
+	Material* GetMaterial() { return material; }
+	//MaterialInfo* GetIndividualVertexInfo() { return &individualVertexInfo; }
+	//MaterialInfo* GetIndividualPixelInfo() { return &individualPixelInfo; }
 private:
 	Render* render;
 	Mesh* mesh;
 	Material* material;
+	//MaterialInfo individualVertexInfo;
+	//MaterialInfo individualPixelInfo;
 };

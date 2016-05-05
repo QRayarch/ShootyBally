@@ -20,6 +20,7 @@ public:
 	void AddFloat(ShaderInfoElement<float> newData);
 	ShaderInfoElement<float>* GetFloat(int i) { return &floats[i]; }
 	void AddFloat3(ShaderInfoElement<DirectX::XMFLOAT3> newData);
+	ShaderInfoElement<DirectX::XMFLOAT3>* GetFloat3(int i) { return &float3s[i]; }
 
 	void SetShaderData(ISimpleShader* shader);
 private:
