@@ -142,6 +142,13 @@ MyDemoGame::~MyDemoGame()
 	particleBlendState->Release();
 	particleDepthState->Release();
 
+	// Post Processing
+	delete postPS;
+	delete postVS;
+	postRTV->Release();
+	postSRV->Release();
+	
+
 	DebugDraw::Release();
 }
 
@@ -220,6 +227,12 @@ void MyDemoGame::LoadShaders()
 	psUI = new SimplePixelShader(device, deviceContext);
 	psUI->LoadShaderFile(L"PS_UI.cso");
 
+	//post shaders
+	postVS = new SimpleVertexShader(device, deviceContext);
+	postVS->LoadShaderFile(L"VS_Blur.cso");
+	postPS = new SimplePixelShader(device, deviceContext);
+	postPS->LoadShaderFile(L"PS_Blur.cso");
+
 	// Load particle shaders
 	particleVS = new SimpleVertexShader(device, deviceContext);
 	particleVS->LoadShaderFile(L"VS_Particle.cso");
@@ -293,6 +306,43 @@ void MyDemoGame::LoadShaders()
 	particleDepthDesc.DepthFunc = D3D11_COMPARISON_LESS;
 	particleDepthDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
 	device->CreateDepthStencilState(&particleDepthDesc, &particleDepthState);
+
+	///////////////////////////////////////////////
+	//Post Processing
+	///////////////////////////////////////////////
+	//Target Texture
+	D3D11_TEXTURE2D_DESC texDesc = {};
+	texDesc.Width = windowWidth;
+	texDesc.Height = windowHeight;
+	texDesc.ArraySize = 1;
+	texDesc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+	texDesc.CPUAccessFlags = 0;
+	texDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	texDesc.MipLevels = 1;
+	texDesc.MiscFlags = 0;
+	texDesc.SampleDesc.Count = 1;
+	texDesc.SampleDesc.Quality = 0;
+	texDesc.Usage = D3D11_USAGE_DEFAULT;
+	ID3D11Texture2D* postTexture;
+	device->CreateTexture2D(&texDesc, 0, &postTexture);
+
+	//Render Target View
+	D3D11_RENDER_TARGET_VIEW_DESC rtvDesc = {};
+	rtvDesc.Format = texDesc.Format;
+	rtvDesc.Texture2D.MipSlice = 0;
+	rtvDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+	device->CreateRenderTargetView(postTexture, &rtvDesc, &postRTV);
+
+	//Shader Resource View
+	D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
+	srvDesc.Format = texDesc.Format;
+	srvDesc.Texture2D.MipLevels = 1;
+	srvDesc.Texture2D.MostDetailedMip = 0;
+	srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+	device->CreateShaderResourceView(postTexture, &srvDesc, &postSRV);
+
+	// texture reference cleanup
+	postTexture->Release();
 }
 
 //This is here temporarily till more things are figured out
@@ -745,10 +795,15 @@ void MyDemoGame::DrawScene(float deltaTime, float totalTime)
 	// Background color (Cornflower Blue in this case) for clearing
 	const float color[4] = {0.4f, 0.6f, 0.75f, 0.0f};
 
+	//Swap for post processing
+	deviceContext->OMSetRenderTargets(1, &postRTV, depthStencilView);
+
+
+
 	// Clear the render target and depth buffer (erases what's on the screen)
 	//  - Do this ONCE PER FRAME
 	//  - At the beginning of DrawScene (before drawing *anything*)
-	deviceContext->ClearRenderTargetView(renderTargetView, color);
+	deviceContext->ClearRenderTargetView(postRTV, color);
 	deviceContext->ClearDepthStencilView(
 		depthStencilView, 
 		D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL,
@@ -780,6 +835,51 @@ void MyDemoGame::DrawScene(float deltaTime, float totalTime)
 	// Reset states
 	deviceContext->RSSetState(0);
 	deviceContext->OMSetDepthStencilState(0, 0);
+
+	//// Turn off existing vert/index buffers
+	//ID3D11Buffer* nothing = 0;
+	//deviceContext->IASetVertexBuffers(0, 1, &nothing, &stride, &offset);
+	//deviceContext->IASetIndexBuffer(0, DXGI_FORMAT_R32_UINT, 0);
+
+	//// Finally - DRAW!
+	//deviceContext->Draw(3, 0);
+
+	// Unbind the SRV so the underlying texture isn't bound for
+	// both input and output at the start of next frame
+	//postPS->SetShaderResourceView("pixels", 0);
+
+
+
+	/////////////////
+	//Post Processing
+	/////////////////
+	// Regular to post
+	deviceContext->OMSetRenderTargets(1, &renderTargetView, 0);
+	deviceContext->ClearRenderTargetView(renderTargetView, color);
+
+	// Draw the post process
+	postVS->SetShader();
+
+	postPS->SetInt("blurAmount", 5);
+	postPS->SetFloat("pixelWidth", 1.0f / windowWidth);
+	postPS->SetFloat("pixelHeight", 1.0f / windowHeight);
+	postPS->SetShaderResourceView("pixels", postSRV);
+	postPS->SetSamplerState("trilinear", samplerState);
+	postPS->SetShader();
+
+	// Turn off existing vert/index buffers
+	ID3D11Buffer* nothing = 0;
+	deviceContext->IASetVertexBuffers(0, 1, &nothing, &stride, &offset);
+	deviceContext->IASetIndexBuffer(0, DXGI_FORMAT_R32_UINT, 0);
+
+	// Finally - DRAW!
+	deviceContext->Draw(3, 0);
+
+	// Unbind the SRV so the underlying texture isn't bound for
+	// both input and output at the start of next frame
+	postPS->SetShaderResourceView("pixels", 0);
+
+
 
 	// Draw particles
 	particleGS->SetMatrix4x4("world", XMFLOAT4X4(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)); // Identity
@@ -814,6 +914,11 @@ void MyDemoGame::DrawScene(float deltaTime, float totalTime)
 	deviceContext->GSSetShader(0, 0, 0);
 	deviceContext->OMSetBlendState(0, factor, 0xffffffff);
 	deviceContext->OMSetDepthStencilState(0, 0);
+
+
+
+
+
 
 	// Present the buffer
 	//  - Puts the image we're drawing into the window so the user can see it
