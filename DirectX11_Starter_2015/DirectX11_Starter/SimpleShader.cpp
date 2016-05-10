@@ -415,6 +415,11 @@ bool ISimpleShader::SetData(int i, const void* data, unsigned int size)
 	return true;
 }
 
+bool ISimpleShader::SetBool(std::string name, bool data)
+{
+	return this->SetData(name, (void*)(&data), sizeof(bool));
+}
+
 // --------------------------------------------------------
 // Sets INTEGER data
 // --------------------------------------------------------
