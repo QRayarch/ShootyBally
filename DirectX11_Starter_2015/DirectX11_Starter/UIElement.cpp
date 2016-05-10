@@ -11,7 +11,7 @@ UIElement::UIElement(Render* render, Mesh* mesh, Material* material)
 
 UIElement::~UIElement()
 {
-	drawnMesh.~DrawnMesh();
+	//delete drawnMesh;
 }
 
 void UIElement::Update()
@@ -29,7 +29,7 @@ void UIElement::ParentSet()
 void UIElement::SetColor(DirectX::XMFLOAT3 newColor)
 {
 	color = newColor;
-	//drawnMesh.GetIndividualVertexInfo()->GetFloat3(1)->data = color;
+//	drawnMesh.GetMaterial()->GetVertexMaterialInfo().GetFloat3(1).data = color;
 }
 
 void UIElement::SetAspectRatio(float aspectRatio)

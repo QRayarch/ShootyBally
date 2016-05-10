@@ -10,7 +10,10 @@ Entity::Entity()
 Entity::~Entity()
 {
 	for (int c = 0; c < numberOfComponents; ++c) {
-		delete components[c];
+		if (components[c] != nullptr) {
+			delete components[c];
+			components[c] = nullptr;
+		}
 	}
 }
 

@@ -871,7 +871,7 @@ void MyDemoGame::DrawScene(float deltaTime, float totalTime)
 	// Draw the post process
 	postVS->SetShader();
 
-	postPS->SetInt("blurAmount", 5);
+	postPS->SetInt("blurAmount", 0);
 	postPS->SetFloat("pixelWidth", 1.0f / windowWidth);
 	postPS->SetFloat("pixelHeight", 1.0f / windowHeight);
 	postPS->SetShaderResourceView("pixels", postSRV);
