@@ -125,6 +125,13 @@ private:
 	float particleMaxLifetime;
 	DirectX::XMFLOAT3 particleConstantAccel;
 
+	//Post Processing
+	ID3D11RenderTargetView* postRTV;
+	ID3D11ShaderResourceView* postSRV;
+	SimpleVertexShader* postVS;
+	SimplePixelShader* postPS;
+
+	// Game Data
 	Player player1;
 	Player player2;
 
