@@ -5,6 +5,7 @@
 
 CollisionCircle::CollisionCircle(Vertex* meshVerts, int numVertices)
 {
+	Component::Component();
 	radius = abs(meshVerts[0].Position.x);
 	for (int i = 0; i < numVertices; i++)
 	{
@@ -13,6 +14,7 @@ CollisionCircle::CollisionCircle(Vertex* meshVerts, int numVertices)
 			radius = abs(meshVerts[i].Position.x);
 		}
 	}
+	center = XMFLOAT3(0, 0, 0);
 }
 
 CollisionCircle::~CollisionCircle()
