@@ -78,6 +78,7 @@ public:
 	bool SetData(std::string name, const void* data, unsigned int size);
 	bool SetData(int i, const void* data, unsigned int size);
 
+	bool SetBool(std::string name, bool data);
 	bool SetInt(std::string name, int data);
 	bool SetFloat(std::string name, float data);
 	bool SetFloat(int i, float data);

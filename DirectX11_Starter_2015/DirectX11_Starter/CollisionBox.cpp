@@ -42,16 +42,12 @@ void CollisionBox::Update()
 	modelMatrix = GetEntity()->GetTransform().GetWorldMatrix();
 	scale = GetEntity()->GetTransform().GetScale().x;
 	XMFLOAT3 flo;
-	//XMStoreFloat3(&flo, XMVectorAdd(XMLoadFloat3(&centroid), XMLoadFloat3(&GetEntity()->GetTransform().GetPosition())));
-	//XMStoreFloat3(&flo, XMVector3Rotate(XMLoadFloat3(&flo), XMLoadFloat3(&GetEntity()->GetTransform().GetRotation())));
 	XMStoreFloat3(&flo, XMVector3Transform(XMLoadFloat3(&centroid), XMMatrixTranspose(XMLoadFloat4x4(&modelMatrix))));
-	//XMStoreFloat3(&flo, 
 	DebugDraw::AddBox(flo, DirectX::XMFLOAT3(halfWidth * 2, 1, halfLength * 2), DirectX::XMFLOAT4(1, 1, 1, 1));
 
 	XMMATRIX modelMatrixL = XMLoadFloat4x4(&modelMatrix);
 	modelMatrixL = XMMatrixTranspose(modelMatrixL);
 	XMVECTOR centroidG = XMVector3Transform(XMLoadFloat3(&centroid), modelMatrixL);
-	//centroidG = XMVectorAdd(centroidG, XMLoadFloat3(&GetEntity()->GetTransform().GetPosition()));
 	XMFLOAT3 blep;
 	XMStoreFloat3(&blep, centroidG);
 	DebugDraw::AddLine(XMFLOAT3(0, 0, 0), blep, XMFLOAT4(1, 1, 1, 1));
@@ -70,12 +66,13 @@ bool CollisionBox::IsColliding(CollisionCircle* collider)
 		return true;
 
 	XMFLOAT3 centerToCenterVector;
-	XMStoreFloat3(&centerToCenterVector, XMLoadFloat3(&collider->GetCenter()) - centroidG);
+	XMStoreFloat3(&centerToCenterVector, centroidG - XMLoadFloat3(&collider->GetCenter()));
 	centerToCenterVector.y = 0;
 	XMStoreFloat3(&centerToCenterVector, XMVector3Normalize(XMLoadFloat3(&centerToCenterVector)));
+	
 
 	XMFLOAT3 outerPoint;
-	XMStoreFloat3(&outerPoint, XMLoadFloat3(&collider->GetCenter()) + XMLoadFloat3(&centerToCenterVector) * collider->GetRadius());
+	XMStoreFloat3(&outerPoint, XMLoadFloat3(&collider->GetCenter()) + (XMLoadFloat3(&centerToCenterVector) * collider->GetRadius()));
 
 	//SAT Check
 	//Calculate Normals
@@ -92,9 +89,9 @@ bool CollisionBox::IsColliding(CollisionCircle* collider)
 	XMFLOAT2 dotA;
 	XMStoreFloat2(&dotA, XMVector2Dot(XMLoadFloat2(&XMFLOAT2(normals[0].x, normals[0].z)), XMLoadFloat2(&XMFLOAT2(maxG.x, maxG.z))));
 	XMFLOAT2 dotB;
-	XMStoreFloat2(&dotA, XMVector2Dot(XMLoadFloat2(&XMFLOAT2(normals[0].x, normals[0].z)), XMLoadFloat2(&XMFLOAT2(minG.x, minG.z))));
+	XMStoreFloat2(&dotB, XMVector2Dot(XMLoadFloat2(&XMFLOAT2(normals[0].x, normals[0].z)), XMLoadFloat2(&XMFLOAT2(minG.x, minG.z))));
 	XMFLOAT2 dotO;
-	XMStoreFloat2(&dotA, XMVector2Dot(XMLoadFloat2(&XMFLOAT2(normals[0].x, normals[0].z)), XMLoadFloat2(&XMFLOAT2(outerPoint.x, outerPoint.z))));
+	XMStoreFloat2(&dotO, XMVector2Dot(XMLoadFloat2(&XMFLOAT2(normals[0].x, normals[0].z)), XMLoadFloat2(&XMFLOAT2(outerPoint.x, outerPoint.z))));
 
 	float dotMin, dotMax, dotOV;
 	dotOV = dotO.x;
@@ -112,8 +109,8 @@ bool CollisionBox::IsColliding(CollisionCircle* collider)
 
 	//Axis 2
 	XMStoreFloat2(&dotA, XMVector2Dot(XMLoadFloat2(&XMFLOAT2(normals[1].x, normals[1].z)), XMLoadFloat2(&XMFLOAT2(maxG.x, maxG.z))));
-	XMStoreFloat2(&dotA, XMVector2Dot(XMLoadFloat2(&XMFLOAT2(normals[1].x, normals[1].z)), XMLoadFloat2(&XMFLOAT2(minG.x, minG.z))));
-	XMStoreFloat2(&dotA, XMVector2Dot(XMLoadFloat2(&XMFLOAT2(normals[1].x, normals[1].z)), XMLoadFloat2(&XMFLOAT2(outerPoint.x, outerPoint.z))));
+	XMStoreFloat2(&dotB, XMVector2Dot(XMLoadFloat2(&XMFLOAT2(normals[1].x, normals[1].z)), XMLoadFloat2(&XMFLOAT2(minG.x, minG.z))));
+	XMStoreFloat2(&dotO, XMVector2Dot(XMLoadFloat2(&XMFLOAT2(normals[1].x, normals[1].z)), XMLoadFloat2(&XMFLOAT2(outerPoint.x, outerPoint.z))));
 
 	dotOV = dotO.x;
 	if (dotA.x > dotB.x) {

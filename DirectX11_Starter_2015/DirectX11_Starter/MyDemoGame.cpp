@@ -750,7 +750,8 @@ void MyDemoGame::UpdateScene(float deltaTime, float totalTime)
 		}
 		else
 		{
-
+			ballCollider->GetEntity()->GetTransform().SetPosition(XMFLOAT3(0.0f, -7.5f, 0.0f));
+			ballPhysicsBody->SetVelocity(XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f));
 		}
 	}
 	if (ballCollider->IsColliding(player2.GetCircleCollider()))
@@ -761,7 +762,8 @@ void MyDemoGame::UpdateScene(float deltaTime, float totalTime)
 		}
 		else
 		{
-
+			ballCollider->GetEntity()->GetTransform().SetPosition(XMFLOAT3(0.0f, -7.5f, 0.0f));
+			ballPhysicsBody->SetVelocity(XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f));
 		}
 	}
 
@@ -859,39 +861,6 @@ void MyDemoGame::DrawScene(float deltaTime, float totalTime)
 	// both input and output at the start of next frame
 	//postPS->SetShaderResourceView("pixels", 0);
 
-
-
-	/////////////////
-	//Post Processing
-	/////////////////
-	// Regular to post
-	deviceContext->OMSetRenderTargets(1, &renderTargetView, 0);
-	deviceContext->ClearRenderTargetView(renderTargetView, color);
-
-	// Draw the post process
-	postVS->SetShader();
-
-	postPS->SetInt("blurAmount", 0);
-	postPS->SetFloat("pixelWidth", 1.0f / windowWidth);
-	postPS->SetFloat("pixelHeight", 1.0f / windowHeight);
-	postPS->SetShaderResourceView("pixels", postSRV);
-	postPS->SetSamplerState("trilinear", samplerState);
-	postPS->SetShader();
-
-	// Turn off existing vert/index buffers
-	ID3D11Buffer* nothing = 0;
-	deviceContext->IASetVertexBuffers(0, 1, &nothing, &stride, &offset);
-	deviceContext->IASetIndexBuffer(0, DXGI_FORMAT_R32_UINT, 0);
-
-	// Finally - DRAW!
-	deviceContext->Draw(3, 0);
-
-	// Unbind the SRV so the underlying texture isn't bound for
-	// both input and output at the start of next frame
-	postPS->SetShaderResourceView("pixels", 0);
-
-
-
 	// Draw particles
 	particleGS->SetMatrix4x4("world", XMFLOAT4X4(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)); // Identity
 	particleGS->SetMatrix4x4("view", camera.GetViewMatrix());
@@ -928,6 +897,37 @@ void MyDemoGame::DrawScene(float deltaTime, float totalTime)
 
 
 
+
+	/////////////////
+	//Post Processing
+	/////////////////
+	// Regular to post
+	deviceContext->OMSetRenderTargets(1, &renderTargetView, 0);
+	deviceContext->ClearRenderTargetView(renderTargetView, color);
+
+	// Draw the post process
+	postVS->SetShader();
+
+	postPS->SetBool("vertical", true);
+	postPS->SetInt("blurAmount", 5);
+	postPS->SetFloat("pixelWidth", 1.0f / windowWidth);
+	postPS->SetFloat("pixelHeight", 1.0f / windowHeight);
+	postPS->SetShaderResourceView("pixels", postSRV);
+	postPS->SetSamplerState("trilinear", samplerState);
+	postPS->SetShader();
+
+	// Turn off existing vert/index buffers
+	ID3D11Buffer* nothing = 0;
+	deviceContext->IASetVertexBuffers(0, 1, &nothing, &stride, &offset);
+	deviceContext->IASetIndexBuffer(0, DXGI_FORMAT_R32_UINT, 0);
+
+	// Finally - DRAW!
+	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	deviceContext->Draw(3, 0);
+
+	// Unbind the SRV so the underlying texture isn't bound for
+	// both input and output at the start of next frame
+	postPS->SetShaderResourceView("pixels", 0);
 
 
 
