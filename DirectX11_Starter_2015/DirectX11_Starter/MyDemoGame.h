@@ -8,6 +8,7 @@
 #include "Mesh.h"
 #include "DrawnMesh.h"
 #include "UIElement.h"
+#include "Canvas.h"
 #include "MaterialInfo.h"
 #include "Render.h"
 #include "Entity.h"
@@ -74,6 +75,7 @@ private:
 //	std::vector<Material*> materials;
 	ID3D11SamplerState* samplerState;
 	EntitySystem* entSys;
+	Canvas* canvas;
 
 	// Wrappers for DirectX shaders to provide simplified functionality
 	SimpleVertexShader* vertexShader;

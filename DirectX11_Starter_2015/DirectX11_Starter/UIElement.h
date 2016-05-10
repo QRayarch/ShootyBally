@@ -2,6 +2,11 @@
 #include "DrawnMesh.h"
 #include "Component.h"
 
+struct UIRect {
+	float x, y;
+	float w, h;
+};
+
 class UIElement : public Component
 {
 public:
@@ -12,6 +17,8 @@ public:
 	void ParentSet() override;
 	void SetColor(DirectX::XMFLOAT3 newColor);
 	void SetAspectRatio(float aspectRatio);
+
+	void SetRect(UIRect rect);
 private:
 
 	DrawnMesh drawnMesh;

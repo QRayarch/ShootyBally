@@ -26,7 +26,8 @@ Material::Material(SimpleVertexShader* newVertexShader,
 		}
 		samplerState = newSamplerState;
 	}
-
+	//infoForVertex = MaterialInfo();
+	//infoForPixel = MaterialInfo();
 }
 
 Material::Material(SimpleVertexShader* newVertexShader,
@@ -90,7 +91,7 @@ void Material::PrepareMaterial(RenderInfo& renderInfo, Transform& transform)
 	}
 }
 
-/*void Material::PrepareMaterial(RenderInfo & renderInfo, Transform & transform, MaterialInfo & indivVertexInfo, MaterialInfo & indivPixelInfo)
+void Material::PrepareMaterial(RenderInfo & renderInfo, Transform & transform, MaterialInfo & indivVertexInfo, MaterialInfo & indivPixelInfo)
 {
 	//The numbers only work if everything is passed in correctly into the shader 
 
@@ -131,4 +132,4 @@ void Material::PrepareMaterial(RenderInfo& renderInfo, Transform& transform)
 	else {
 		vertexShader->CopyBufferData(0);//The world matrix needs to be set per object
 	}
-}*/
+}

@@ -129,6 +129,7 @@ MyDemoGame::~MyDemoGame()
 
 	delete entSys;
 	delete res;
+	delete canvas;
 
 	depthState->Release();
 	rasterState->Release();
@@ -174,6 +175,8 @@ bool MyDemoGame::Init()
 	//light2.GetTransform().SetRotation(XMFLOAT3(1, -1, 0));
 	render->SetLight(light1, 0);
 	render->SetLight(light2, 1);
+
+	canvas = new Canvas(entSys, render, res);
 
 	LoadShaders(); 
 	CreateGeometry();
@@ -470,7 +473,7 @@ void MyDemoGame::CreateGeometry()
 	Mesh* mesh2 = res->AddMesh("ground", vertices2, 4, indices2, 6);*/
 
 	//Generates a 9 patch
-	float halfSize = 1.0f;
+	/*float halfSize = 1.0f;
 	float boarderSize = 0.016f;
 	XMFLOAT3 normal = XMFLOAT3(0, 0, 0);
 	XMFLOAT3 innerVertex = XMFLOAT3(1, 1, 1);
@@ -520,7 +523,10 @@ void MyDemoGame::CreateGeometry()
 	colorData.shaderIndex = 4;
 	colorData.data = XMFLOAT3(1.0f, 1.0f, 1.0f);
 	uiMat->GetVertexMaterialInfo()->AddFloat3(colorData);
-	//entity2->GetTransform().SetPosition(XMFLOAT3(-1 + 0.25f, 1 - 0.25f, 0));
+	//entity2->GetTransform().SetPosition(XMFLOAT3(-1 + 0.25f, 1 - 0.25f, 0));*/
+
+	canvas->AddButton({ -0.5f, -0.5f, 0.08f, 0.05f }, uiMat);
+//	canvas->AddButton({ -0.25f, -0.25f, 0.25f, 0.25f }, uiMat);
 
 	//Players
 	Mesh* mesh3 = res->GetMeshAndLoadIfNotFound("sbgPaddle");
@@ -643,12 +649,17 @@ void MyDemoGame::OnResize()
 	// Update our projection matrix since the window size changed
 	camera.CreatePerspectiveProjectionMatrix(aspectRatio, 0.1f, 100.0f);
 
-	if (res != nullptr) {
+	/*if (res != nullptr) {
 		Material* uiMat = res->GetMaterial("UI_Panel");
 		if (uiMat) {
 			uiMat->GetVertexMaterialInfo()->GetFloat(0)->data = aspectRatio;
 		}
+	}*/
+	if (canvas != nullptr) {
+		Material* uiMat = res->GetMaterial("UI_Panel");
+		canvas->SetAspectRatio(aspectRatio);
 	}
+
 }
 #pragma endregion
 
@@ -892,7 +903,7 @@ void MyDemoGame::SwapSOBuffers()
 // --------------------------------------------------------
 void MyDemoGame::OnMouseDown(WPARAM btnState, int x, int y)
 {
-	Input::SetMouseInfo(btnState, x, y);
+	Input::SetMouseInfo(btnState, x, y, windowWidth, windowHeight);
 
 	// Caputure the mouse so we keep getting mouse move
 	// events even if the mouse leaves the window.  we'll be
@@ -907,7 +918,7 @@ void MyDemoGame::OnMouseDown(WPARAM btnState, int x, int y)
 // --------------------------------------------------------
 void MyDemoGame::OnMouseUp(WPARAM btnState, int x, int y)
 {
-	Input::SetMouseInfo(btnState, x, y);
+	Input::SetMouseInfo(btnState, x, y, windowWidth, windowHeight);
 	// We don't care about the tracking the cursor outside
 	// the window anymore (we're not dragging if the mouse is up)
 	ReleaseCapture();
@@ -922,6 +933,6 @@ void MyDemoGame::OnMouseUp(WPARAM btnState, int x, int y)
 // --------------------------------------------------------
 void MyDemoGame::OnMouseMove(WPARAM btnState, int x, int y)
 {
-	Input::SetMouseInfo(btnState, x, y);
+	Input::SetMouseInfo(btnState, x, y, windowWidth, windowHeight);
 }
 #pragma endregion

@@ -6,19 +6,6 @@ UIElement::UIElement(Render* render, Mesh* mesh, Material* material)
 {
 	drawnMesh = DrawnMesh(render, mesh, material);
 	color = DirectX::XMFLOAT3(1, 1, 1);
-
-	/*ShaderInfoElement<float> aspectData;
-	aspectData.shaderIndex = 5;
-	aspectData.data = 1;
-	drawnMesh.GetIndividualVertexInfo()->AddFloat(aspectData);*/
-	ShaderInfoElement<XMFLOAT3> scaleData;
-	scaleData.shaderIndex = 3;
-	scaleData.data = DirectX::XMFLOAT3(1, 1, 1);
-//	drawnMesh.GetIndividualVertexInfo()->AddFloat3(scaleData);
-	ShaderInfoElement<XMFLOAT3> colorData;
-	scaleData.shaderIndex = 4;
-	scaleData.data = color;
-	//drawnMesh.GetIndividualVertexInfo()->AddFloat3(colorData);
 }
 
 
@@ -47,5 +34,11 @@ void UIElement::SetColor(DirectX::XMFLOAT3 newColor)
 
 void UIElement::SetAspectRatio(float aspectRatio)
 {
-	drawnMesh.GetMaterial()->GetVertexMaterialInfo()->GetFloat(0)->data = aspectRatio;
+	//drawnMesh.GetMaterial()->GetPixelMaterialInfo().GetFloat(0).data = aspectRatio;
+}
+
+void UIElement::SetRect(UIRect rect)
+{
+	GetTransform().SetPosition(DirectX::XMFLOAT3(rect.x, rect.y, 0));
+	GetTransform().SetScale(DirectX::XMFLOAT3(rect.w, rect.h, 1));//Set the proper position
 }

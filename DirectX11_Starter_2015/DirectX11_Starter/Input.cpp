@@ -2,31 +2,30 @@
 
 Input Input::instance = Input();
 
-void Input::SetMouseInfo(WPARAM btnState, int x, int y)
+void Input::SetMouseInfo(WPARAM btnState, int x, int y, int w, int h)
 {
 	//Set the mouse position
 	GetInstance()->mouseState.screenX = x;
 	GetInstance()->mouseState.screenY = y;
 
+	GetInstance()->mouseState.screenWidth = w;
+	GetInstance()->mouseState.screenHeight = h;
+
 	//Handle mouse buttons;
 	switch (btnState)
 	{
-		case WM_LBUTTONDOWN:
+		case 1:
 			GetInstance()->mouseState.leftDown = true;
 			break;
-		case WM_LBUTTONUP:
-			GetInstance()->mouseState.leftDown = false;
-			break;
-		case WM_MBUTTONDOWN:
+		case 16:
 			GetInstance()->mouseState.middleDown = true;
 			break;
-		case WM_MBUTTONUP:
-			GetInstance()->mouseState.middleDown = false;
-			break;
-		case WM_RBUTTONDOWN:
+		case 2:
 			GetInstance()->mouseState.leftDown = true;
 			break;
-		case WM_RBUTTONUP:
+		default:
+			GetInstance()->mouseState.leftDown = false;
+			GetInstance()->mouseState.middleDown = false;
 			GetInstance()->mouseState.leftDown = false;
 			break;
 	}
@@ -76,6 +75,8 @@ bool Input::IsKeyDownThisFrame(int key)
 
 Input::Input()
 {
+	GetInstance()->mouseState.screenWidth = 1;
+	GetInstance()->mouseState.screenHeight = 1;
 }
 
 
