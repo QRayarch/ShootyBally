@@ -750,7 +750,8 @@ void MyDemoGame::UpdateScene(float deltaTime, float totalTime)
 		}
 		else
 		{
-
+			ballCollider->GetEntity()->GetTransform().SetPosition(XMFLOAT3(0.0f, -7.5f, 0.0f));
+			ballPhysicsBody->SetVelocity(XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f));
 		}
 	}
 	if (ballCollider->IsColliding(player2.GetCircleCollider()))
@@ -761,7 +762,8 @@ void MyDemoGame::UpdateScene(float deltaTime, float totalTime)
 		}
 		else
 		{
-
+			ballCollider->GetEntity()->GetTransform().SetPosition(XMFLOAT3(0.0f, -7.5f, 0.0f));
+			ballPhysicsBody->SetVelocity(XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f));
 		}
 	}
 
@@ -871,7 +873,7 @@ void MyDemoGame::DrawScene(float deltaTime, float totalTime)
 	// Draw the post process
 	postVS->SetShader();
 
-	postPS->SetInt("blurAmount", 5);
+	postPS->SetInt("blurAmount", 0);
 	postPS->SetFloat("pixelWidth", 1.0f / windowWidth);
 	postPS->SetFloat("pixelHeight", 1.0f / windowHeight);
 	postPS->SetShaderResourceView("pixels", postSRV);
