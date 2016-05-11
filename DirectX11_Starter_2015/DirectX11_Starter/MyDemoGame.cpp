@@ -510,6 +510,9 @@ void MyDemoGame::CreateGeometry()
 	entity1->GetComponent<PhysicsBody>()->SetVelocity(XMFLOAT4(-0.2f, 0.0f, 0.01f, 0.0f));
 	transform1.SetPosition(XMFLOAT3(0.0f, -7.5f, 0.0f));
 
+	ballCollider = entity1->GetComponent<CollisionCircle>();
+	ballPhysicsBody = entity1->GetComponent<PhysicsBody>();
+
 	//Generates a rectangle
 	/*float halfSize = 1.0f;
 	XMFLOAT3 normal = XMFLOAT3(0, 0, 0);
@@ -734,12 +737,7 @@ void MyDemoGame::UpdateScene(float deltaTime, float totalTime)
 	DebugDraw::AddLine(XMFLOAT3(0, 0, 0), XMFLOAT3(0, 1, 0), XMFLOAT4(0, 1, 0, 1));
 	DebugDraw::AddLine(XMFLOAT3(0, 0, 0), XMFLOAT3(0, 0, 1), XMFLOAT4(0, 0, 1, 1));
 
-	//DebugDraw::AddBox(XMFLOAT3(0, 0, 0), XMFLOAT3(1, 1, 1), XMFLOAT4(1, 1, 1, 1));
 	DebugDraw::AddSphere(XMFLOAT3(0, 0, 0), 1, XMFLOAT4(1, 1, 1, 1));
-
-	//Ball's Collider & PhysicsBody
-	CollisionCircle* ballCollider = entSys->GetEntity(0)->GetComponent<CollisionCircle>();
-	PhysicsBody* ballPhysicsBody = entSys->GetEntity(0)->GetComponent<PhysicsBody>();
 
 	//Paddle Collisions
 	if (ballCollider->IsColliding(player1.GetCircleCollider()))

@@ -138,6 +138,9 @@ private:
 	int poolSize = 30;
 	Bullet bulletPool[30];
 
+	CollisionCircle* ballCollider;
+	PhysicsBody* ballPhysicsBody;
+
 	GameState gameState;
 	bool drawDebug;
 };
