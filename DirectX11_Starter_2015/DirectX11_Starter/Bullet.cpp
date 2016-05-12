@@ -32,6 +32,7 @@ void Bullet::UpdatePhysics(float deltaTime)
 	lifespanLeft -= deltaTime;
 	if (lifespanLeft <= 0) {
 		isActive = false;
+		GetEntity()->GetTransform().SetPosition(XMFLOAT3(0, 100, 0));
 	}
 }
 

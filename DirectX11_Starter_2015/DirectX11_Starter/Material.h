@@ -2,10 +2,10 @@
 #include "SimpleShader.h"
 #include "Transform.h"
 #include "MaterialInfo.h"
-enum ShadingTechnique { Default, Toon, UI };
+
 struct RenderInfo;
 
-
+enum ShadingTechnique { Default, Toon, UI };
 
 class Material
 {
@@ -27,9 +27,16 @@ public:
 			unsigned int newNumText,
 			ID3D11SamplerState* newSamplerState);
 	Material(SimpleVertexShader* newVertexShader,
-		SimplePixelShader* newPixelShader,
-		ID3D11ShaderResourceView* newTexture,
-		ID3D11SamplerState* newSamplerState);
+			SimplePixelShader* newPixelShader,
+			SimpleGeometryShader* newGeometryShader,
+			int theTechnique,
+			ID3D11ShaderResourceView* newTexture,
+			ID3D11SamplerState* newSamplerState);
+	Material(SimpleVertexShader* newVertexShader,
+			SimplePixelShader* newPixelShader,
+			int theTechnique,
+			ID3D11ShaderResourceView* newTexture,
+			ID3D11SamplerState* newSamplerState);
 	~Material();
 
 	SimpleVertexShader* GetVertexShader() { return vertexShader; }
