@@ -72,13 +72,13 @@ void main(triangle VertexToGeometry input[3], inout TriangleStream< GeometryToPi
 
 	output.RestartStrip();
 
-	for (uint i = 0; i < 3; i++)
+	for (uint j = 0; j < 3; i++)
 	{
 		GeometryToPixel element;
 
 		//obtain view space pos and norm
-		float3 viewPos = mul(float4(input[i].worldPos, 1.0f), view).xyz;
-		float3 viewNorm = normalize(mul(input[i].worldNorm, (float3x3)view));
+		float3 viewPos = mul(float4(input[j].worldPos, 1.0f), view).xyz;
+		float3 viewNorm = normalize(mul(input[j].worldNorm, (float3x3)view));
 
 		//obtain the normal to the camera
 		//view space simplifies this
@@ -89,10 +89,10 @@ void main(triangle VertexToGeometry input[3], inout TriangleStream< GeometryToPi
 		if (howPerp < perpCheck)
 		{
 			//create copy vertex if part of the border
-			element.worldPos = input[i].worldPos;
-			element.worldNorm = input[i].worldNorm;
-			element.worldTang = input[i].worldTang;
-			element.uv = input[i].uv;
+			element.worldPos = input[j].worldPos;
+			element.worldNorm = input[j].worldNorm;
+			element.worldTang = input[j].worldTang;
+			element.uv = input[j].uv;
 
 			//move out along normal
 			element.worldPos += outlineThickness*element.worldNorm;
