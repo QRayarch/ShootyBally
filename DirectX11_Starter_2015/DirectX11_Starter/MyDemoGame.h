@@ -65,6 +65,9 @@ private:
 	// Particle helper functions.
 	void DrawSpawn(float dt, float totalTime);
 
+	//Gameplay helper functions
+	void GoalScored(Player player);
+
 	// Buffers to hold actual geometry data
 	ID3D11Buffer* vertexBuffer;
 	ID3D11Buffer* indexBuffer;
@@ -125,6 +128,9 @@ private:
 
 	CollisionCircle* ballCollider;
 	PhysicsBody* ballPhysicsBody;
+
+	Entity* walls[42];
+	int wallsIndex = 0;
 
 	GameState gameState;
 	bool drawDebug;

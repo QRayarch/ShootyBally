@@ -13,7 +13,7 @@ struct DebugVertex
 class DebugDraw
 {
 public:
-	const static int MAX_NUMBER_OF_DEBUG_VERTS = 5000;
+	const static int MAX_NUMBER_OF_DEBUG_VERTS = 20000;
 
 	DebugDraw();
 	~DebugDraw();

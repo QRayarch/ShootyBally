@@ -446,6 +446,11 @@ void MyDemoGame::TestLoadLevel(char* mapName) {
 						if (currentEntity != nullptr) {
 							currentTransform = &currentEntity->GetTransform();
 							currentEntity->AddComponent(new DrawnMesh(render, newMesh, nullptr));
+							if (modelName == "TestWall") {
+								currentEntity->AddComponent(new CollisionBox(newMesh->GetVertices(), newMesh->GetNumberOfVertices()));
+								walls[wallsIndex] = currentEntity;
+								wallsIndex++;
+							}
 						}
 						else {
 							currentTransform = nullptr;
@@ -487,8 +492,8 @@ void MyDemoGame::CreateGeometry()
 	entity1->AddComponent(new DrawnMesh(render, mesh1, material3));
 	entity1->AddComponent(new PhysicsBody(&transform1, 2.0f));
 	entity1->AddComponent(new CollisionCircle(mesh1->GetVertices(), mesh1->GetNumberOfVertices()));
-	entity1->GetComponent<PhysicsBody>()->SetVelocity(XMFLOAT4(-0.2f, 0.0f, 0.01f, 0.0f));
-	transform1.SetPosition(XMFLOAT3(0.0f, -7.5f, 0.0f));
+	entity1->GetComponent<PhysicsBody>()->SetVelocity(XMFLOAT4(0.0f, 0.0f, -2.0f, 0.0f));
+	transform1.SetPosition(XMFLOAT3(0.0f, -8.0f, 0.0f));
 
 	ballCollider = entity1->GetComponent<CollisionCircle>();
 	ballPhysicsBody = entity1->GetComponent<PhysicsBody>();
@@ -746,43 +751,44 @@ void MyDemoGame::UpdateScene(float deltaTime, float totalTime)
 	DebugDraw::AddSphere(XMFLOAT3(0, 0, 0), 1, XMFLOAT4(1, 1, 1, 1));
 
 	//Paddle Collisions
-	if (ballCollider->IsColliding(player1.GetCircleCollider()))
-	{
-		if (player1.GetBoxCollider()->IsColliding(ballCollider))
-		{
+	if (ballCollider->IsColliding(player1.GetCircleCollider())) {
+		if (player1.GetBoxCollider()->IsColliding(ballCollider)) {
 			player1.GetPlayerPB()->ResolveCollisions(ballPhysicsBody);
 		}
-		else
-		{
-			ballCollider->GetEntity()->GetTransform().SetPosition(XMFLOAT3(0.0f, -7.5f, 0.0f));
-			ballPhysicsBody->SetVelocity(XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f));
+		else {
+			GoalScored(player2);
 		}
 	}
-	if (ballCollider->IsColliding(player2.GetCircleCollider()))
-	{
-		if (player2.GetBoxCollider()->IsColliding(ballCollider))
-		{
+	if (ballCollider->IsColliding(player2.GetCircleCollider())) {
+		if (player2.GetBoxCollider()->IsColliding(ballCollider)) {
 			player2.GetPlayerPB()->ResolveCollisions(ballPhysicsBody);
 		}
-		else
-		{
-			ballCollider->GetEntity()->GetTransform().SetPosition(XMFLOAT3(0.0f, -7.5f, 0.0f));
-			ballPhysicsBody->SetVelocity(XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f));
+		else {
+			GoalScored(player1);
 		}
 	}
 
+	//Wall Collisions
+	//for (int i = 0; i < wallsIndex; i++) {
+	//	if (walls[i]->GetComponent<CollisionBox>()->IsColliding(ballCollider)) {
+	//		XMFLOAT4 tempVel = ballPhysicsBody->GetVelocity();
+	//		XMFLOAT3 tempPos = ballPhysicsBody->GetTransform().GetPosition();
+	//		ballPhysicsBody->SetVelocity(XMFLOAT4(-tempVel.x, 0.0f, tempVel.z * -1, 0.0f));
+	//		ballPhysicsBody->GetTransform().SetPosition(XMFLOAT3(tempPos.x - tempVel.x, tempPos.y, tempPos.z - tempVel.z));
+	//		//ballPhysicsBody->AddForce(XMFLOAT4(-tempVel.x, 0.0f, tempVel.z * -1, 0.0f));
+	//	}
+	//}
+
 	//Bullet Physics & Collision Loop
-	for (int i = 0; i < poolSize; i++)
-	{
-		if (bulletPool[i].GetIsActive())
-		{
-			if (bulletPool[i].GetEntity()->GetComponent<CollisionCircle>()->IsColliding(ballCollider))
-			{
+	for (int i = 0; i < poolSize; i++) {
+		if (bulletPool[i].GetIsActive()) {
+			if (bulletPool[i].GetEntity()->GetComponent<CollisionCircle>()->IsColliding(ballCollider)) {
 				bulletPool[i].GetEntity()->GetComponent<PhysicsBody>()->ResolveCollisions(ballPhysicsBody);
 				bulletPool[i].SetIsActive(false);
 			}
-			else
+			else {
 				bulletPool[i].UpdatePhysics(deltaTime);
+			}
 		}
 	}
 	ballPhysicsBody->PhysicsUpdate(deltaTime);
@@ -1005,6 +1011,20 @@ void MyDemoGame::DrawSpawn(float dt, float totalTime)
 
 			// Swap after draw.
 			particleEmittersAlpha[i].SwapSoBuffers();
+		}
+	}
+}
+
+void MyDemoGame::GoalScored(Player player)
+{
+	ballCollider->GetEntity()->GetTransform().SetPosition(XMFLOAT3(0.0f, -7.5f, 0.0f));
+	ballPhysicsBody->SetVelocity(XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f));
+
+	for (int i = 0; i < poolSize; i++)
+	{
+		if (bulletPool[i].GetIsActive())
+		{
+			bulletPool[i].SetIsActive(false);
 		}
 	}
 }

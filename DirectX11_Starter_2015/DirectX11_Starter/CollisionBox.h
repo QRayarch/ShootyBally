@@ -11,6 +11,7 @@ using namespace DirectX;
 class CollisionBox : public Component
 {
 public:
+	CollisionBox();
 	CollisionBox(Vertex* meshVertices, int numVerts);
 	~CollisionBox();
 

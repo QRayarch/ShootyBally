@@ -1,6 +1,10 @@
 #include "CollisionBox.h"
 #include "DebugDraw.h"
 
+CollisionBox::CollisionBox() 
+{
+}
+
 CollisionBox::CollisionBox(Vertex* meshVertices, int numVerts)
 {
 	vertices = meshVertices;
