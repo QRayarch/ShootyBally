@@ -13,7 +13,7 @@ public:
 	CollisionCircle(Vertex* meshVerts, int numVertices);
 	~CollisionCircle();
 
-	void Update() override;
+	void Update(float dt) override;
 
 	void UpdateCollisionCircle();
 	bool IsColliding(CollisionCircle* collider);

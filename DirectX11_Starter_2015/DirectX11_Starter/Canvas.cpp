@@ -10,6 +10,10 @@ Canvas::Canvas(EntitySystem* newEntSys, Render* newRender, Resources* newRes)
 	numUIElements = 0;
 	aspectRatio = 1;
 
+	//Set up dedault states
+	buttonDefaultState = { XMFLOAT3(1, 1, 1), 1, 0 };
+	buttonHoverState = { XMFLOAT3(1, 0, 0), 1, 0 };
+
 	defaultUIMesh = res->GetMeshIfLoaded("DefaultUIElement");
 	//If we haven't found the default ui mesh generate one
 	if (defaultUIMesh == nullptr) {
@@ -72,49 +76,18 @@ Button * Canvas::AddButton(UIRect rect, Mesh* mesh, Material* mat)
 	if (entSys->CanAddEntity()) {
 		//Set the material to handle UI
 		//Dont have a property for it add one
-		ShaderInfoElement<float>* aspectInfo = mat->GetVertexMaterialInfo().GetFloatByShaderIndex(ASPECT_RATIO_SHADER_INDEX);
-		if (aspectInfo != nullptr) {
-			aspectInfo->data = aspectRatio;
-		}
-		else {
-			ShaderInfoElement<float> aspectData;
-			aspectData.shaderIndex = ASPECT_RATIO_SHADER_INDEX;
-			aspectData.data = aspectRatio;
-			mat->GetVertexMaterialInfo().AddFloat(aspectData);
-		}
-
-		ShaderInfoElement<XMFLOAT3>* scaleInfo = mat->GetVertexMaterialInfo().GetFloat3ByShaderIndex(SCALE_SHADER_INDEX);
-		if (scaleInfo != nullptr) {
-			scaleInfo->data = DirectX::XMFLOAT3(rect.w, rect.h, 1);
-		}
-		else {
-			ShaderInfoElement<XMFLOAT3> scaleData;
-			scaleData.shaderIndex = SCALE_SHADER_INDEX;
-			scaleData.data = DirectX::XMFLOAT3(rect.w, rect.h, 1);
-			mat->GetVertexMaterialInfo().AddFloat3(scaleData);
-		}
-
-		ShaderInfoElement<XMFLOAT3>* colorInfo = mat->GetVertexMaterialInfo().GetFloat3ByShaderIndex(COLOR_SHADER_INDEX);
-		if (colorInfo != nullptr) {
-			colorInfo->data = DirectX::XMFLOAT3(1, 1, 1);
-		}
-		else {
-			ShaderInfoElement<XMFLOAT3> colorData;
-			colorData.shaderIndex = COLOR_SHADER_INDEX;
-			colorData.data = DirectX::XMFLOAT3(1, 1, 1);
-			mat->GetVertexMaterialInfo().AddFloat3(colorData);
-		}
 
 		//Create the Entity
 		Entity* newEnt = entSys->AddEntity();
 		UIElement* newElement = new UIElement(render, mesh, mat);
 		newEnt->AddComponent(newElement);
 		newElement->SetRect(rect);
-		//newEnt->GetTransform().SetPosition(DirectX::XMFLOAT3(rect.x, rect.y, numUIElements));
-		//newEnt->GetTransform().SetScale(DirectX::XMFLOAT3(rect.w, rect.h, 1));//Set the proper position
+		newElement->SetAspectRatio(aspectRatio);
+
 		AddUIElement(newElement);
 		Button* newButton = new Button();
 		newEnt->AddComponent(newButton);
+		newButton->SetButtonStates(buttonDefaultState, buttonHoverState);
 
 		return newButton;
 	}

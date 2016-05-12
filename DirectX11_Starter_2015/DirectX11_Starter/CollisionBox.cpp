@@ -36,9 +36,9 @@ CollisionBox::~CollisionBox()
 	
 }
 
-void CollisionBox::Update()
+void CollisionBox::Update(float dt)
 {
-	Component::Update();
+	Component::Update(dt);
 	modelMatrix = GetEntity()->GetTransform().GetWorldMatrix();
 	scale = GetEntity()->GetTransform().GetScale().x;
 	XMFLOAT3 flo;

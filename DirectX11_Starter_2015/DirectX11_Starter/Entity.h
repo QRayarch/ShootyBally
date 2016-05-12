@@ -12,7 +12,7 @@ public:
 	~Entity();
 
 	void AddComponent(Component* newComponent);
-	void Update();
+	void Update(float dt);
 
 	Transform& GetTransform() { return transform; }
 

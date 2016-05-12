@@ -21,9 +21,9 @@ CollisionCircle::~CollisionCircle()
 {
 }
 
-void CollisionCircle::Update()
+void CollisionCircle::Update(float dt)
 {
-	Component::Update();
+	Component::Update(dt);
 	UpdateCollisionCircle();
 }
 

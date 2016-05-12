@@ -578,8 +578,7 @@ void MyDemoGame::CreateGeometry()
 	uiMat->GetVertexMaterialInfo()->AddFloat3(colorData);
 	//entity2->GetTransform().SetPosition(XMFLOAT3(-1 + 0.25f, 1 - 0.25f, 0));*/
 
-	canvas->AddButton({ -0.5f, -0.5f, 0.08f, 0.05f }, uiMat);
-//	canvas->AddButton({ -0.25f, -0.25f, 0.25f, 0.25f }, uiMat);
+	Entity* entity2 = entSys->AddEntity();//BREAKS GAME IF NOT IN
 
 	//Players
 	Mesh* mesh3 = res->GetMeshAndLoadIfNotFound("sbgPaddle");
@@ -620,6 +619,14 @@ void MyDemoGame::CreateGeometry()
 		int poolIndex = i - numEnts;
 		bulletPool[poolIndex] = Bullet(entSys, i);
 	}
+
+	//UI
+	canvas->GetHoverButtonState().color = XMFLOAT3(0, 1, 1);
+	canvas->GetHoverButtonState().scale = 1.08f;
+	canvas->GetHoverButtonState().transitionTime = 0.1f;
+	canvas->GetDefualtButtonState().transitionTime = 0.1f;
+	canvas->AddButton({ -0.5f, -0.5f, 0.1f, 0.08f }, uiMat);
+	canvas->AddButton({ -0.25f, -0.5f, 0.1f, 0.08f }, uiMat);
 
 	// Particle geometry.
 	// Set up the vertices to put into the Vertex Buffer.
@@ -786,7 +793,7 @@ void MyDemoGame::UpdateScene(float deltaTime, float totalTime)
 	player1.GetInput(deltaTime);
 	player2.GetInput(deltaTime);
 
-	entSys->Update();
+	entSys->Update(deltaTime);
 
 	//Temp camera and input stuff
 	camera.Update(deltaTime, Input::GetMouseDeltaX(), Input::GetMouseDeltaY());
@@ -907,7 +914,7 @@ void MyDemoGame::DrawScene(float deltaTime, float totalTime)
 	postVS->SetShader();
 
 	postPS->SetBool("vertical", true);
-	postPS->SetInt("blurAmount", 5);
+	postPS->SetInt("blurAmount", 0);
 	postPS->SetFloat("pixelWidth", 1.0f / windowWidth);
 	postPS->SetFloat("pixelHeight", 1.0f / windowHeight);
 	postPS->SetShaderResourceView("pixels", postSRV);

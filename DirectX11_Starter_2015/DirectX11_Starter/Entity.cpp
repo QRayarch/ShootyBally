@@ -25,9 +25,9 @@ void Entity::AddComponent(Component* newComponent)
 	numberOfComponents++;
 }
 
-void Entity::Update()
+void Entity::Update(float dt)
 {
 	for (int c = 0; c < numberOfComponents; ++c) {
-		components[c]->Update();
+		components[c]->Update(dt);
 	}
 }

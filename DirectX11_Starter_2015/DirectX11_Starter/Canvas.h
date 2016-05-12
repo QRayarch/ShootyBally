@@ -5,9 +5,7 @@
 #include "EntitySystem.h"
 #include "Resources.h"
 
-#define ASPECT_RATIO_SHADER_INDEX 5
-#define SCALE_SHADER_INDEX 3
-#define COLOR_SHADER_INDEX 4
+
 
 class Canvas
 {
@@ -21,6 +19,11 @@ public:
 
 	Button* AddButton(UIRect rect, Material* mat);
 	Button* AddButton(UIRect rect, Mesh* mesh, Material* mat);
+
+	ButtonState& GetDefualtButtonState() { return buttonDefaultState; }
+	void SetDefaultButtonState(ButtonState newDefault) { buttonDefaultState = newDefault; }
+	ButtonState& GetHoverButtonState() { return buttonHoverState; }
+	void SetHoverButtonState(ButtonState newHover) { buttonHoverState = newHover; }
 private:
 	EntitySystem* entSys;
 	Render* render;
@@ -33,5 +36,8 @@ private:
 	int numUIElements;
 
 	void AddUIElement(UIElement* newElement);
+
+	ButtonState buttonDefaultState;
+	ButtonState buttonHoverState;
 };
 

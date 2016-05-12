@@ -108,11 +108,11 @@ void Material::PrepareMaterial(RenderInfo & renderInfo, Transform & transform, M
 	//normalMap 1
 	//samplerState 0
 	vertexShader->SetMatrix4x4(0, transform.GetWorldMatrix());
+	bool needsRefresh = false;
 	if (renderInfo.currentMaterial != this) {
 		vertexShader->SetMatrix4x4(1, renderInfo.viewMatrix);
 		vertexShader->SetMatrix4x4(2, renderInfo.projectionMatrix);
 		infoForVertex.SetShaderData(vertexShader);
-		indivVertexInfo.SetShaderData(vertexShader);
 		vertexShader->SetShader(true);
 
 		pixelShader->SetFloat3(0, renderInfo.cameraPosition);
@@ -122,14 +122,21 @@ void Material::PrepareMaterial(RenderInfo & renderInfo, Transform & transform, M
 			pixelShader->SetShaderResourceView(t, textures[t]);
 		}
 		infoForPixel.SetShaderData(pixelShader);
-		indivPixelInfo.SetShaderData(pixelShader);
 
 		pixelShader->SetSamplerState(0, samplerState);
 		pixelShader->SetShader(true);
 
 		renderInfo.currentMaterial = this;
 	}
-	else {
+	else 
+	{
+		needsRefresh = true;
+	}
+	if (indivVertexInfo.SetShaderData(vertexShader) || indivPixelInfo.SetShaderData(pixelShader)) {
+		needsRefresh = true;
+	}
+	if (needsRefresh) {
 		vertexShader->CopyBufferData(0);//The world matrix needs to be set per object
+		pixelShader->CopyBufferData(0);
 	}
 }
