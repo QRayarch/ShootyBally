@@ -8,6 +8,7 @@
 #include "Mesh.h"
 #include "DrawnMesh.h"
 #include "UIElement.h"
+#include "Canvas.h"
 #include "MaterialInfo.h"
 #include "Render.h"
 #include "Entity.h"
@@ -74,6 +75,7 @@ private:
 //	std::vector<Material*> materials;
 	ID3D11SamplerState* samplerState;
 	EntitySystem* entSys;
+	Canvas* canvas;
 
 	// Wrappers for DirectX shaders to provide simplified functionality
 	SimpleVertexShader* vertexShader;
@@ -108,11 +110,21 @@ private:
 	ID3D11BlendState* particleBlendState;
 	ID3D11DepthStencilState* particleDepthState;
 
+	//Post Processing
+	ID3D11RenderTargetView* postRTV;
+	ID3D11ShaderResourceView* postSRV;
+	SimpleVertexShader* postVS;
+	SimplePixelShader* postPS;
+
+	// Game Data
 	Player player1;
 	Player player2;
 
 	int poolSize = 30;
 	Bullet bulletPool[30];
+
+	CollisionCircle* ballCollider;
+	PhysicsBody* ballPhysicsBody;
 
 	GameState gameState;
 	bool drawDebug;

@@ -90,6 +90,12 @@
     <ClCompile Include="UIElement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Canvas.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="ParticleEmitter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -176,6 +182,12 @@
     <ClInclude Include="ParticleEmitter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Canvas.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shaders\PixelShader.hlsl">
@@ -218,6 +230,12 @@
       <Filter>Shaders</Filter>
     </FxCompile>
     <FxCompile Include="PS_UI.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="PS_Blur.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="VS_Blur.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
   </ItemGroup>

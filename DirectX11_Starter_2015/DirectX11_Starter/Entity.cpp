@@ -10,7 +10,10 @@ Entity::Entity()
 Entity::~Entity()
 {
 	for (int c = 0; c < numberOfComponents; ++c) {
-		delete components[c];
+		if (components[c] != nullptr) {
+			delete components[c];
+			components[c] = nullptr;
+		}
 	}
 }
 
@@ -22,9 +25,9 @@ void Entity::AddComponent(Component* newComponent)
 	numberOfComponents++;
 }
 
-void Entity::Update()
+void Entity::Update(float dt)
 {
 	for (int c = 0; c < numberOfComponents; ++c) {
-		components[c]->Update();
+		components[c]->Update(dt);
 	}
 }

@@ -8,9 +8,9 @@ class Component
 public:
 	const static Component EMPTY;
 	Component();
-	~Component();
+	virtual ~Component();
 
-	virtual void Update();
+	virtual void Update(float dt);
 	virtual void ParentSet();
 
 	void SetEntity(Entity* newParentEntity);

@@ -30,10 +30,10 @@ public:
 	void SetPixelShader(SimplePixelShader* newPixelShader) { pixelShader = newPixelShader; }
 	void SetSamplerState(ID3D11SamplerState* newSamplerState) { samplerState = newSamplerState; }
 	void PrepareMaterial(RenderInfo& renderInfo, Transform& transform);
-	//void PrepareMaterial(RenderInfo& renderInfo, Transform& transform, MaterialInfo& indivVertexInfo, MaterialInfo& indivPixelInfo);
+	void PrepareMaterial(RenderInfo& renderInfo, Transform& transform, MaterialInfo& indivVertexInfo, MaterialInfo& indivPixelInfo);
 
-	MaterialInfo* GetVertexMaterialInfo() { return &infoForVertex; }
-	MaterialInfo* GetPixelMaterialInfo() { return &infoForPixel; }
+	MaterialInfo& GetVertexMaterialInfo() { return infoForVertex; }
+	MaterialInfo& GetPixelMaterialInfo() { return infoForPixel; }
 private:
 	SimpleVertexShader* vertexShader;
 	SimplePixelShader* pixelShader;

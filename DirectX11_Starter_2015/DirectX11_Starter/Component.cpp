@@ -14,7 +14,7 @@ Component::~Component()
 	
 }
 
-void Component::Update()
+void Component::Update(float dt)
 {
 }
 

@@ -21,7 +21,7 @@ public:
 	void SetVelocity(const XMFLOAT4& vel) { velocity = vel; }
 	XMFLOAT4 GetAcceleration() const { return acceleration; }
 
-	void Update() override;
+	void Update(float dt) override;
 
 	// Updates the associated transform's position and rotation.
 	void PhysicsUpdate(float deltaTime);

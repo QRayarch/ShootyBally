@@ -18,11 +18,15 @@ public:
 	~MaterialInfo();
 
 	void AddFloat(ShaderInfoElement<float> newData);
-	ShaderInfoElement<float>* GetFloat(int i) { return &floats[i]; }
+	ShaderInfoElement<float>& GetFloat(int i) { return floats[i]; }
+	int GetFloatLength() { return floats.size(); }
+	ShaderInfoElement<float>* GetFloatByShaderIndex(int i);
 	void AddFloat3(ShaderInfoElement<DirectX::XMFLOAT3> newData);
-	ShaderInfoElement<DirectX::XMFLOAT3>* GetFloat3(int i) { return &float3s[i]; }
+	ShaderInfoElement<DirectX::XMFLOAT3>& GetFloat3(int i) { return float3s[i]; }
+	int GetFloat3Length() { return float3s.size(); }
+	ShaderInfoElement<DirectX::XMFLOAT3>* GetFloat3ByShaderIndex(int i);
 
-	void SetShaderData(ISimpleShader* shader);
+	bool SetShaderData(ISimpleShader* shader);
 private:
 	/*ShaderInfoElement<float>* floatsData[MAX_NUM_SHADER_INFO_FLOAT];
 	unsigned int numFloat;

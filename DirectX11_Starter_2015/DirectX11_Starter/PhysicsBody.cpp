@@ -20,9 +20,9 @@ PhysicsBody::~PhysicsBody()
 {
 }
 
-void PhysicsBody::Update()
+void PhysicsBody::Update(float dt)
 {
-	Component::Update();
+	Component::Update(dt);
 }
 
 void PhysicsBody::PhysicsUpdate(float deltaTime)

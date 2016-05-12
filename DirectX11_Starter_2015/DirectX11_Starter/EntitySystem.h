@@ -9,7 +9,7 @@ public:
 	EntitySystem(const int newMaxNumberOfEntsCanHold);
 	~EntitySystem();
 
-	void Update();
+	void Update(float dt);
 
 	Entity* AddEntity();
 	Entity* EnableEntity(int index);//Enables an entity

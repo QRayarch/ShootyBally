@@ -4,15 +4,15 @@
 #include "Logger.h"
 
 DrawnMesh::DrawnMesh()
+	:Component()
 {
-	Component::Component();
 	render = nullptr;
 	mesh = nullptr;
 }
 
 DrawnMesh::DrawnMesh(Render* newRender, Mesh* newMesh, Material* newMaterial)
+	:Component()
 {
-	Component::Component();
 	render = newRender;
 	mesh = newMesh;
 	material = newMaterial;
@@ -32,7 +32,7 @@ void DrawnMesh::Draw(RenderInfo& renderInfo)
 	UINT offset = 0;
 
 	if (material != nullptr) {
-		material->PrepareMaterial(renderInfo, GetTransform());//, individualVertexInfo, individualPixelInfo
+		material->PrepareMaterial(renderInfo, GetTransform(),individualVertexInfo, individualPixelInfo);//, individualVertexInfo, individualPixelInfo
 	}
 	else {
 		//LogText("--WARRNING no material--//A drawn mesh is rendering without a material. Things will not work well.");
@@ -46,9 +46,9 @@ void DrawnMesh::Draw(RenderInfo& renderInfo)
 	renderInfo.deviceContext->DrawIndexed(mesh->GetNumberOfIndices(), 0, 0);
 }
 
-void DrawnMesh::Update()
+void DrawnMesh::Update(float dt)
 {
-	Component::Update();
+	Component::Update(dt);
 	if (render == nullptr) return;
 	render->AddToRenderList(*this);
 }

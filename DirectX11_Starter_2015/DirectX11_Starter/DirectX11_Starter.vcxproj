@@ -76,7 +76,9 @@ xcopy "$(SolutionDir)Assets" "$(OutDir)Assets" /y /s /i /d /e</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="Button.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Canvas.cpp" />
     <ClCompile Include="CollisionBox.cpp" />
     <ClCompile Include="CollisionCircle.cpp" />
     <ClCompile Include="Component.cpp" />
@@ -103,7 +105,9 @@ xcopy "$(SolutionDir)Assets" "$(OutDir)Assets" /y /s /i /d /e</Command>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Button.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Canvas.h" />
     <ClInclude Include="CollisionBox.h" />
     <ClInclude Include="CollisionCircle.h" />
     <ClInclude Include="Component.h" />
@@ -131,6 +135,12 @@ xcopy "$(SolutionDir)Assets" "$(OutDir)Assets" /y /s /i /d /e</Command>
     <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="PS_Blur.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+    </FxCompile>
     <FxCompile Include="PixelShaderNoNormals.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
@@ -190,6 +200,12 @@ xcopy "$(SolutionDir)Assets" "$(OutDir)Assets" /y /s /i /d /e</Command>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="VS_Blur.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="VS_Skybox.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>

@@ -17,10 +17,10 @@ EntitySystem::~EntitySystem()
 	}
 }
 
-void EntitySystem::Update()
+void EntitySystem::Update(float dt)
 {
 	for (int e = 0; e < numEnabledEnts; e++) {
-		ents[e].Update();
+		ents[e].Update(dt);
 	}
 }
 

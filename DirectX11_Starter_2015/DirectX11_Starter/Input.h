@@ -18,6 +18,9 @@ struct MouseState
 	int screenY;
 	int previousFrameScreenX;
 	int previousFrameScreenY;
+
+	int screenWidth;
+	int screenHeight;
 };
 
 struct KeyState {
@@ -29,7 +32,7 @@ class Input
 {
 public:
 	//Things the main game should call
-	static void SetMouseInfo(WPARAM btnState, int x, int y);
+	static void SetMouseInfo(WPARAM btnState, int x, int y, int w, int h);
 	//Update should be called really early in the frame for it to work best
 	static void Update();
 	//EndFrameUpdate MUST BE ONE OF THE LAST THINGS DONE IN THE FRAME, if you want input to work
@@ -46,6 +49,8 @@ public:
 	static bool GetMouseRightBtnDownThisFrame() { return GetInstance()->mouseState.rightDown && !GetInstance()->mouseState.rightPrevFrameDown; }
 	static int GetMousePositionX() { return GetInstance()->mouseState.screenX; }
 	static int GetMousePositionY() { return GetInstance()->mouseState.screenY; }
+	static float GetMousePositionNormalizedX() { return GetInstance()->mouseState.screenX / (float)GetInstance()->mouseState.screenWidth; }
+	static float GetMousePositionNormalizedY() { return GetInstance()->mouseState.screenY / (float)GetInstance()->mouseState.screenHeight; }
 	static int GetMouseDeltaX() { return GetInstance()->mouseState.screenX - GetInstance()->mouseState.previousFrameScreenX; }
 	static int GetMouseDeltaY() { return GetInstance()->mouseState.screenY - GetInstance()->mouseState.previousFrameScreenY; }
 	//KeyboardStuff

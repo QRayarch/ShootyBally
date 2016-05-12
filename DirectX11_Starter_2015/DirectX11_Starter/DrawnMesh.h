@@ -16,17 +16,17 @@ public:
 	~DrawnMesh();
 
 	virtual void Draw(RenderInfo& renderInfo);
-	void Update() override;
+	void Update(float dt) override;
 
 	Mesh* GetMesh() { return mesh; }
 	void SetMaterial(Material* newMaterial) { material = newMaterial; }
 	Material* GetMaterial() { return material; }
-	//MaterialInfo* GetIndividualVertexInfo() { return &individualVertexInfo; }
-	//MaterialInfo* GetIndividualPixelInfo() { return &individualPixelInfo; }
+	MaterialInfo& GetIndividualVertexInfo() { return individualVertexInfo; }
+	MaterialInfo& GetIndividualPixelInfo() { return individualPixelInfo; }
 private:
 	Render* render;
 	Mesh* mesh;
 	Material* material;
-	//MaterialInfo individualVertexInfo;
-	//MaterialInfo individualPixelInfo;
+	MaterialInfo individualVertexInfo;
+	MaterialInfo individualPixelInfo;
 };

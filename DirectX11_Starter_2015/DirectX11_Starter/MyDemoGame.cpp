@@ -115,6 +115,7 @@ MyDemoGame::~MyDemoGame()
 
 	delete entSys;
 	delete res;
+	delete canvas;
 
 	depthState->Release();
 	rasterState->Release();
@@ -125,6 +126,13 @@ MyDemoGame::~MyDemoGame()
 	randomTexture->Release();
 	particleBlendState->Release();
 	particleDepthState->Release();
+
+	// Post Processing
+	delete postPS;
+	delete postVS;
+	postRTV->Release();
+	postSRV->Release();
+	
 
 	DebugDraw::Release();
 }
@@ -158,6 +166,8 @@ bool MyDemoGame::Init()
 	//light2.GetTransform().SetRotation(XMFLOAT3(1, -1, 0));
 	render->SetLight(light1, 0);
 	render->SetLight(light2, 1);
+
+	canvas = new Canvas(entSys, render, res);
 
 	LoadShaders(); 
 	CreateGeometry();
@@ -203,6 +213,12 @@ void MyDemoGame::LoadShaders()
 	vsUI->LoadShaderFile(L"VS_UI.cso");
 	psUI = new SimplePixelShader(device, deviceContext);
 	psUI->LoadShaderFile(L"PS_UI.cso");
+
+	//post shaders
+	postVS = new SimpleVertexShader(device, deviceContext);
+	postVS->LoadShaderFile(L"VS_Blur.cso");
+	postPS = new SimplePixelShader(device, deviceContext);
+	postPS->LoadShaderFile(L"PS_Blur.cso");
 
 	// Load particle shaders
 	spawnVS = new SimpleVertexShader(device, deviceContext);
@@ -273,6 +289,43 @@ void MyDemoGame::LoadShaders()
 	particleDepthDesc.DepthFunc = D3D11_COMPARISON_LESS;
 	particleDepthDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
 	device->CreateDepthStencilState(&particleDepthDesc, &particleDepthState);
+
+	///////////////////////////////////////////////
+	//Post Processing
+	///////////////////////////////////////////////
+	//Target Texture
+	D3D11_TEXTURE2D_DESC texDesc = {};
+	texDesc.Width = windowWidth;
+	texDesc.Height = windowHeight;
+	texDesc.ArraySize = 1;
+	texDesc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+	texDesc.CPUAccessFlags = 0;
+	texDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	texDesc.MipLevels = 1;
+	texDesc.MiscFlags = 0;
+	texDesc.SampleDesc.Count = 1;
+	texDesc.SampleDesc.Quality = 0;
+	texDesc.Usage = D3D11_USAGE_DEFAULT;
+	ID3D11Texture2D* postTexture;
+	device->CreateTexture2D(&texDesc, 0, &postTexture);
+
+	//Render Target View
+	D3D11_RENDER_TARGET_VIEW_DESC rtvDesc = {};
+	rtvDesc.Format = texDesc.Format;
+	rtvDesc.Texture2D.MipSlice = 0;
+	rtvDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+	device->CreateRenderTargetView(postTexture, &rtvDesc, &postRTV);
+
+	//Shader Resource View
+	D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
+	srvDesc.Format = texDesc.Format;
+	srvDesc.Texture2D.MipLevels = 1;
+	srvDesc.Texture2D.MostDetailedMip = 0;
+	srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+	device->CreateShaderResourceView(postTexture, &srvDesc, &postSRV);
+
+	// texture reference cleanup
+	postTexture->Release();
 }
 
 //This is here temporarily till more things are figured out
@@ -437,6 +490,9 @@ void MyDemoGame::CreateGeometry()
 	entity1->GetComponent<PhysicsBody>()->SetVelocity(XMFLOAT4(-0.2f, 0.0f, 0.01f, 0.0f));
 	transform1.SetPosition(XMFLOAT3(0.0f, -7.5f, 0.0f));
 
+	ballCollider = entity1->GetComponent<CollisionCircle>();
+	ballPhysicsBody = entity1->GetComponent<PhysicsBody>();
+
 	//Generates a rectangle
 	/*float halfSize = 1.0f;
 	XMFLOAT3 normal = XMFLOAT3(0, 0, 0);
@@ -450,7 +506,7 @@ void MyDemoGame::CreateGeometry()
 	Mesh* mesh2 = res->AddMesh("ground", vertices2, 4, indices2, 6);*/
 
 	//Generates a 9 patch
-	float halfSize = 1.0f;
+	/*float halfSize = 1.0f;
 	float boarderSize = 0.016f;
 	XMFLOAT3 normal = XMFLOAT3(0, 0, 0);
 	XMFLOAT3 innerVertex = XMFLOAT3(1, 1, 1);
@@ -500,7 +556,9 @@ void MyDemoGame::CreateGeometry()
 	colorData.shaderIndex = 4;
 	colorData.data = XMFLOAT3(1.0f, 1.0f, 1.0f);
 	uiMat->GetVertexMaterialInfo()->AddFloat3(colorData);
-	//entity2->GetTransform().SetPosition(XMFLOAT3(-1 + 0.25f, 1 - 0.25f, 0));
+	//entity2->GetTransform().SetPosition(XMFLOAT3(-1 + 0.25f, 1 - 0.25f, 0));*/
+
+	Entity* entity2 = entSys->AddEntity();//BREAKS GAME IF NOT IN
 
 	//Players
 	Mesh* mesh3 = res->GetMeshAndLoadIfNotFound("sbgPaddle");
@@ -541,6 +599,14 @@ void MyDemoGame::CreateGeometry()
 		int poolIndex = i - numEnts;
 		bulletPool[poolIndex] = Bullet(entSys, i);
 	}
+
+	//UI
+	canvas->GetHoverButtonState().color = XMFLOAT3(0, 1, 1);
+	canvas->GetHoverButtonState().scale = 1.08f;
+	canvas->GetHoverButtonState().transitionTime = 0.1f;
+	canvas->GetDefualtButtonState().transitionTime = 0.1f;
+	canvas->AddButton({ -0.5f, -0.5f, 0.1f, 0.08f }, uiMat);
+	canvas->AddButton({ -0.25f, -0.5f, 0.1f, 0.08f }, uiMat);
 
 	// Particle emitters.
 	particleTexture = res->LoadTexture("particle", Resources::FILE_FORMAT_PNG);
@@ -642,12 +708,17 @@ void MyDemoGame::OnResize()
 	// Update our projection matrix since the window size changed
 	camera.CreatePerspectiveProjectionMatrix(aspectRatio, 0.1f, 100.0f);
 
-	if (res != nullptr) {
+	/*if (res != nullptr) {
 		Material* uiMat = res->GetMaterial("UI_Panel");
 		if (uiMat) {
 			uiMat->GetVertexMaterialInfo()->GetFloat(0)->data = aspectRatio;
 		}
+	}*/
+	if (canvas != nullptr) {
+		Material* uiMat = res->GetMaterial("UI_Panel");
+		canvas->SetAspectRatio(aspectRatio);
 	}
+
 }
 #pragma endregion
 
@@ -672,12 +743,7 @@ void MyDemoGame::UpdateScene(float deltaTime, float totalTime)
 	DebugDraw::AddLine(XMFLOAT3(0, 0, 0), XMFLOAT3(0, 1, 0), XMFLOAT4(0, 1, 0, 1));
 	DebugDraw::AddLine(XMFLOAT3(0, 0, 0), XMFLOAT3(0, 0, 1), XMFLOAT4(0, 0, 1, 1));
 
-	//DebugDraw::AddBox(XMFLOAT3(0, 0, 0), XMFLOAT3(1, 1, 1), XMFLOAT4(1, 1, 1, 1));
 	DebugDraw::AddSphere(XMFLOAT3(0, 0, 0), 1, XMFLOAT4(1, 1, 1, 1));
-
-	//Ball's Collider & PhysicsBody
-	CollisionCircle* ballCollider = entSys->GetEntity(0)->GetComponent<CollisionCircle>();
-	PhysicsBody* ballPhysicsBody = entSys->GetEntity(0)->GetComponent<PhysicsBody>();
 
 	//Paddle Collisions
 	if (ballCollider->IsColliding(player1.GetCircleCollider()))
@@ -688,7 +754,8 @@ void MyDemoGame::UpdateScene(float deltaTime, float totalTime)
 		}
 		else
 		{
-
+			ballCollider->GetEntity()->GetTransform().SetPosition(XMFLOAT3(0.0f, -7.5f, 0.0f));
+			ballPhysicsBody->SetVelocity(XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f));
 		}
 	}
 	if (ballCollider->IsColliding(player2.GetCircleCollider()))
@@ -699,7 +766,8 @@ void MyDemoGame::UpdateScene(float deltaTime, float totalTime)
 		}
 		else
 		{
-
+			ballCollider->GetEntity()->GetTransform().SetPosition(XMFLOAT3(0.0f, -7.5f, 0.0f));
+			ballPhysicsBody->SetVelocity(XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f));
 		}
 	}
 
@@ -724,7 +792,7 @@ void MyDemoGame::UpdateScene(float deltaTime, float totalTime)
 	player1.GetInput(deltaTime);
 	player2.GetInput(deltaTime);
 
-	entSys->Update();
+	entSys->Update(deltaTime);
 
 	// Update particle emitters.
 	for (int i = 0; i < particleEmittersAlphaLength; ++i)
@@ -750,10 +818,15 @@ void MyDemoGame::DrawScene(float deltaTime, float totalTime)
 	// Background color (Cornflower Blue in this case) for clearing
 	const float color[4] = {0.4f, 0.6f, 0.75f, 0.0f};
 
+	//Swap for post processing
+	deviceContext->OMSetRenderTargets(1, &postRTV, depthStencilView);
+
+
+
 	// Clear the render target and depth buffer (erases what's on the screen)
 	//  - Do this ONCE PER FRAME
 	//  - At the beginning of DrawScene (before drawing *anything*)
-	deviceContext->ClearRenderTargetView(renderTargetView, color);
+	deviceContext->ClearRenderTargetView(postRTV, color);
 	deviceContext->ClearDepthStencilView(
 		depthStencilView, 
 		D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL,
@@ -825,6 +898,42 @@ void MyDemoGame::DrawScene(float deltaTime, float totalTime)
 			deviceContext->OMSetDepthStencilState(0, 0);
 		}
 	}
+
+
+
+
+	/////////////////
+	//Post Processing
+	/////////////////
+	// Regular to post
+	deviceContext->OMSetRenderTargets(1, &renderTargetView, 0);
+	deviceContext->ClearRenderTargetView(renderTargetView, color);
+
+	// Draw the post process
+	postVS->SetShader();
+
+	postPS->SetBool("vertical", true);
+	postPS->SetInt("blurAmount", 0);
+	postPS->SetFloat("pixelWidth", 1.0f / windowWidth);
+	postPS->SetFloat("pixelHeight", 1.0f / windowHeight);
+	postPS->SetShaderResourceView("pixels", postSRV);
+	postPS->SetSamplerState("trilinear", samplerState);
+	postPS->SetShader();
+
+	// Turn off existing vert/index buffers
+	ID3D11Buffer* nothing = 0;
+	deviceContext->IASetVertexBuffers(0, 1, &nothing, &stride, &offset);
+	deviceContext->IASetIndexBuffer(0, DXGI_FORMAT_R32_UINT, 0);
+
+	// Finally - DRAW!
+	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	deviceContext->Draw(3, 0);
+
+	// Unbind the SRV so the underlying texture isn't bound for
+	// both input and output at the start of next frame
+	postPS->SetShaderResourceView("pixels", 0);
+
+
 
 	// Present the buffer
 	//  - Puts the image we're drawing into the window so the user can see it
@@ -913,7 +1022,7 @@ void MyDemoGame::DrawSpawn(float dt, float totalTime)
 // --------------------------------------------------------
 void MyDemoGame::OnMouseDown(WPARAM btnState, int x, int y)
 {
-	Input::SetMouseInfo(btnState, x, y);
+	Input::SetMouseInfo(btnState, x, y, windowWidth, windowHeight);
 
 	// Caputure the mouse so we keep getting mouse move
 	// events even if the mouse leaves the window.  we'll be
@@ -928,7 +1037,7 @@ void MyDemoGame::OnMouseDown(WPARAM btnState, int x, int y)
 // --------------------------------------------------------
 void MyDemoGame::OnMouseUp(WPARAM btnState, int x, int y)
 {
-	Input::SetMouseInfo(btnState, x, y);
+	Input::SetMouseInfo(btnState, x, y, windowWidth, windowHeight);
 	// We don't care about the tracking the cursor outside
 	// the window anymore (we're not dragging if the mouse is up)
 	ReleaseCapture();
@@ -943,6 +1052,6 @@ void MyDemoGame::OnMouseUp(WPARAM btnState, int x, int y)
 // --------------------------------------------------------
 void MyDemoGame::OnMouseMove(WPARAM btnState, int x, int y)
 {
-	Input::SetMouseInfo(btnState, x, y);
+	Input::SetMouseInfo(btnState, x, y, windowWidth, windowHeight);
 }
 #pragma endregion
