@@ -57,7 +57,7 @@ public:
 	int GetFrameCount() const { return frameCount; }
 	void SetFrameCount(int frameCount) { this->frameCount = frameCount; }
 
-	void Update() override;
+	void Update(float dt) override;
 
 	void Enable();
 	void Disable();

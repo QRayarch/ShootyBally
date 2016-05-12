@@ -98,9 +98,9 @@ ParticleEmitter::~ParticleEmitter()
 	ReleaseMacro(soBufferWrite);
 }
 
-void ParticleEmitter::Update()
+void ParticleEmitter::Update(float dt)
 {
-	Component::Update();
+	Component::Update(dt);
 }
 
 void ParticleEmitter::Enable()
