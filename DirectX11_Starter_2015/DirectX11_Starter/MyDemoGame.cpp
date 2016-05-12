@@ -713,6 +713,40 @@ void MyDemoGame::OnResize()
 	// Update our projection matrix since the window size changed
 	camera.CreatePerspectiveProjectionMatrix(aspectRatio, 0.1f, 100.0f);
 
+	//Post
+	ReleaseMacro(postRTV);
+	ReleaseMacro(postSRV);
+	//Target Texture
+	D3D11_TEXTURE2D_DESC texDesc = {};
+	texDesc.Width = windowWidth;
+	texDesc.Height = windowHeight;
+	texDesc.ArraySize = 1;
+	texDesc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+	texDesc.CPUAccessFlags = 0;
+	texDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	texDesc.MipLevels = 1;
+	texDesc.MiscFlags = 0;
+	texDesc.SampleDesc.Count = 1;
+	texDesc.SampleDesc.Quality = 0;
+	texDesc.Usage = D3D11_USAGE_DEFAULT;
+	ID3D11Texture2D* postTexture;
+	device->CreateTexture2D(&texDesc, 0, &postTexture);
+
+	//Render Target View
+	D3D11_RENDER_TARGET_VIEW_DESC rtvDesc = {};
+	rtvDesc.Format = texDesc.Format;
+	rtvDesc.Texture2D.MipSlice = 0;
+	rtvDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+	device->CreateRenderTargetView(postTexture, &rtvDesc, &postRTV);
+
+	//Shader Resource View
+	D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
+	srvDesc.Format = texDesc.Format;
+	srvDesc.Texture2D.MipLevels = 1;
+	srvDesc.Texture2D.MostDetailedMip = 0;
+	srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+	device->CreateShaderResourceView(postTexture, &srvDesc, &postSRV);
+
 	/*if (res != nullptr) {
 		Material* uiMat = res->GetMaterial("UI_Panel");
 		if (uiMat) {
