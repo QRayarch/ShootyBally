@@ -79,20 +79,6 @@ MyDemoGame::MyDemoGame(HINSTANCE hInstance)
 	// Custom window size - will be created by Init() later
 	windowWidth = 1280;
 	windowHeight = 720;
-
-	// Particle setup
-	particleStartPosition = XMFLOAT3(2.0f, -5.0f, 0.0f);
-	particleStartVelocity = XMFLOAT3(0.0f, 0.0f, -4.0f);
-	particleStartColor = XMFLOAT4(1.0f, 0.1f, 0.1f, 0.3f);
-	particleMidColor = XMFLOAT4(1.0f, 1.0f, 0.1f, 0.2f);
-	particleEndColor = XMFLOAT4(1.0f, 0.5f, 0.1f, 0.1f);
-	particleStartSize = 10.0f;
-	particleMidSize = 8.0f;
-	particleEndSize = 1.0f;
-
-	particleAgeToSpawn = 0.000001f;
-	particleMaxLifetime = 2.0f;
-	particleConstantAccel = XMFLOAT3(0.0f, 0.0f, -4.0f);
 }
 
 // --------------------------------------------------------
@@ -116,11 +102,11 @@ MyDemoGame::~MyDemoGame()
 	delete pSSkybox;
 	delete vsUI;
 	delete psUI;
-	delete particleVS;
-	delete particlePS;
-	delete particleGS;
 	delete spawnVS;
 	delete spawnGS;
+	delete particleVS;
+	delete particleGS;
+	delete particlePS;
 
 	if (samplerState != nullptr) {
 		samplerState->Release();
@@ -133,12 +119,10 @@ MyDemoGame::~MyDemoGame()
 	depthState->Release();
 	rasterState->Release();
 
-	// Particle stuff
-	particleVB->Release();
+	// Clean up particle resources.
+	delete[] particleEmittersAlpha;
 	randomSRV->Release();
 	randomTexture->Release();
-	soBufferRead->Release();
-	soBufferWrite->Release();
 	particleBlendState->Release();
 	particleDepthState->Release();
 
@@ -221,26 +205,20 @@ void MyDemoGame::LoadShaders()
 	psUI->LoadShaderFile(L"PS_UI.cso");
 
 	// Load particle shaders
-	particleVS = new SimpleVertexShader(device, deviceContext);
-	particleVS->LoadShaderFile(L"VS_Particle.cso");
-
-	particlePS = new SimplePixelShader(device, deviceContext);
-	particlePS->LoadShaderFile(L"PS_Particle.cso");
-
-	particleGS = new SimpleGeometryShader(device, deviceContext);
-	particleGS->LoadShaderFile(L"GS_Particle.cso");
+	spawnVS = new SimpleVertexShader(device, deviceContext);
+	spawnVS->LoadShaderFile(L"VS_ParticleSpawn.cso");
 
 	spawnGS = new SimpleGeometryShader(device, deviceContext, true, false);
 	spawnGS->LoadShaderFile(L"GS_ParticleSpawn.cso");
 
-	spawnVS = new SimpleVertexShader(device, deviceContext);
-	spawnVS->LoadShaderFile(L"VS_ParticleSpawn.cso");
+	particleVS = new SimpleVertexShader(device, deviceContext);
+	particleVS->LoadShaderFile(L"VS_Particle.cso");
 
-	// Create SO buffers
-	spawnGS->CreateCompatibleStreamOutBuffer(&soBufferRead, 1000000);
-	spawnGS->CreateCompatibleStreamOutBuffer(&soBufferWrite, 1000000);
-	spawnFlip = false;
-	frameCount = 0;
+	particleGS = new SimpleGeometryShader(device, deviceContext);
+	particleGS->LoadShaderFile(L"GS_Particle.cso");
+
+	particlePS = new SimplePixelShader(device, deviceContext);
+	particlePS->LoadShaderFile(L"PS_Particle.cso");
 
 	//This is tempory, 
 	//TODO: create a common shader file. 
@@ -278,8 +256,10 @@ void MyDemoGame::LoadShaders()
 	particleBlendDesc.IndependentBlendEnable = false;
 	particleBlendDesc.RenderTarget[0].BlendEnable = true;
 	particleBlendDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
-	particleBlendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
-	particleBlendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_ONE;
+	//particleBlendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE;   // Additive blending.
+	particleBlendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;   // Alpha blending (transparency).
+	particleBlendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_ONE;   // Additive blending.
+	//particleBlendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;   // Alpha blending (transparency).
 	particleBlendDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
 	particleBlendDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
 	particleBlendDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ONE;
@@ -562,32 +542,54 @@ void MyDemoGame::CreateGeometry()
 		bulletPool[poolIndex] = Bullet(entSys, i);
 	}
 
-	// Particle geometry.
-	// Set up the vertices to put into the Vertex Buffer.
-	ParticleVertex vertices[1];
-	vertices[0].Type = 0;
-	vertices[0].Age = 0.0f;
-	vertices[0].StartPosition = particleStartPosition;
-	vertices[0].StartVelocity = particleStartVelocity;
-	vertices[0].StartColor = particleStartColor;
-	vertices[0].MidColor = particleMidColor;
-	vertices[0].EndColor = particleEndColor;
-	vertices[0].StartMidEndSize = XMFLOAT3(
-		particleStartSize,
-		particleMidSize,
-		particleEndSize);
+	// Particle emitters.
+	particleTexture = res->LoadTexture("particle", Resources::FILE_FORMAT_PNG);
+	particleEmittersAlphaLength = 30;
+	particleEmittersAlpha = new ParticleEmitter[particleEmittersAlphaLength];
 
-	// Create the vertex buffer.
-	D3D11_BUFFER_DESC vbd;
-	vbd.Usage = D3D11_USAGE_IMMUTABLE;
-	vbd.ByteWidth = sizeof(ParticleVertex) * 1;
-	vbd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	vbd.CPUAccessFlags = 0;
-	vbd.MiscFlags = 0;
-	vbd.StructureByteStride = 0;
-	D3D11_SUBRESOURCE_DATA initialVertexData;
-	initialVertexData.pSysMem = vertices;
-	HR(device->CreateBuffer(&vbd, &initialVertexData, &particleVB));
+	particleEmittersAlpha[0].Init(
+		XMFLOAT3(2.0f, -5.0f, 0.0f),
+		XMFLOAT3(0.0f, 0.0f, -4.0f),
+		XMFLOAT4(1.0f, 0.1f, 0.1f, 0.3f),
+		XMFLOAT4(1.0f, 1.0f, 0.1f, 0.2f),
+		XMFLOAT4(1.0f, 0.5f, 0.1f, 0.1f),
+		10.0f,
+		8.0f,
+		1.0f,
+		XMFLOAT3(0.0f, 0.0f, -4.0f),
+		0.000001f,
+		2.0f,
+		2.0f,
+		particleTexture,
+		device);
+
+	// Create SO buffers.
+	spawnGS->CreateCompatibleStreamOutBuffer(particleEmittersAlpha[0].GetSoBufferReadPointer(), 1000000);
+	spawnGS->CreateCompatibleStreamOutBuffer(particleEmittersAlpha[0].GetSoBufferWritePointer(), 1000000);
+
+	particleEmittersAlpha[0].Enable();
+
+	particleEmittersAlpha[1].Init(
+		XMFLOAT3(-2.0f, -5.0f, 0.0f),
+		XMFLOAT3(0.0f, 0.0f, -4.0f),
+		XMFLOAT4(1.0f, 0.1f, 0.1f, 0.3f),
+		XMFLOAT4(1.0f, 1.0f, 0.1f, 0.2f),
+		XMFLOAT4(1.0f, 0.5f, 0.1f, 0.1f),
+		10.0f,
+		8.0f,
+		1.0f,
+		XMFLOAT3(0.0f, 0.0f, -4.0f),
+		0.000001f,
+		2.0f,
+		2.0f,
+		particleTexture,
+		device);
+
+	// Create SO buffers.
+	spawnGS->CreateCompatibleStreamOutBuffer(particleEmittersAlpha[1].GetSoBufferReadPointer(), 1000000);
+	spawnGS->CreateCompatibleStreamOutBuffer(particleEmittersAlpha[1].GetSoBufferWritePointer(), 1000000);
+
+	particleEmittersAlpha[1].Enable();
 
 	// Set up "random" resources.
 	unsigned int randomTextureWidth = 1024;
@@ -622,9 +624,6 @@ void MyDemoGame::CreateGeometry()
 	srvDesc.Texture1D.MipLevels = 1;
 	srvDesc.Texture1D.MostDetailedMip = 0;
 	device->CreateShaderResourceView(randomTexture, &srvDesc, &randomSRV);
-
-	// Load the particle texture.
-	particleTexture = res->LoadTexture("particle", Resources::FILE_FORMAT_PNG);
 }
 
 #pragma endregion
@@ -727,6 +726,12 @@ void MyDemoGame::UpdateScene(float deltaTime, float totalTime)
 
 	entSys->Update();
 
+	// Update particle emitters.
+	for (int i = 0; i < particleEmittersAlphaLength; ++i)
+	{
+		particleEmittersAlpha[i].ParticlesUpdate(deltaTime);
+	}
+
 	//Temp camera and input stuff
 	camera.Update(deltaTime, Input::GetMouseDeltaX(), Input::GetMouseDeltaY());
 
@@ -739,7 +744,7 @@ void MyDemoGame::UpdateScene(float deltaTime, float totalTime)
 // --------------------------------------------------------
 void MyDemoGame::DrawScene(float deltaTime, float totalTime)
 {
-	// Handle spawning particles
+	// Handle spawning particles.
 	DrawSpawn(deltaTime, totalTime);
 
 	// Background color (Cornflower Blue in this case) for clearing
@@ -781,39 +786,45 @@ void MyDemoGame::DrawScene(float deltaTime, float totalTime)
 	deviceContext->RSSetState(0);
 	deviceContext->OMSetDepthStencilState(0, 0);
 
-	// Draw particles
-	particleGS->SetMatrix4x4("world", XMFLOAT4X4(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)); // Identity
-	particleGS->SetMatrix4x4("view", camera.GetViewMatrix());
-	particleGS->SetMatrix4x4("projection", camera.GetProjectionMatrix());
+	// Draw particles.
+	for (int i = 0; i < particleEmittersAlphaLength; ++i)
+	{
+		if (particleEmittersAlpha[i].GetEnabled())
+		{
+			particleVS->SetFloat3("acceleration", particleEmittersAlpha[i].GetConstantAccel());
+			particleVS->SetFloat("maxLifetime", particleEmittersAlpha[i].GetMaxLifetime());
 
-	particleVS->SetFloat3("acceleration", particleConstantAccel);
-	particleVS->SetFloat("maxLifetime", particleMaxLifetime);
+			particleGS->SetMatrix4x4("world", XMFLOAT4X4(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)); // Identity
+			particleGS->SetMatrix4x4("view", camera.GetViewMatrix());
+			particleGS->SetMatrix4x4("projection", camera.GetProjectionMatrix());
 
-	particlePS->SetSamplerState("trilinear", samplerState);
-	particlePS->SetShaderResourceView("particleTexture", particleTexture);
+			particlePS->SetSamplerState("trilinear", samplerState);
+			particlePS->SetShaderResourceView("particleTexture", particleEmittersAlpha[i].GetTexture());
 
-	particleVS->SetShader(true);
-	particlePS->SetShader(true);
-	particleGS->SetShader(true);
+			particleVS->SetShader(true);
+			particleGS->SetShader(true);
+			particlePS->SetShader(true);
 
-	// Set up states
-	float factor[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
-	deviceContext->OMSetBlendState(particleBlendState, factor, 0xffffffff);
-	deviceContext->OMSetDepthStencilState(particleDepthState, 0);
+			// Set up states.
+			float factor[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+			deviceContext->OMSetBlendState(particleBlendState, factor, 0xffffffff);
+			deviceContext->OMSetDepthStencilState(particleDepthState, 0);
 
-	// Set buffers
-	UINT particleStride = sizeof(ParticleVertex);
-	UINT particleOffset = 0;
-	deviceContext->IASetVertexBuffers(0, 1, &soBufferRead, &particleStride, &particleOffset);
+			// Set buffers.
+			UINT particleStride = sizeof(ParticleVertex);
+			UINT particleOffset = 0;
+			deviceContext->IASetVertexBuffers(0, 1, particleEmittersAlpha[i].GetSoBufferReadPointer(), &particleStride, &particleOffset);
 
-	// Draw auto - draws based on current stream out buffer
-	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
-	deviceContext->DrawAuto();
+			// Draw auto - draws based on current stream out buffer.
+			deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
+			deviceContext->DrawAuto();
 
-	// Unset Geometry Shader for next frame and reset states
-	deviceContext->GSSetShader(0, 0, 0);
-	deviceContext->OMSetBlendState(0, factor, 0xffffffff);
-	deviceContext->OMSetDepthStencilState(0, 0);
+			// Unset Geometry Shader and reset states.
+			deviceContext->GSSetShader(0, 0, 0);
+			deviceContext->OMSetBlendState(0, factor, 0xffffffff);
+			deviceContext->OMSetDepthStencilState(0, 0);
+		}
+	}
 
 	// Present the buffer
 	//  - Puts the image we're drawing into the window so the user can see it
@@ -822,61 +833,71 @@ void MyDemoGame::DrawScene(float deltaTime, float totalTime)
 	HR(swapChain->Present(0, 0));
 }
 
-// Handles the "drawing" of particle spawns
+// Handles the "drawing" of particle spawns.
 void MyDemoGame::DrawSpawn(float dt, float totalTime)
 {
 	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
 	UINT stride = sizeof(ParticleVertex);
 	UINT offset = 0;
 
-	// Set/unset correct shaders
-	// Set the delta time for the spawning
-	spawnGS->SetFloat("dt", dt);
-	spawnGS->SetFloat("ageToSpawn", particleAgeToSpawn);
-	spawnGS->SetFloat("maxLifetime", particleMaxLifetime);
-	spawnGS->SetFloat("totalTime", totalTime);
-	spawnGS->SetSamplerState("randomSampler", samplerState);
-	spawnGS->SetShaderResourceView("randomTexture", randomSRV);
-
-	spawnVS->SetShader();
-	spawnGS->SetShader();
-	deviceContext->PSSetShader(0, 0, 0); // No pixel shader needed
-
-	// Unbind vertex buffers (incase)
-	ID3D11Buffer* unset = 0;
-	deviceContext->IASetVertexBuffers(0, 1, &unset, &stride, &offset);
-
-	// First frame?
-	if (frameCount == 0)
+	for (int i = 0; i < particleEmittersAlphaLength; ++i)
 	{
-		// Draw using the seed vertex
-		deviceContext->IASetVertexBuffers(0, 1, &particleVB, &stride, &offset);
-		deviceContext->SOSetTargets(1, &soBufferWrite, &offset);
-		deviceContext->Draw(1, 0);
-		frameCount++;
+		if (particleEmittersAlpha[i].GetEnabled())
+		{
+			float ageToSpawn;
+			if (particleEmittersAlpha[i].GetDisableTimer() == -1.0f)
+			{
+				ageToSpawn = particleEmittersAlpha[i].GetAgeToSpawn();
+			}
+			else
+			{
+				// The particle emitter is in the process of disabling, so stop spawning new particles.
+				ageToSpawn = 10000.0f;
+			}
+
+			// Set/unset correct shaders.
+			// Set the delta time for the spawning.
+			spawnGS->SetFloat("dt", dt);
+			spawnGS->SetFloat("ageToSpawn", ageToSpawn);
+			spawnGS->SetFloat("maxLifetime", particleEmittersAlpha[i].GetMaxLifetime());
+			spawnGS->SetFloat("totalTime", totalTime);
+			spawnGS->SetSamplerState("randomSampler", samplerState);
+			spawnGS->SetShaderResourceView("randomTexture", randomSRV);
+
+			spawnVS->SetShader();
+			spawnGS->SetShader();
+			deviceContext->PSSetShader(0, 0, 0); // No pixel shader needed.
+
+			// Unbind vertex buffers (incase).
+			ID3D11Buffer* unset = 0;
+			deviceContext->IASetVertexBuffers(0, 1, &unset, &stride, &offset);
+
+			// First frame?
+			int particleEmitterFrameCount = particleEmittersAlpha[i].GetFrameCount();
+			if (particleEmitterFrameCount == 0)
+			{
+				// Draw using the seed vertex.
+				deviceContext->IASetVertexBuffers(0, 1, particleEmittersAlpha[i].GetVertexBufferPointer(), &stride, &offset);
+				deviceContext->SOSetTargets(1, particleEmittersAlpha[i].GetSoBufferWritePointer(), &offset);
+				deviceContext->Draw(1, 0);
+				particleEmittersAlpha[i].SetFrameCount(particleEmitterFrameCount + 1);
+			}
+			else
+			{
+				// Draw using the buffers.
+				deviceContext->IASetVertexBuffers(0, 1, particleEmittersAlpha[i].GetSoBufferReadPointer(), &stride, &offset);
+				deviceContext->SOSetTargets(1, particleEmittersAlpha[i].GetSoBufferWritePointer(), &offset);
+				deviceContext->DrawAuto();
+			}
+
+			// Unbind SO targets and shader.
+			SimpleGeometryShader::UnbindStreamOutStage(deviceContext);
+			deviceContext->GSSetShader(0, 0, 0);
+
+			// Swap after draw.
+			particleEmittersAlpha[i].SwapSoBuffers();
+		}
 	}
-	else
-	{
-		// Draw using the buffers
-		deviceContext->IASetVertexBuffers(0, 1, &soBufferRead, &stride, &offset);
-		deviceContext->SOSetTargets(1, &soBufferWrite, &offset);
-		deviceContext->DrawAuto();
-	}
-
-	// Unbind SO targets and shader
-	SimpleGeometryShader::UnbindStreamOutStage(deviceContext);
-	deviceContext->GSSetShader(0, 0, 0);
-
-	// Swap after draw
-	SwapSOBuffers();
-}
-
-// Swaps stream out buffers for ping-ponging
-void MyDemoGame::SwapSOBuffers()
-{
-	ID3D11Buffer* temp = soBufferRead;
-	soBufferRead = soBufferWrite;
-	soBufferWrite = temp;
 }
 
 #pragma endregion

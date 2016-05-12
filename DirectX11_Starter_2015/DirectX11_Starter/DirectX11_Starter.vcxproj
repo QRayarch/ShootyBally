@@ -92,6 +92,7 @@ xcopy "$(SolutionDir)Assets" "$(OutDir)Assets" /y /s /i /d /e</Command>
     <ClCompile Include="MyDemoGame.cpp" />
     <ClCompile Include="dxerr.cpp" />
     <ClCompile Include="DirectXGameCore.cpp" />
+    <ClCompile Include="ParticleEmitter.cpp" />
     <ClCompile Include="PhysicsBody.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Render.cpp" />
@@ -119,6 +120,7 @@ xcopy "$(SolutionDir)Assets" "$(OutDir)Assets" /y /s /i /d /e</Command>
     <ClInclude Include="MyDemoGame.h" />
     <ClInclude Include="dxerr.h" />
     <ClInclude Include="DirectXGameCore.h" />
+    <ClInclude Include="ParticleEmitter.h" />
     <ClInclude Include="PhysicsBody.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Render.h" />

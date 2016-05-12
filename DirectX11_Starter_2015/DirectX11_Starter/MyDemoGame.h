@@ -21,6 +21,7 @@
 #include "Bullet.h"
 #include "CollisionBox.h"
 #include "CollisionCircle.h"
+#include "ParticleEmitter.h"
 
 // Include run-time memory checking in debug builds, so 
 // we can be notified of memory leaks
@@ -62,7 +63,6 @@ private:
 
 	// Particle helper functions.
 	void DrawSpawn(float dt, float totalTime);
-	void SwapSOBuffers();
 
 	// Buffers to hold actual geometry data
 	ID3D11Buffer* vertexBuffer;
@@ -90,38 +90,23 @@ private:
 	ID3D11DepthStencilState*	depthState;
 
 	// Particle resources.
-	ID3D11Buffer* particleVB;
-	ID3D11Buffer* soBufferRead;
-	ID3D11Buffer* soBufferWrite;
-	bool spawnFlip;
-	int frameCount;
-
-	SimpleVertexShader* particleVS;
-	SimplePixelShader* particlePS;
-	SimpleGeometryShader* particleGS;
+	int particleEmittersAlphaLength;
+	ParticleEmitter* particleEmittersAlpha;
 
 	SimpleVertexShader* spawnVS;
 	SimpleGeometryShader* spawnGS;
 
+	SimpleVertexShader* particleVS;
+	SimpleGeometryShader* particleGS;
+	SimplePixelShader* particlePS;
+
 	ID3D11Texture1D* randomTexture;
 	ID3D11ShaderResourceView* randomSRV;
+
 	ID3D11ShaderResourceView* particleTexture;
+
 	ID3D11BlendState* particleBlendState;
 	ID3D11DepthStencilState* particleDepthState;
-
-	// Particle params.
-	DirectX::XMFLOAT3 particleStartPosition;
-	DirectX::XMFLOAT3 particleStartVelocity;
-	DirectX::XMFLOAT4 particleStartColor;
-	DirectX::XMFLOAT4 particleMidColor;
-	DirectX::XMFLOAT4 particleEndColor;
-	float particleStartSize;
-	float particleMidSize;
-	float particleEndSize;
-
-	float particleAgeToSpawn;
-	float particleMaxLifetime;
-	DirectX::XMFLOAT3 particleConstantAccel;
 
 	Player player1;
 	Player player2;
