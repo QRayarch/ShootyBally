@@ -13,6 +13,8 @@ const char Resources::FILE_FORMAT_DDS[] = ".dds";
 const char Resources::FILE_FORMAT_PNG[] = ".png";
 const char Resources::FILE_FORMAT_JPG[] = ".jpg";
 
+const char Resources::FILE_FORMAT_SPRITE_FONT[] = ".spritefont";
+
 Resources::Resources(ID3D11Device* newDevice, ID3D11DeviceContext* newDeviceContext)
 {
 	device = newDevice;
@@ -36,6 +38,15 @@ Resources::Resources(ID3D11Device* newDevice, ID3D11DeviceContext* newDeviceCont
 		materials[m].material = nullptr;
 		materials[m].name = "";
 	}
+
+	fonts = new FontResource[MAX_NUM_FONTS];
+	numberOfMaterials = 0;
+	for (unsigned int f = 0; f < MAX_NUM_FONTS; ++f) {
+		fonts[f].font = nullptr;
+		fonts[f].name = "";
+	}
+
+	numberOfFonts = 0;
 }
 
 
@@ -53,10 +64,10 @@ Resources::~Resources()
 	//Handle cleanup of textures 
 	//IMPORTANT for textures release the shader resource views
 	for (unsigned int t = 0; t < MAX_NUM_TEXTURES; t++) {
-			if (textures[t].srv != nullptr) {
-				textures[t].srv->Release();
-				textures[t].srv = nullptr;
-			}
+		if (textures[t].srv != nullptr) {
+			textures[t].srv->Release();
+			textures[t].srv = nullptr;
+		}
 	}
 
 	if (textures != nullptr) {
@@ -74,6 +85,17 @@ Resources::~Resources()
 	if (materials != nullptr) {
 		delete[] materials;
 		materials = nullptr;
+	}
+
+	for (int f = 0; f < MAX_NUM_FONTS; ++f) {
+		if (fonts[f].font != nullptr) {
+			delete fonts[f].font;
+			fonts[f].font = nullptr;
+		}
+	}
+	if (fonts != nullptr) {
+		delete[] fonts;
+		fonts = nullptr;
 	}
 }
 #pragma region Mesh
@@ -259,7 +281,7 @@ int Resources::GetNextMeshIndex()
 		LogText("--Max Meshes Reached--//Maximum unique number of meshes loaded. Consider loading less or increase the amount of mesh that can be stored.");
 		return -1;
 	}
-	
+
 	return numberOfMeshes;
 }
 
@@ -362,17 +384,18 @@ int Resources::FindTextureIndex(std::string textureName)
 
 #pragma region Material 
 
-Material* Resources::CreateMaterial(SimpleVertexShader * vert, SimplePixelShader * pixel, int technique, ID3D11SamplerState * sampler, std::string textrureName)
+Material* Resources::CreateMaterial(SimpleVertexShader * vert, SimplePixelShader * pixel, ID3D11SamplerState * sampler, std::string textrureName)
 {
-	return Resources::CreateMaterial(vert, pixel, technique, sampler, textrureName, "", "");
+	return Resources::CreateMaterial(vert, pixel, sampler, textrureName, "", "");
 }
 
-Material * Resources::CreateMaterial(SimpleVertexShader * vert, SimplePixelShader * pixel, int technique, ID3D11SamplerState * sampler, std::string textrure1Name, std::string textrure2Name)
+Material * Resources::CreateMaterial(SimpleVertexShader * vert, SimplePixelShader * pixel, ID3D11SamplerState * sampler, std::string textrure1Name, std::string textrure2Name)
 {
-	return Resources::CreateMaterial(vert, pixel, technique, sampler, textrure1Name, textrure2Name, "");
+	return Resources::CreateMaterial(vert, pixel, sampler, textrure1Name, textrure2Name, "");
 }
 
-Material* Resources::CreateMaterial(SimpleVertexShader * vert, SimplePixelShader * pixel, int technique, ID3D11SamplerState * sampler,
+//TODO:have a better way of handeling materials, as in if you try to create a material with a duplicate fists texture name it won't be created and will instead return the first one
+Material* Resources::CreateMaterial(SimpleVertexShader * vert, SimplePixelShader * pixel, ID3D11SamplerState * sampler,
 	std::string textrure1Name,
 	std::string textrure2Name,
 	std::string textrure3Name)
@@ -390,68 +413,20 @@ Material* Resources::CreateMaterial(SimpleVertexShader * vert, SimplePixelShader
 	//This might be changed out in the future, for a scanning system that tries to load the best file format works and then tries to load fallbacks
 	ID3D11ShaderResourceView* textures[Material::MAX_NUM_TEXTURES];
 	unsigned int numberOfTextures = 1;
-	textures[0] = LoadTexture(textrure1Name, Resources::FILE_FORMAT_JPG);
+	textures[0] = LoadTextureFindFormat(textrure1Name);
 	if (textrure2Name != "") {
-		textures[1] = LoadTexture(textrure2Name, Resources::FILE_FORMAT_JPG);
+		textures[1] = LoadTextureFindFormat(textrure2Name);
 		numberOfTextures += 1;
 	}
 	if (textrure3Name != "") {
-		textures[2] = LoadTexture(textrure3Name, Resources::FILE_FORMAT_JPG);
+		textures[2] = LoadTextureFindFormat(textrure3Name);
 		numberOfTextures += 1;
 	}
 	if (textures[0] == nullptr) {
 		LogText("--Not creating Material--//No diffuse map was loaded. So no material will be created: " + textrure1Name);
 		return nullptr;
 	}
-	Material* newMaterial = new Material(vert, pixel, technique, textures, numberOfTextures, sampler);
-	materials[numberOfMaterials].material = newMaterial;
-	materials[numberOfMaterials].name = textrure1Name;
-	numberOfMaterials += 1;
-	return newMaterial;
-}
-
-Material* Resources::CreateMaterial(SimpleVertexShader * vert, SimplePixelShader * pixel, SimpleGeometryShader * geometry, int technique, ID3D11SamplerState * sampler, std::string textrureName)
-{
-	return Resources::CreateMaterial(vert, pixel, geometry, technique, sampler, textrureName, "", "");
-}
-
-Material * Resources::CreateMaterial(SimpleVertexShader * vert, SimplePixelShader * pixel, SimpleGeometryShader * geometry, int technique, ID3D11SamplerState * sampler, std::string textrure1Name, std::string textrure2Name)
-{
-	return Resources::CreateMaterial(vert, pixel, geometry, technique, sampler, textrure1Name, textrure2Name, "");
-}
-
-Material* Resources::CreateMaterial(SimpleVertexShader * vert, SimplePixelShader * pixel, SimpleGeometryShader * geometry, int technique, ID3D11SamplerState * sampler,
-	std::string textrure1Name,
-	std::string textrure2Name,
-	std::string textrure3Name)
-{
-	int index = GetMaterialIndex(textrure1Name);
-	if (index != -1) {
-		return materials[index].material;
-	}
-
-	if (numberOfMaterials + 1 >= MAX_NUM_MATERIALS) {
-		LogText("--Not Creating Material--//Max number of materials reached. Create less or increase the max number of materials to hold.");
-		return nullptr;
-	}
-
-	//This might be changed out in the future, for a scanning system that tries to load the best file format works and then tries to load fallbacks
-	ID3D11ShaderResourceView* textures[Material::MAX_NUM_TEXTURES];
-	unsigned int numberOfTextures = 1;
-	textures[0] = LoadTexture(textrure1Name, Resources::FILE_FORMAT_JPG);
-	if (textrure2Name != "") {
-		textures[1] = LoadTexture(textrure2Name, Resources::FILE_FORMAT_JPG);
-		numberOfTextures += 1;
-	}
-	if (textrure3Name != "") {
-		textures[2] = LoadTexture(textrure3Name, Resources::FILE_FORMAT_JPG);
-		numberOfTextures += 1;
-	}
-	if (textures[0] == nullptr) {
-		LogText("--Not creating Material--//No diffuse map was loaded. So no material will be created: " + textrure1Name);
-		return nullptr;
-	}
-	Material* newMaterial = new Material(vert, pixel, geometry, technique, textures, numberOfTextures, sampler);
+	Material* newMaterial = new Material(vert, pixel, textures, numberOfTextures, sampler);
 	materials[numberOfMaterials].material = newMaterial;
 	materials[numberOfMaterials].name = textrure1Name;
 	numberOfMaterials += 1;
@@ -475,6 +450,40 @@ int Resources::GetMaterialIndex(std::string materialName)
 		}
 	}
 	return -1;
+}
+
+SpriteFont* Resources::LoadSpriteFont(std::string fileName)
+{
+	SpriteFont* isFontLoaded = GetSpriteFont(fileName);
+	if (isFontLoaded != nullptr) return isFontLoaded;
+	if (numberOfFonts + 1 >= MAX_NUM_FONTS) {
+		LogText("--Not Loading Font--//Max number of fonts reached. Load less or increase the max number of fonts to hold.");
+		return nullptr;
+	}
+
+	std::string fontPath = defaultTexturePath + fileName + FILE_FORMAT_SPRITE_FONT;
+	LogText("LOADING FONT: " + fileName);
+
+	//a hacky way to convert to a wide char, I would eventually like to find a better solution
+	const char* texturePathC = fontPath.c_str();
+	wchar_t buffer[256] = { 0 };
+	MultiByteToWideChar(0, 0, texturePathC, strlen(texturePathC), buffer, strlen(texturePathC));
+
+	SpriteFont* newFont = new SpriteFont(device, buffer);
+	fonts[numberOfFonts].font = newFont;
+	fonts[numberOfFonts].name = fileName;
+	numberOfFonts += 1;
+	return newFont;
+}
+
+SpriteFont * Resources::GetSpriteFont(std::string fileName)
+{
+	for (unsigned int f = 0; f < numberOfFonts; ++f) {
+		if (fonts[f].name.compare(fileName) == 0) {
+			return fonts[f].font;
+		}
+	}
+	return nullptr;
 }
 
 #pragma endregion

@@ -1,4 +1,4 @@
-//#define TOON
+#define TOON
 struct Light {
 	float4 AmbientColor;
 	float4 DiffuseColor;
@@ -60,7 +60,7 @@ else if (light.Type == 1)// Point
 }
 nDotL *= light.Intensity;
 #ifdef TOON
-nDotL = smoothstep(0, 0.03f, nDotL);
+nDotL = smoothstep(0, 0.03f, nDotL * 0.08);
 #endif
 
 return (light.DiffuseColor * saturate(nDotL) * baseColor);

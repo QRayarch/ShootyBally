@@ -45,6 +45,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 	// Enable run-time memory check for debug builds.
 #if defined(DEBUG) | defined(_DEBUG)
 	_CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
+	//_CrtSetBreakAlloc(193);
 #endif
 
 	// Create the game object.
@@ -162,7 +163,8 @@ bool MyDemoGame::Init()
 
 	GameLight light1 = GameLight(LIGHT_DIRECTIONAL, XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f), XMFLOAT4(0.9f, 0.4f, 0.4f, 1.0f));
 	light1.GetTransform().SetRotation(XMFLOAT3(1, 0, 0));
-	GameLight light2 = GameLight(LIGHT_POINT, XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f), XMFLOAT4(0.4f, 0.8f, 0.4f, 1.0f));
+	GameLight light2 = GameLight(LIGHT_POINT, XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f), XMFLOAT4(0.4f, 1.0f, 0.4f, 1.0f));
+	//light2.in
 	//light2.GetTransform().SetRotation(XMFLOAT3(1, -1, 0));
 	render->SetLight(light1, 0);
 	render->SetLight(light2, 1);
@@ -398,7 +400,7 @@ void MyDemoGame::TestLoadLevel(char* mapName) {
 				/*LogText(texture1Name);
 				LogText(texture2Name);
 				LogText(texture3Name);*/
-				currentMaterial = res->CreateMaterial(vertexShader, pixelShader, samplerState, texture1Name, texture2Name, texture3Name);
+				currentMaterial = res->CreateMaterial(vertexShader, pixelShaderNoNormals, samplerState, texture1Name, texture2Name, texture3Name);
 
 				DrawnMesh* drawnMesh = currentEntity->GetComponent<DrawnMesh>();
 				if (drawnMesh != nullptr) {
@@ -482,21 +484,24 @@ void MyDemoGame::CreateGeometry()
 	Material* material1 = res->CreateMaterial(vertexShader, pixelShader, samplerState, "BrickOldMixedSize", "Normal_BrickOldMixedSize");
 	Material* material2 = res->CreateMaterial(vertexShader, pixelShader, samplerState, "RockSmooth", "Normal_RockSmooth");
 	Material* material3 = res->CreateMaterial(vertexShader, pixelShaderNoNormals, samplerState, "Ball");
-	Material* material4 = res->CreateMaterial(vertexShader, pixelShader, samplerState, "Normal_Paddle", "Normal_Paddle");
+	Material* paddleMat = res->CreateMaterial(vertexShader, pixelShaderNoNormals, samplerState, "paddle");
+	Material* bulletMat = res->CreateMaterial(vertexShader, pixelShaderNoNormals, samplerState, "Bullet");
 	Material* uiMat = res->CreateMaterial(vsUI, psUI, samplerState, "UI_Panel");//WoodRough
 
 	//Ball
 	Mesh* mesh1 = res->GetMeshAndLoadIfNotFound("Ball");
-	Entity* entity1 = entSys->AddEntity();
-	Transform& transform1 = entity1->GetTransform();
-	entity1->AddComponent(new DrawnMesh(render, mesh1, material3));
-	entity1->AddComponent(new PhysicsBody(&transform1, 2.0f));
-	entity1->AddComponent(new CollisionCircle(mesh1->GetVertices(), mesh1->GetNumberOfVertices()));
-	entity1->GetComponent<PhysicsBody>()->SetVelocity(XMFLOAT4(0.0f, 0.0f, -2.0f, 0.0f));
+	Entity* ball = entSys->AddEntity();
+	Transform& transform1 = ball->GetTransform();
+	ball->AddComponent(new DrawnMesh(render, mesh1, material3));
+	ball->AddComponent(new PhysicsBody(&transform1, 0.5f));
+	ball->AddComponent(new CollisionCircle(mesh1->GetVertices(), mesh1->GetNumberOfVertices()));
+	ball->GetComponent<PhysicsBody>()->SetVelocity(XMFLOAT4(0.0f, 0.0f, -0.0f, 0.0f));
+	ball->AddComponent(new VelocityRotator(2.5f));
 	transform1.SetPosition(XMFLOAT3(0.0f, -8.0f, 0.0f));
+	render->GetLight(1).GetTransform().SetParent(&transform1);
 
-	ballCollider = entity1->GetComponent<CollisionCircle>();
-	ballPhysicsBody = entity1->GetComponent<PhysicsBody>();
+	ballCollider = ball->GetComponent<CollisionCircle>();
+	ballPhysicsBody = ball->GetComponent<PhysicsBody>();
 
 	//Generates a rectangle
 	/*float halfSize = 1.0f;
@@ -568,25 +573,26 @@ void MyDemoGame::CreateGeometry()
 	//Players
 	Mesh* mesh3 = res->GetMeshAndLoadIfNotFound("sbgPaddle");
 
+	float paddleScale = 0.5f;
 	Entity* entity3 = entSys->AddEntity();
 	entity3->AddComponent(new CollisionCircle(mesh3->GetVertices(), mesh3->GetNumberOfVertices()));
 	entity3->AddComponent(new CollisionBox(mesh3->GetVertices(), mesh3->GetNumberOfVertices()));
-	entity3->AddComponent(new DrawnMesh(render, mesh3, material4));
+	entity3->AddComponent(new DrawnMesh(render, mesh3, paddleMat));
 	Transform& transform3 = entity3->GetTransform();
 	entity3->AddComponent(new PhysicsBody(&transform3, 10.0f));
 	transform3.SetPosition(XMFLOAT3(-5.75f, -7.5f, 0.0f));
 	transform3.SetRotation(XMFLOAT3(0.0f, XM_PI / 2, 0));
-	transform3.SetScale(XMFLOAT3(0.8f, 0.8f, 0.8f));
+	transform3.SetScale(XMFLOAT3(paddleScale, paddleScale, paddleScale));
 
 	Entity* entity4 = entSys->AddEntity();
 	entity4->AddComponent(new CollisionCircle(mesh3->GetVertices(), mesh3->GetNumberOfVertices()));
 	entity4->AddComponent(new CollisionBox(mesh3->GetVertices(), mesh3->GetNumberOfVertices()));
-	entity4->AddComponent(new DrawnMesh(render, mesh3, material4));
+	entity4->AddComponent(new DrawnMesh(render, mesh3, paddleMat));
 	Transform& transform4 = entity4->GetTransform();
 	entity4->AddComponent(new PhysicsBody(&transform4, 10.0f));
 	transform4.SetPosition(XMFLOAT3(5.75f, -7.5f, 0.0f));
 	transform4.SetRotation(XMFLOAT3(0.0f, -XM_PI / 2, 0.0f));
-	transform4.SetScale(XMFLOAT3(0.8f, 0.8f, 0.8f));
+	transform4.SetScale(XMFLOAT3(paddleScale, paddleScale, paddleScale));
 
 	//Bullets
 	Mesh* mesh4 = res->GetMeshAndLoadIfNotFound("hpBullet");
@@ -595,7 +601,7 @@ void MyDemoGame::CreateGeometry()
 	{
 		entSys->AddEntity();
 		Transform& tempTransform = entSys->GetEntity(i)->GetTransform();
-		entSys->AddComponentToEntity(i, new DrawnMesh(render, mesh4, material1));
+		entSys->AddComponentToEntity(i, new DrawnMesh(render, mesh4, bulletMat));
 		entSys->AddComponentToEntity(i, new PhysicsBody(&tempTransform, 1.0f));
 		entSys->AddComponentToEntity(i, new CollisionCircle(mesh4->GetVertices(), mesh4->GetNumberOfVertices()));
 		tempTransform.SetPosition(XMFLOAT3(0.0f, 5.0f, 0.0f));

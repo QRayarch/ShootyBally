@@ -99,9 +99,11 @@ xcopy "$(SolutionDir)Assets" "$(OutDir)Assets" /y /s /i /d /e</Command>
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Render.cpp" />
     <ClCompile Include="Resources.cpp" />
+    <ClCompile Include="ScreenText.cpp" />
     <ClCompile Include="SimpleShader.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="UIElement.cpp" />
+    <ClCompile Include="VelocityRotator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bullet.h" />
@@ -129,9 +131,11 @@ xcopy "$(SolutionDir)Assets" "$(OutDir)Assets" /y /s /i /d /e</Command>
     <ClInclude Include="Player.h" />
     <ClInclude Include="Render.h" />
     <ClInclude Include="Resources.h" />
+    <ClInclude Include="ScreenText.h" />
     <ClInclude Include="SimpleShader.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="UIElement.h" />
+    <ClInclude Include="VelocityRotator.h" />
     <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>

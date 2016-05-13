@@ -6,12 +6,17 @@ Render::Render(ID3D11DeviceContext* newDeviceContext)
 {
 	deviceContext = newDeviceContext;
 	endIndex = 0;
+	spriteBatch = new SpriteBatch(deviceContext);
+	endTextIndex = 0;
 }
 
 
 Render::~Render()
 {
-	
+	if (spriteBatch != nullptr) {
+		delete spriteBatch;
+		spriteBatch = nullptr;
+	}
 }
 
 //This is probably going to get re written, for one the materials 
@@ -23,6 +28,13 @@ void Render::AddToRenderList(DrawnMesh& drawnMesh)
 	if (endIndex + 1 >= MAX_NUM_OF_RENDERED_OBJECTS) return;
 	renderList[endIndex] = &drawnMesh;
 	endIndex += 1;
+}
+
+void Render::AddTextToRender(ScreenText & text)
+{
+	if (endTextIndex + 1 >= MAX_NUM_OF_RENDERED_TEXT) return;
+	textList[endTextIndex] = &text;
+	endTextIndex += 1;
 }
 
 void Render::UpdateAndRender(Camera& camera)
@@ -44,4 +56,18 @@ void Render::UpdateAndRender(Camera& camera)
 		renderList[r]->Draw(renderInfo);
 	}
 	endIndex = 0;
+
+	//Draw the text
+	RenderTextInfo textInfo;
+	textInfo.deviceContext = deviceContext;
+	textInfo.spriteBatch = spriteBatch;
+
+	if (spriteBatch != nullptr) {
+		spriteBatch->Begin();
+		for (int t = 0; t < endTextIndex; ++t) {
+			textList[t]->Draw(textInfo);
+		}
+		spriteBatch->End();
+	}
+	endTextIndex = 0;
 }

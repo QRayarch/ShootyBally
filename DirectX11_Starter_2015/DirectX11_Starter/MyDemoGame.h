@@ -8,6 +8,7 @@
 #include "Mesh.h"
 #include "DrawnMesh.h"
 #include "UIElement.h"
+#include "VelocityRotator.h"
 #include "Canvas.h"
 #include "MaterialInfo.h"
 #include "Render.h"

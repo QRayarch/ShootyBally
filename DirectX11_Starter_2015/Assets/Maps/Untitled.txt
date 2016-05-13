@@ -2,14 +2,14 @@ name Untitled
 image Untitled.png
 turrets 15
 playerNum 0
-pos -5 -7.974999 4.75347E-07
+pos -5 -8 0
 playerNum 1
-pos 5 -7.974999 4.75347E-07
+pos 5 -8 0
 ball
 pos 0 0 7.754
 lights
 lType 0
-pos 0 1.788139E-07 3
+pos 0 0 3
 rot 1.139006 3.677781 3.720994
 color 0.6985294 0.6985294 0.6985294 1
 lIntensity 1
@@ -19,445 +19,445 @@ bounds 9 5.5 9 5.5
 model TestWallTop
 material Standard
 texture WallTop 
-pos -4.5 -7.499999 7.0033
+pos -4.5 -7.5 7
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
 pos -9.5 -7.5 3
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 12.5 -7.5 -2.999999
+pos 12.5 -7.5 -3
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 2.5 -7.5 -7.999999
+pos 2.5 -7.5 -8
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 3.5 -7.5 -5.999999
+pos 3.5 -7.5 -6
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -9.5 -7.5 -1.999999
+pos -9.5 -7.5 -2
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -0.5 -7.5 -5.999999
+pos -0.5 -7.5 -6
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 0.5 -7.499999 8.0033
+pos 0.5 -7.5 8
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 10.5 -7.5 -5.999999
+pos 10.5 -7.5 -6
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 2.5 -7.5 -5.999999
+pos 2.5 -7.5 -6
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -4.5 -7.499999 9.0033
+pos -4.5 -7.5 9
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -9.5 -7.5 -0.9999995
+pos -9.5 -7.5 -1
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 12.5 -7.499999 6
+pos 12.5 -7.5 6
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 3.5 -7.499999 9.0033
+pos 3.5 -7.5 9
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
 pos 11.5 -7.5 2
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 3.5 -7.499999 7.0033
+pos 3.5 -7.5 7
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 11.5 -7.499999 6
+pos 11.5 -7.5 6
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 8.5 -7.5 -6.999999
+pos 8.5 -7.5 -7
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 12.5 -7.5 -4.999999
+pos 12.5 -7.5 -5
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -8.5 -7.5 -6.999999
+pos -8.5 -7.5 -7
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 7.5 -7.5 -6.999999
+pos 7.5 -7.5 -7
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 6.5 -7.499999 8.0033
+pos 6.5 -7.5 8
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -1.5 -7.499999 6.0033
+pos -1.5 -7.5 6
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -8.5 -7.5 -7.999999
+pos -8.5 -7.5 -8
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
 pos -9.5 -7.5 1
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 5.5 -7.5 -6.999999
+pos 5.5 -7.5 -7
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -2.5 -7.499999 6.0033
+pos -2.5 -7.5 6
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -0.5 -7.499999 7.0033
+pos -0.5 -7.5 7
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 11.5 -7.5 -1.999999
+pos 11.5 -7.5 -2
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 4.5 -7.499999 7.0033
+pos 4.5 -7.5 7
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -3.5 -7.5 -6.999999
+pos -3.5 -7.5 -7
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -1.5 -7.5 -8.999999
+pos -1.5 -7.5 -9
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -12.5 -7.499999 8.0033
+pos -12.5 -7.5 8
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -4.5 -7.5 -7.999999
+pos -4.5 -7.5 -8
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 9.5 -7.5 -7.999999
+pos 9.5 -7.5 -8
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -12.5 -7.5 -6.999999
+pos -12.5 -7.5 -7
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -11.5 -7.499999 7.0033
+pos -11.5 -7.5 7
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 5.5 -7.499999 7.0033
+pos 5.5 -7.5 7
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
 pos -12.5 -7.5 2
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 0.5 -7.499999 7.0033
+pos 0.5 -7.5 7
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
 pos -9.5 -7.5 2
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 12.5 -7.5 4.470348E-07
+pos 12.5 -7.5 0
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -4.5 -7.5 -5.999999
+pos -4.5 -7.5 -6
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 10.5 -7.5 -6.999999
+pos 10.5 -7.5 -7
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
 pos -12.5 -7.5 3
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 7.5 -7.499999 6
+pos 7.5 -7.5 6
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWall
 material Standard
 texture Wall 
-pos -6.5 -8 -4.999999
+pos -6.5 -8 -5
 rot 5.662441E-07 1.570796 -2.086162E-07
 scl 1 1 1
 model TestWall
 material Standard
 texture Wall 
-pos -5.5 -8 -4.999999
+pos -5.5 -8 -5
 rot 5.662441E-07 1.570796 -2.086162E-07
 scl 1 1 1
 model TestWall
 material Standard
 texture Wall 
-pos -4.5 -8 -4.999999
+pos -4.5 -8 -5
 rot 5.662441E-07 1.570796 -2.086162E-07
 scl 1 1 1
 model TestWall
 material Standard
 texture Wall 
-pos -3.5 -8 -4.999999
+pos -3.5 -8 -5
 rot 5.662441E-07 1.570796 -2.086162E-07
 scl 1 1 1
 model TestWall
 material Standard
 texture Wall 
-pos -2.5 -8 -4.999999
+pos -2.5 -8 -5
 rot 5.662441E-07 1.570796 -2.086162E-07
 scl 1 1 1
 model TestWall
 material Standard
 texture Wall 
-pos -1.5 -8 -4.999999
+pos -1.5 -8 -5
 rot 5.662441E-07 1.570796 -2.086162E-07
 scl 1 1 1
 model TestWall
 material Standard
 texture Wall 
-pos -0.5 -8 -4.999999
+pos -0.5 -8 -5
 rot 5.662441E-07 1.570796 -2.086162E-07
 scl 1 1 1
 model TestWall
 material Standard
 texture Wall 
-pos 0.5 -8 -4.999999
+pos 0.5 -8 -5
 rot 5.662441E-07 1.570796 -2.086162E-07
 scl 1 1 1
 model TestWall
 material Standard
 texture Wall 
-pos 1.5 -8 -4.999999
+pos 1.5 -8 -5
 rot 5.662441E-07 1.570796 -2.086162E-07
 scl 1 1 1
 model TestWall
 material Standard
 texture Wall 
-pos 2.5 -8 -4.999999
+pos 2.5 -8 -5
 rot 5.662441E-07 1.570796 -2.086162E-07
 scl 1 1 1
 model TestWall
 material Standard
 texture Wall 
-pos 3.5 -8 -4.999999
+pos 3.5 -8 -5
 rot 5.662441E-07 1.570796 -2.086162E-07
 scl 1 1 1
 model TestWall
 material Standard
 texture Wall 
-pos 4.5 -8 -4.999999
+pos 4.5 -8 -5
 rot 5.662441E-07 1.570796 -2.086162E-07
 scl 1 1 1
 model TestWall
 material Standard
 texture Wall 
-pos 5.5 -8 -4.999999
+pos 5.5 -8 -5
 rot 5.662441E-07 1.570796 -2.086162E-07
 scl 1 1 1
 model TestWall
 material Standard
 texture Wall 
-pos 6.5 -8 -4.999999
+pos 6.5 -8 -5
 rot 5.662441E-07 1.570796 -2.086162E-07
 scl 1 1 1
 model TestWall
 material Standard
 texture Wall 
-pos -6.5 -7.999999 5
+pos -6.5 -8 5
 rot -1.788139E-07 4.712389 1.788139E-07
 scl 1 1 1
 model TestWall
 material Standard
 texture Wall 
-pos -5.5 -7.999999 5
+pos -5.5 -8 5
 rot -1.788139E-07 4.712389 1.788139E-07
 scl 1 1 1
 model TestWall
 material Standard
 texture Wall 
-pos -4.5 -7.999999 5
+pos -4.5 -8 5
 rot -1.788139E-07 4.712389 1.788139E-07
 scl 1 1 1
 model TestWall
 material Standard
 texture Wall 
-pos -3.5 -7.999999 5
+pos -3.5 -8 5
 rot -1.788139E-07 4.712389 1.788139E-07
 scl 1 1 1
 model TestWall
 material Standard
 texture Wall 
-pos -2.5 -7.999999 5
+pos -2.5 -8 5
 rot -1.788139E-07 4.712389 1.788139E-07
 scl 1 1 1
 model TestWall
 material Standard
 texture Wall 
-pos -1.5 -7.999999 5
+pos -1.5 -8 5
 rot -1.788139E-07 4.712389 1.788139E-07
 scl 1 1 1
 model TestWall
 material Standard
 texture Wall 
-pos -0.5 -7.999999 5
+pos -0.5 -8 5
 rot -1.788139E-07 4.712389 1.788139E-07
 scl 1 1 1
 model TestWall
 material Standard
 texture Wall 
-pos 0.5 -7.999999 5
+pos 0.5 -8 5
 rot -1.788139E-07 4.712389 1.788139E-07
 scl 1 1 1
 model TestWall
 material Standard
 texture Wall 
-pos 1.5 -7.999999 5
+pos 1.5 -8 5
 rot -1.788139E-07 4.712389 1.788139E-07
 scl 1 1 1
 model TestWall
 material Standard
 texture Wall 
-pos 2.5 -7.999999 5
+pos 2.5 -8 5
 rot -1.788139E-07 4.712389 1.788139E-07
 scl 1 1 1
 model TestWall
 material Standard
 texture Wall 
-pos 3.5 -7.999999 5
+pos 3.5 -8 5
 rot -1.788139E-07 4.712389 1.788139E-07
 scl 1 1 1
 model TestWall
 material Standard
 texture Wall 
-pos 4.5 -7.999999 5
+pos 4.5 -8 5
 rot -1.788139E-07 4.712389 1.788139E-07
 scl 1 1 1
 model TestWall
 material Standard
 texture Wall 
-pos 5.5 -7.999999 5
+pos 5.5 -8 5
 rot -1.788139E-07 4.712389 1.788139E-07
 scl 1 1 1
 model TestWall
 material Standard
 texture Wall 
-pos 6.5 -7.999999 5
+pos 6.5 -8 5
 rot -1.788139E-07 4.712389 1.788139E-07
 scl 1 1 1
 model TestWall
@@ -465,1870 +465,1870 @@ material Standard
 texture Wall 
 pos -8.5 -8 3
 rot 1.685874E-07 3.141593 3.258414E-07
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWall
 material Standard
 texture Wall 
 pos -8.5 -8 2
 rot 1.685874E-07 3.141593 3.258414E-07
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWall
 material Standard
 texture Wall 
 pos -8.5 -8 1
 rot 1.685874E-07 3.141593 3.258414E-07
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWall
 material Standard
 texture Wall 
-pos -8.5 -8 2.756672E-07
+pos -8.5 -8 0
 rot 1.685874E-07 3.141593 3.258414E-07
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWall
 material Standard
 texture Wall 
-pos -8.5 -8 -0.9999995
+pos -8.5 -8 -1
 rot 1.685874E-07 3.141593 3.258414E-07
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWall
 material Standard
 texture Wall 
-pos -8.5 -8 -1.999999
+pos -8.5 -8 -2
 rot 1.685874E-07 3.141593 3.258414E-07
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWall
 material Standard
 texture Wall 
-pos -8.5 -8 -2.999999
+pos -8.5 -8 -3
 rot 1.685874E-07 3.141593 3.258414E-07
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWall
 material Standard
 texture Wall 
 pos 8.5 -8 3
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWall
 material Standard
 texture Wall 
 pos 8.5 -8 2
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWall
 material Standard
 texture Wall 
 pos 8.5 -8 1
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWall
 material Standard
 texture Wall 
-pos 8.5 -8 4.129083E-05
+pos 8.5 -8 0
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWall
 material Standard
 texture Wall 
-pos 8.5 -8 -0.9999995
+pos 8.5 -8 -1
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWall
 material Standard
 texture Wall 
-pos 8.5 -8 -1.999999
+pos 8.5 -8 -2
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWall
 material Standard
 texture Wall 
-pos 8.5 -8 -2.999999
+pos 8.5 -8 -3
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWedge
 material Standard
 texture WallWedge 
-pos 8 -7.999999 4.5
+pos 8 -8 4.5
 rot -1.788139E-07 4.712389 1.788139E-07
 scl 1 1 1
 model TestWedge
 material Standard
 texture WallWedge 
-pos -8 -7.999999 4.5
+pos -8 -8 4.5
 rot 1.685874E-07 3.141593 -3.258414E-07
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWedge
 material Standard
 texture WallWedge 
-pos -8 -8 -4.499999
+pos -8 -8 -4.5
 rot -1.788139E-07 1.570796 -1.788139E-07
 scl 1 1 1
 model TestWedge
 material Standard
 texture WallWedge 
-pos 8 -8 -4.499999
+pos 8 -8 -4.5
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestFloor
 material Standard
 texture Floor 
-pos -3 -8 -2.999999
+pos -3 -8 -3
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestFloor
 material Standard
 texture Floor 
 pos -3 -8 3
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestFloor
 material Standard
 texture Floor 
-pos -3 -8 4.768372E-07
+pos -3 -8 0
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestFloor
 material Standard
 texture Floor 
-pos -6 -8 4.768372E-07
+pos -6 -8 0
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestFloor
 material Standard
 texture Floor 
 pos -6 -8 3
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestFloor
 material Standard
 texture Floor 
-pos -6 -8 -2.999999
+pos -6 -8 -3
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestFloor
 material Standard
 texture Floor 
-pos -9 -8 -2.999999
+pos -9 -8 -3
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestFloor
 material Standard
 texture Floor 
 pos -9 -8 3
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestFloor
 material Standard
 texture Floor 
-pos -9 -8 4.768372E-07
+pos -9 -8 0
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestFloor
 material Standard
 texture Floor 
-pos 9 -8 4.768372E-07
+pos 9 -8 0
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestFloor
 material Standard
 texture Floor 
 pos 9 -8 3
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestFloor
 material Standard
 texture Floor 
-pos 9 -8 -2.999999
+pos 9 -8 -3
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestFloor
 material Standard
 texture Floor 
-pos 6 -8 -2.999999
+pos 6 -8 -3
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestFloor
 material Standard
 texture Floor 
 pos 6 -8 3
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestFloor
 material Standard
 texture Floor 
-pos 6 -8 4.768372E-07
+pos 6 -8 0
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestFloor
 material Standard
 texture Floor 
-pos 3 -8 4.768372E-07
+pos 3 -8 0
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestFloor
 material Standard
 texture Floor 
 pos 3 -8 3
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestFloor
 material Standard
 texture Floor 
-pos 3 -8 -2.999999
+pos 3 -8 -3
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestFloor
 material Standard
 texture Floor 
-pos 0 -8 -2.999999
+pos 0 -8 -3
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestFloor
 material Standard
 texture Floor 
 pos 0 -8 3
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestFloor
 material Standard
 texture Floor 
-pos 0 -8 4.768372E-07
+pos 0 -8 0
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture Wall 
-pos 0 -7.980999 4.757047E-07
+pos 0 -8 0
 rot -1.685874E-07 0 0
-scl 0.04 0.9999999 9.999998
+scl 0 1 10
 model TestWallTop
 material Standard
 texture WallTop 
-pos -9.5 -7.5 4.023318E-07
+pos -9.5 -7.5 0
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 12.5 -7.499999 9
+pos 12.5 -7.5 9
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -9.5 -7.5 -2.999999
+pos -9.5 -7.5 -3
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 12.5 -7.5 -1.999999
+pos 12.5 -7.5 -2
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 7.5 -7.499999 8
+pos 7.5 -7.5 8
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 1.5 -7.5 -6.999999
+pos 1.5 -7.5 -7
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -9.5 -7.5 -4.999999
+pos -9.5 -7.5 -5
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 10.5 -7.5 -4.999999
+pos 10.5 -7.5 -5
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -1.5 -7.5 -7.999999
+pos -1.5 -7.5 -8
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -2.5 -7.499999 9.0033
+pos -2.5 -7.5 9
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 10.5 -7.5 -1.999999
+pos 10.5 -7.5 -2
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 12.5 -7.5 -3.999999
+pos 12.5 -7.5 -4
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
 pos -12.5 -7.5 1
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 1.5 -7.499999 9.0033
+pos 1.5 -7.5 9
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -12.5 -7.5 -7.999999
+pos -12.5 -7.5 -8
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -11.5 -7.5 -4.999999
+pos -11.5 -7.5 -5
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -11.5 -7.499999 9.0033
+pos -11.5 -7.5 9
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -10.5 -7.499999 8.0033
+pos -10.5 -7.5 8
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -2.5 -7.5 -6.999999
+pos -2.5 -7.5 -7
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -1.5 -7.5 -5.999999
+pos -1.5 -7.5 -6
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -9.5 -7.499999 6.0033
+pos -9.5 -7.5 6
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
 pos -10.5 -7.5 3
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -9.5 -7.5 -3.999999
+pos -9.5 -7.5 -4
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 1.5 -7.5 -5.999999
+pos 1.5 -7.5 -6
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
 pos -9.5 -7.5 4
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -1.5 -7.5 -6.999999
+pos -1.5 -7.5 -7
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -9.5 -7.5 -7.999999
+pos -9.5 -7.5 -8
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -7.5 -7.5 -6.999999
+pos -7.5 -7.5 -7
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -8.5 -7.499999 9.0033
+pos -8.5 -7.5 9
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 9.5 -7.499999 7
+pos 9.5 -7.5 7
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -10.5 -7.5 -0.9999995
+pos -10.5 -7.5 -1
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 6.5 -7.499999 7.0033
+pos 6.5 -7.5 7
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 9.5 -7.5 -2.999999
+pos 9.5 -7.5 -3
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 0.5 -7.5 -8.999999
+pos 0.5 -7.5 -9
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -8.5 -7.5 -5.999999
+pos -8.5 -7.5 -6
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 12.5 -7.5 4.470348E-07
+pos 12.5 -7.5 0
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -7.5 -7.499999 8.0033
+pos -7.5 -7.5 8
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
 pos -12.5 -7.5 4
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 3.5 -7.5 -6.999999
+pos 3.5 -7.5 -7
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 6.5 -7.5 -6.999999
+pos 6.5 -7.5 -7
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
 pos 12.5 -7.5 2
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 12.5 -7.499999 8
+pos 12.5 -7.5 8
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 5.5 -7.499999 8.0033
+pos 5.5 -7.5 8
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -0.5 -7.499999 8.0033
+pos -0.5 -7.5 8
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -12.5 -7.5 4.023318E-07
+pos -12.5 -7.5 0
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -0.5 -7.499999 6.0033
+pos -0.5 -7.5 6
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
 pos -11.5 -7.5 1
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 6.5 -7.5 -5.999999
+pos 6.5 -7.5 -6
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -8.5 -7.499999 8.0033
+pos -8.5 -7.5 8
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 9.5 -7.5 -4.999999
+pos 9.5 -7.5 -5
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -12.5 -7.5 -2.999999
+pos -12.5 -7.5 -3
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 12.5 -7.499999 5
+pos 12.5 -7.5 5
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -9.5 -7.5 -3.999999
+pos -9.5 -7.5 -4
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -5.5 -7.499999 6.0033
+pos -5.5 -7.5 6
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 9.5 -7.5 -3.999999
+pos 9.5 -7.5 -4
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -2.5 -7.499999 8.0033
+pos -2.5 -7.5 8
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 10.5 -7.5 -8.999999
+pos 10.5 -7.5 -9
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -6.5 -7.499999 8.0033
+pos -6.5 -7.5 8
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 0.5 -7.499999 9.0033
+pos 0.5 -7.5 9
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 4.5 -7.5 -6.999999
+pos 4.5 -7.5 -7
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -10.5 -7.499999 6.0033
+pos -10.5 -7.5 6
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 11.5 -7.499999 9
+pos 11.5 -7.5 9
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 7.5 -7.499999 7
+pos 7.5 -7.5 7
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -4.5 -7.5 -8.999999
+pos -4.5 -7.5 -9
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -2.5 -7.5 -7.999999
+pos -2.5 -7.5 -8
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -3.5 -7.499999 6.0033
+pos -3.5 -7.5 6
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -12.5 -7.5 -5.999999
+pos -12.5 -7.5 -6
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -8.5 -7.499999 7.0033
+pos -8.5 -7.5 7
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -9.5 -7.499999 7.0033
+pos -9.5 -7.5 7
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 9.5 -7.499999 6
+pos 9.5 -7.5 6
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -11.5 -7.499999 5
+pos -11.5 -7.5 5
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
 pos 12.5 -7.5 1
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 3.5 -7.499999 6.0033
+pos 3.5 -7.5 6
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 10.5 -7.499999 7
+pos 10.5 -7.5 7
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
 pos 10.5 -7.5 2
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -0.5 -7.5 -7.999999
+pos -0.5 -7.5 -8
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -5.5 -7.5 -6.999999
+pos -5.5 -7.5 -7
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 10.5 -7.5 -3.999999
+pos 10.5 -7.5 -4
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -10.5 -7.5 -8.999999
+pos -10.5 -7.5 -9
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -9.5 -7.5 4.023318E-07
+pos -9.5 -7.5 0
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 5.5 -7.5 -5.999999
+pos 5.5 -7.5 -6
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -10.5 -7.5 -1.999999
+pos -10.5 -7.5 -2
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 10.5 -7.5 2.756748E-07
+pos 10.5 -7.5 0
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 1.5 -7.5 -8.999999
+pos 1.5 -7.5 -9
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -11.5 -7.499999 8.0033
+pos -11.5 -7.5 8
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -5.5 -7.5 -8.999999
+pos -5.5 -7.5 -9
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
 pos -10.5 -7.5 4
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 10.5 -7.499999 8
+pos 10.5 -7.5 8
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -2.5 -7.5 -8.999999
+pos -2.5 -7.5 -9
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 4.5 -7.5 -8.999999
+pos 4.5 -7.5 -9
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 0.5 -7.5 -7.999999
+pos 0.5 -7.5 -8
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -6.5 -7.5 -5.999999
+pos -6.5 -7.5 -6
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -12.5 -7.5 -0.9999995
+pos -12.5 -7.5 -1
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 12.5 -7.5 -5.999999
+pos 12.5 -7.5 -6
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 7.5 -7.5 -8.999999
+pos 7.5 -7.5 -9
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
 pos 12.5 -7.5 1
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -10.5 -7.5 4.023318E-07
+pos -10.5 -7.5 0
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
 pos -11.5 -7.5 2
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -9.5 -7.499999 9.0033
+pos -9.5 -7.5 9
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
 pos -9.5 -7.5 4
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 10.5 -7.5 -2.999999
+pos 10.5 -7.5 -3
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 8.5 -7.499999 8
+pos 8.5 -7.5 8
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 3.5 -7.499999 8.0033
+pos 3.5 -7.5 8
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
 pos 12.5 -7.5 2
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 12.5 -7.5 -2.999999
+pos 12.5 -7.5 -3
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -9.5 -7.5 -2.999999
+pos -9.5 -7.5 -3
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -6.5 -7.5 -7.999999
+pos -6.5 -7.5 -8
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
 pos -11.5 -7.5 4
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
 pos 10.5 -7.5 4
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 11.5 -7.5 -3.999999
+pos 11.5 -7.5 -4
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 2.5 -7.499999 6.0033
+pos 2.5 -7.5 6
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -4.5 -7.5 -6.999999
+pos -4.5 -7.5 -7
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 11.5 -7.5 4.470348E-07
+pos 11.5 -7.5 0
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -1.5 -7.499999 9.0033
+pos -1.5 -7.5 9
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 11.5 -7.5 -2.999999
+pos 11.5 -7.5 -3
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 10.5 -7.499999 5
+pos 10.5 -7.5 5
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -10.5 -7.5 -3.999999
+pos -10.5 -7.5 -4
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 3.5 -7.5 -8.999999
+pos 3.5 -7.5 -9
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 12.5 -7.5 -1.999999
+pos 12.5 -7.5 -2
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
 pos 10.5 -7.5 3
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 6.5 -7.5 -8.999999
+pos 6.5 -7.5 -9
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -5.5 -7.5 -5.999999
+pos -5.5 -7.5 -6
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 8.5 -7.499999 7
+pos 8.5 -7.5 7
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -11.5 -7.499999 6.0033
+pos -11.5 -7.5 6
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 9.5 -7.5 4.470348E-07
+pos 9.5 -7.5 0
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -10.5 -7.5 -4.999999
+pos -10.5 -7.5 -5
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 0.5 -7.5 -5.999999
+pos 0.5 -7.5 -6
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 4.5 -7.5 -7.999999
+pos 4.5 -7.5 -8
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
 pos 12.5 -7.5 4
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 7.5 -7.5 -5.999999
+pos 7.5 -7.5 -6
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -7.5 -7.5 -7.999999
+pos -7.5 -7.5 -8
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 11.5 -7.5 -6.999999
+pos 11.5 -7.5 -7
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -2.5 -7.5 -5.999999
+pos -2.5 -7.5 -6
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 11.5 -7.499999 8
+pos 11.5 -7.5 8
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -4.5 -7.499999 8.0033
+pos -4.5 -7.5 8
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
-model TestWallTop
-material Standard
-texture WallTop 
-pos 12.5 -7.5 3
-rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
-model TestWallTop
-material Standard
-texture WallTop 
-pos 11.5 -7.5 -5.999999
-rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
-model TestWallTop
-material Standard
-texture WallTop 
-pos -4.5 -7.499999 6.0033
-rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
-model TestWallTop
-material Standard
-texture WallTop 
-pos -5.5 -7.499999 7.0033
-rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
-model TestWallTop
-material Standard
-texture WallTop 
-pos -10.5 -7.5 -7.999999
-rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
-model TestWallTop
-material Standard
-texture WallTop 
-pos -9.5 -7.5 -4.999999
-rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
-model TestWallTop
-material Standard
-texture WallTop 
-pos -7.5 -7.499999 9.0033
-rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
 pos 12.5 -7.5 3
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -5.5 -7.499999 9.0033
+pos 11.5 -7.5 -6
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -8.5 -7.499999 6.0033
+pos -4.5 -7.5 6
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -3.5 -7.499999 9.0033
+pos -5.5 -7.5 7
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 12.5 -7.5 -8.999999
+pos -10.5 -7.5 -8
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -10.5 -7.5 -5.999999
+pos -9.5 -7.5 -5
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 12.5 -7.5 -7.999999
+pos -7.5 -7.5 9
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 9.5 -7.5 -5.999999
+pos 12.5 -7.5 3
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -12.5 -7.499999 9.0033
+pos -5.5 -7.5 9
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 8.5 -7.5 -5.999999
+pos -8.5 -7.5 6
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -7.5 -7.5 -5.999999
+pos -3.5 -7.5 9
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
+model TestWallTop
+material Standard
+texture WallTop 
+pos 12.5 -7.5 -9
+rot -1.685874E-07 0 0
+scl 1 1 1
+model TestWallTop
+material Standard
+texture WallTop 
+pos -10.5 -7.5 -6
+rot -1.685874E-07 0 0
+scl 1 1 1
+model TestWallTop
+material Standard
+texture WallTop 
+pos 12.5 -7.5 -8
+rot -1.685874E-07 0 0
+scl 1 1 1
+model TestWallTop
+material Standard
+texture WallTop 
+pos 9.5 -7.5 -6
+rot -1.685874E-07 0 0
+scl 1 1 1
+model TestWallTop
+material Standard
+texture WallTop 
+pos -12.5 -7.5 9
+rot -1.685874E-07 0 0
+scl 1 1 1
+model TestWallTop
+material Standard
+texture WallTop 
+pos 8.5 -7.5 -6
+rot -1.685874E-07 0 0
+scl 1 1 1
+model TestWallTop
+material Standard
+texture WallTop 
+pos -7.5 -7.5 -6
+rot -1.685874E-07 0 0
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
 pos 11.5 -7.5 1
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 10.5 -7.5 -7.999999
+pos 10.5 -7.5 -8
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 5.5 -7.5 -7.999999
+pos 5.5 -7.5 -8
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -10.5 -7.499999 9.0033
+pos -10.5 -7.5 9
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
 pos -11.5 -7.5 3
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
 pos 12.5 -7.5 4
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 1.5 -7.499999 7.0033
+pos 1.5 -7.5 7
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 8.5 -7.5 -8.999999
+pos 8.5 -7.5 -9
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -9.5 -7.499999 5
+pos -9.5 -7.5 5
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -9.5 -7.5 -0.9999995
+pos -9.5 -7.5 -1
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -3.5 -7.5 -8.999999
+pos -3.5 -7.5 -9
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 12.5 -7.5 -3.999999
+pos 12.5 -7.5 -4
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -7.5 -7.499999 6.0033
+pos -7.5 -7.5 6
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -9.5 -7.5 -1.999999
+pos -9.5 -7.5 -2
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -11.5 -7.5 -0.9999995
+pos -11.5 -7.5 -1
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 8.5 -7.499999 9
+pos 8.5 -7.5 9
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -11.5 -7.5 -7.999999
+pos -11.5 -7.5 -8
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -11.5 -7.5 -2.999999
+pos -11.5 -7.5 -3
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 11.5 -7.5 -4.999999
+pos 11.5 -7.5 -5
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 9.5 -7.499999 8
+pos 9.5 -7.5 8
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 9.5 -7.5 -1.999999
+pos 9.5 -7.5 -2
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -12.5 -7.5 -1.999999
+pos -12.5 -7.5 -2
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 8.5 -7.5 -7.999999
+pos 8.5 -7.5 -8
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -1.5 -7.499999 8.0033
+pos -1.5 -7.5 8
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 9.5 -7.5 -8.999999
+pos 9.5 -7.5 -9
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -3.5 -7.499999 8.0033
+pos -3.5 -7.5 8
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -9.5 -7.499999 5
+pos -9.5 -7.5 5
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 11.5 -7.499999 7
+pos 11.5 -7.5 7
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
 pos 9.5 -7.5 4
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -2.5 -7.499999 7.0033
+pos -2.5 -7.5 7
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 3.5 -7.5 -7.999999
+pos 3.5 -7.5 -8
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 12.5 -7.499999 5
+pos 12.5 -7.5 5
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
 pos -10.5 -7.5 2
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -6.5 -7.499999 7.0033
+pos -6.5 -7.5 7
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -11.5 -7.5 -3.999999
+pos -11.5 -7.5 -4
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -3.5 -7.5 -7.999999
+pos -3.5 -7.5 -8
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -11.5 -7.5 -6.999999
+pos -11.5 -7.5 -7
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 0.5 -7.499999 6.0033
+pos 0.5 -7.5 6
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -0.5 -7.5 -8.999999
+pos -0.5 -7.5 -9
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -0.5 -7.499999 9.0033
+pos -0.5 -7.5 9
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -5.5 -7.5 -7.999999
+pos -5.5 -7.5 -8
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
 pos 9.5 -7.5 2
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -8.5 -7.5 -8.999999
+pos -8.5 -7.5 -9
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 7.5 -7.5 -7.999999
+pos 7.5 -7.5 -8
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 8.5 -7.499999 6
+pos 8.5 -7.5 6
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -7.5 -7.499999 7.0033
+pos -7.5 -7.5 7
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -6.5 -7.5 -6.999999
+pos -6.5 -7.5 -7
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 5.5 -7.499999 9.0033
+pos 5.5 -7.5 9
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 9.5 -7.499999 5
+pos 9.5 -7.5 5
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 9.5 -7.5 -6.999999
+pos 9.5 -7.5 -7
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -10.5 -7.5 -2.999999
+pos -10.5 -7.5 -3
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -12.5 -7.499999 5
+pos -12.5 -7.5 5
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 12.5 -7.5 -6.999999
+pos 12.5 -7.5 -7
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 7.5 -7.499999 9
+pos 7.5 -7.5 9
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -11.5 -7.5 -8.999999
+pos -11.5 -7.5 -9
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
 pos -9.5 -7.5 1
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 12.5 -7.5 -0.9999995
+pos 12.5 -7.5 -1
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -11.5 -7.5 4.023318E-07
+pos -11.5 -7.5 0
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
 pos -9.5 -7.5 2
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 11.5 -7.499999 5
+pos 11.5 -7.5 5
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -9.5 -7.5 -5.999999
+pos -9.5 -7.5 -6
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
 pos 9.5 -7.5 1
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -12.5 -7.5 -3.999999
+pos -12.5 -7.5 -4
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -11.5 -7.5 -1.999999
+pos -11.5 -7.5 -2
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 1.5 -7.499999 8.0033
+pos 1.5 -7.5 8
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 0.5 -7.5 -6.999999
+pos 0.5 -7.5 -7
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -0.5 -7.5 -6.999999
+pos -0.5 -7.5 -7
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 12.5 -7.5 -4.999999
+pos 12.5 -7.5 -5
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -12.5 -7.499999 6.0033
+pos -12.5 -7.5 6
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 2.5 -7.499999 7.0033
+pos 2.5 -7.5 7
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -9.5 -7.499999 8.0033
+pos -9.5 -7.5 8
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 6.5 -7.499999 9.0033
+pos 6.5 -7.5 9
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -3.5 -7.5 -5.999999
+pos -3.5 -7.5 -6
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -11.5 -7.5 -5.999999
+pos -11.5 -7.5 -6
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 1.5 -7.499999 6.0033
+pos 1.5 -7.5 6
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 2.5 -7.499999 9.0033
+pos 2.5 -7.5 9
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -10.5 -7.499999 5
+pos -10.5 -7.5 5
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -5.5 -7.499999 8.0033
+pos -5.5 -7.5 8
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -10.5 -7.499999 7.0033
+pos -10.5 -7.5 7
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -10.5 -7.5 -6.999999
+pos -10.5 -7.5 -7
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 2.5 -7.499999 8.0033
+pos 2.5 -7.5 8
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 12.5 -7.5 -0.9999995
+pos 12.5 -7.5 -1
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -3.5 -7.499999 7.0033
+pos -3.5 -7.5 7
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 9.5 -7.5 -0.9999995
+pos 9.5 -7.5 -1
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
 pos -10.5 -7.5 1
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -12.5 -7.5 -4.999999
+pos -12.5 -7.5 -5
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -6.5 -7.5 -8.999999
+pos -6.5 -7.5 -9
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 1.5 -7.5 -7.999999
+pos 1.5 -7.5 -8
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -9.5 -7.5 -6.999999
+pos -9.5 -7.5 -7
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 4.5 -7.5 -5.999999
+pos 4.5 -7.5 -6
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -6.5 -7.499999 6.0033
+pos -6.5 -7.5 6
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 2.5 -7.5 -6.999999
+pos 2.5 -7.5 -7
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
 pos 9.5 -7.5 3
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 10.5 -7.499999 6
+pos 10.5 -7.5 6
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
 pos -9.5 -7.5 3
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -12.5 -7.499999 7.0033
+pos -12.5 -7.5 7
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 2.5 -7.5 -8.999999
+pos 2.5 -7.5 -9
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 12.5 -7.499999 7
+pos 12.5 -7.5 7
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 4.5 -7.499999 6.0033
+pos 4.5 -7.5 6
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
 pos 11.5 -7.5 3
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 11.5 -7.5 -0.9999995
+pos 11.5 -7.5 -1
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 11.5 -7.5 -8.999999
+pos 11.5 -7.5 -9
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 5.5 -7.499999 6.0033
+pos 5.5 -7.5 6
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 10.5 -7.5 -0.9999995
+pos 10.5 -7.5 -1
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 11.5 -7.5 -7.999999
+pos 11.5 -7.5 -8
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 5.5 -7.5 -8.999999
+pos 5.5 -7.5 -9
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -6.5 -7.499999 9.0033
+pos -6.5 -7.5 9
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
 pos 10.5 -7.5 1
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -1.5 -7.499999 7.0033
+pos -1.5 -7.5 7
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
 pos 11.5 -7.5 4
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -9.5 -7.5 -8.999999
+pos -9.5 -7.5 -9
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 4.5 -7.499999 9.0033
+pos 4.5 -7.5 9
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 4.5 -7.499999 8.0033
+pos 4.5 -7.5 8
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 6.5 -7.5 -7.999999
+pos 6.5 -7.5 -8
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 9.5 -7.499999 9
+pos 9.5 -7.5 9
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 6.5 -7.499999 6.0033
+pos 6.5 -7.5 6
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -7.5 -7.5 -8.999999
+pos -7.5 -7.5 -9
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos 10.5 -7.499999 9
+pos 10.5 -7.5 9
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
 model TestWallTop
 material Standard
 texture WallTop 
-pos -12.5 -7.5 -8.999999
+pos -12.5 -7.5 -9
 rot -1.685874E-07 0 0
-scl 1 0.9999999 0.9999999
+scl 1 1 1
