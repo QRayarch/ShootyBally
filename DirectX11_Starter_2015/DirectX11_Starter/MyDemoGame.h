@@ -67,7 +67,7 @@ private:
 	void DrawSpawn(float dt, float totalTime);
 
 	//Gameplay helper functions
-	void GoalScored(Player player);
+	void GoalScored(Player& player);
 
 	// Buffers to hold actual geometry data
 	ID3D11Buffer* vertexBuffer;
@@ -122,7 +122,9 @@ private:
 
 	// Game Data
 	Player player1;
+	ScreenText* playerOneScore;
 	Player player2;
+	ScreenText* playerTwoScore;
 
 	int poolSize = 30;
 	Bullet bulletPool[30];

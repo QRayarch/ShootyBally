@@ -158,6 +158,7 @@ bool MyDemoGame::Init()
 	//  - For your own projects, feel free to expand/replace these.
 
 	render = new Render(deviceContext);
+	render->SetScreenSize(windowWidth, windowHeight);
 	res = new Resources(device, deviceContext);
 	entSys = new EntitySystem(1000);
 
@@ -616,8 +617,20 @@ void MyDemoGame::CreateGeometry()
 	canvas->GetHoverButtonState().scale = 1.08f;
 	canvas->GetHoverButtonState().transitionTime = 0.1f;
 	canvas->GetDefualtButtonState().transitionTime = 0.1f;
-	canvas->AddButton({ -0.5f, -0.5f, 0.1f, 0.08f }, uiMat);
-	canvas->AddButton({ -0.25f, -0.5f, 0.1f, 0.08f }, uiMat);
+	canvas->AddButton({ -0.5f, -0.5f, 0.1f, 0.08f }, uiMat, L"Click", XMFLOAT4(0.2f, 0.2f, 0.2f, 1));
+	canvas->AddButton({ -0.25f, -0.5f, 0.1f, 0.08f }, uiMat, L"BUTTON!", XMFLOAT4(0.2f, 0.2f, 0.2f, 1));
+	float scoreOut = 0.1f;
+	float scoreUp = 0.8f;
+	float panelW = 0.04f;
+	float panelH = 0.06f;
+	canvas->AddPanel({ -scoreOut, scoreUp, panelW, panelH }, uiMat, XMFLOAT3(0.7f, 0.4f, 0.4f));
+	canvas->AddPanel({ scoreOut, scoreUp, panelW, panelH }, uiMat, XMFLOAT3(0.4f, 0.4f, 0.7f));
+	playerOneScore = canvas->AddText(L"0", -scoreOut, scoreUp, XMFLOAT4(1, 0.9f, 0.9f, 1));
+	playerOneScore->CenterText();
+	playerTwoScore = canvas->AddText(L"0", scoreOut, scoreUp, XMFLOAT4(0.9f, 0.9f, 1, 1));
+	playerTwoScore->CenterText();
+
+	//END UI
 
 	// Particle emitters.
 	particleTexture = res->LoadTexture("particle", Resources::FILE_FORMAT_PNG);
@@ -753,12 +766,9 @@ void MyDemoGame::OnResize()
 	srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
 	device->CreateShaderResourceView(postTexture, &srvDesc, &postSRV);
 
-	/*if (res != nullptr) {
-		Material* uiMat = res->GetMaterial("UI_Panel");
-		if (uiMat) {
-			uiMat->GetVertexMaterialInfo()->GetFloat(0)->data = aspectRatio;
-		}
-	}*/
+	if (render != nullptr) {
+		render->SetScreenSize(windowWidth, windowHeight);
+	}
 	if (canvas != nullptr) {
 		Material* uiMat = res->GetMaterial("UI_Panel");
 		canvas->SetAspectRatio(aspectRatio);
@@ -1055,11 +1065,19 @@ void MyDemoGame::DrawSpawn(float dt, float totalTime)
 	}
 }
 
-void MyDemoGame::GoalScored(Player player)
+void MyDemoGame::GoalScored(Player& player)
 {
 	ballCollider->GetEntity()->GetTransform().SetPosition(XMFLOAT3(0.0f, -7.5f, 0.0f));
 	ballPhysicsBody->SetVelocity(XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f));
-
+	player.AddPoint();
+	if (playerOneScore != nullptr) {
+		playerOneScore->SetTextAsInt(player1.GetScore());
+		playerOneScore->CenterText();
+	}
+	if (playerTwoScore != nullptr) {
+		playerTwoScore->SetTextAsInt(player2.GetScore());
+		playerTwoScore->CenterText();
+	}
 	for (int i = 0; i < poolSize; i++)
 	{
 		if (bulletPool[i].GetIsActive())

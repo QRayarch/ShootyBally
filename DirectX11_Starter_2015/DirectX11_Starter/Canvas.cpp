@@ -14,6 +14,8 @@ Canvas::Canvas(EntitySystem* newEntSys, Render* newRender, Resources* newRes)
 	buttonDefaultState = { XMFLOAT3(1, 1, 1), 1, 0 };
 	buttonHoverState = { XMFLOAT3(1, 0, 0), 1, 0 };
 
+	currentFont = res->LoadSpriteFont("Arial");
+
 	defaultUIMesh = res->GetMeshIfLoaded("DefaultUIElement");
 	//If we haven't found the default ui mesh generate one
 	if (defaultUIMesh == nullptr) {
@@ -71,6 +73,19 @@ Button * Canvas::AddButton(UIRect rect, Material * mat)
 	return AddButton(rect, defaultUIMesh, mat);
 }
 
+Button * Canvas::AddButton(UIRect rect, Material * mat, wchar_t * text, XMFLOAT4 textColor)
+{
+	Button* newButton = AddButton(rect, defaultUIMesh, mat);
+	if (newButton != nullptr) {
+		Entity* ent = newButton->GetEntity();
+		ScreenText* newText = new ScreenText(render, currentFont, text);
+		ent->AddComponent(newText);
+		newText->CenterText();
+		newText->SetColor(textColor);
+	}
+	return newButton;
+}
+
 Button * Canvas::AddButton(UIRect rect, Mesh* mesh, Material* mat)
 {
 	if (entSys->CanAddEntity()) {
@@ -83,13 +98,44 @@ Button * Canvas::AddButton(UIRect rect, Mesh* mesh, Material* mat)
 		newEnt->AddComponent(newElement);
 		newElement->SetRect(rect);
 		newElement->SetAspectRatio(aspectRatio);
-
 		AddUIElement(newElement);
+
 		Button* newButton = new Button();
 		newEnt->AddComponent(newButton);
 		newButton->SetButtonStates(buttonDefaultState, buttonHoverState);
 
 		return newButton;
+	}
+	return nullptr;
+}
+
+ScreenText * Canvas::AddText(wchar_t * text, float x, float y, XMFLOAT4 textColor)
+{
+	if (entSys->CanAddEntity()) {
+		//Create the Entity
+		Entity* newEnt = entSys->AddEntity();
+		newEnt->GetTransform().SetPosition(DirectX::XMFLOAT3(x, y, 0));
+		ScreenText* newText = new ScreenText(render, currentFont, text);
+		newEnt->AddComponent(newText);
+		newText->SetColor(textColor);
+		return newText;
+	}
+	return nullptr;
+}
+
+UIElement * Canvas::AddPanel(UIRect rect, Material * mat, XMFLOAT3 color)
+{
+	if (entSys->CanAddEntity()) {
+		//Create the Entity
+		Entity* newEnt = entSys->AddEntity();
+		UIElement* newElement = new UIElement(render, defaultUIMesh, mat);
+		newEnt->AddComponent(newElement);
+		newElement->SetRect(rect);
+		newElement->SetAspectRatio(aspectRatio);
+		newElement->SetColor(color);
+		AddUIElement(newElement);
+
+		return newElement;
 	}
 	return nullptr;
 }

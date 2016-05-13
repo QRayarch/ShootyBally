@@ -4,7 +4,7 @@
 #include "Entity.h"
 #include "EntitySystem.h"
 #include "Resources.h"
-
+#include "ScreenText.h"
 
 
 class Canvas
@@ -17,13 +17,21 @@ public:
 
 	void SetAspectRatio(float aspectRatio);
 
+	//Button Stuff
 	Button* AddButton(UIRect rect, Material* mat);
+	Button* AddButton(UIRect rect, Material* mat, wchar_t* text, XMFLOAT4 textColor);
 	Button* AddButton(UIRect rect, Mesh* mesh, Material* mat);
 
 	ButtonState& GetDefualtButtonState() { return buttonDefaultState; }
 	void SetDefaultButtonState(ButtonState newDefault) { buttonDefaultState = newDefault; }
 	ButtonState& GetHoverButtonState() { return buttonHoverState; }
 	void SetHoverButtonState(ButtonState newHover) { buttonHoverState = newHover; }
+
+	//Text Stuff
+	ScreenText* AddText(wchar_t* text, float x, float y, XMFLOAT4 textColor);
+
+	//Panel stuff
+	UIElement* AddPanel(UIRect rect, Material* mat, XMFLOAT3 color);
 private:
 	EntitySystem* entSys;
 	Render* render;
@@ -39,5 +47,6 @@ private:
 
 	ButtonState buttonDefaultState;
 	ButtonState buttonHoverState;
+	SpriteFont* currentFont;
 };
 

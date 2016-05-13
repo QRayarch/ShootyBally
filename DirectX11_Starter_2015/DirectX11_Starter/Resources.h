@@ -86,6 +86,7 @@ private:
 	MaterialResource* materials;
 	unsigned int numberOfMaterials;
 
+	std::string defaultSpriteFontPath;
 	FontResource* fonts;
 	unsigned int numberOfFonts;
 };

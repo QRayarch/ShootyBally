@@ -39,6 +39,7 @@ Resources::Resources(ID3D11Device* newDevice, ID3D11DeviceContext* newDeviceCont
 		materials[m].name = "";
 	}
 
+	defaultSpriteFontPath = "Assets/Fonts/";
 	fonts = new FontResource[MAX_NUM_FONTS];
 	numberOfMaterials = 0;
 	for (unsigned int f = 0; f < MAX_NUM_FONTS; ++f) {
@@ -461,7 +462,7 @@ SpriteFont* Resources::LoadSpriteFont(std::string fileName)
 		return nullptr;
 	}
 
-	std::string fontPath = defaultTexturePath + fileName + FILE_FORMAT_SPRITE_FONT;
+	std::string fontPath = defaultSpriteFontPath + fileName + FILE_FORMAT_SPRITE_FONT;
 	LogText("LOADING FONT: " + fileName);
 
 	//a hacky way to convert to a wide char, I would eventually like to find a better solution

@@ -3,6 +3,7 @@
 
 Player::Player()
 {
+	score = 0;
 }
 
 Player::Player(EntitySystem* entsys, int entIndex, int playerNumber, Bullet* bullets)
@@ -17,6 +18,7 @@ Player::Player(EntitySystem* entsys, int entIndex, int playerNumber, Bullet* bul
 	bulletPool = bullets;
 
 	playerNum = PlayerNumber(playerNumber);
+	score = 0;
 }
 
 Player::~Player()
@@ -30,19 +32,19 @@ void Player::GetInput(float deltaTime)
 	if (playerNum == ONE)
 	{
 		//Movement
-		if (Input::IsKeyDown('P')) { turnSpeed += 0.05f * turnRate * deltaTime; }
-		if (Input::IsKeyDown('I')) { turnSpeed -= 0.05f * turnRate * deltaTime; }
+		if (Input::IsKeyDown('D')) { turnSpeed += 0.05f * turnRate * deltaTime; }
+		if (Input::IsKeyDown('A')) { turnSpeed -= 0.05f * turnRate * deltaTime; }
 
 		//Firing
-		if (Input::IsKeyDown('O') && timeToLastShot >= shotTimer) { Fire(); }
+		if (Input::IsKeyDown('W') && timeToLastShot >= shotTimer) { Fire(); }
 	}
 	else if (playerNum == TWO)
 	{
-		if (Input::IsKeyDown('J')) { turnSpeed += 0.05f * turnRate * deltaTime; }
-		if (Input::IsKeyDown('L')) { turnSpeed -= 0.05f * turnRate * deltaTime; }
+		if (Input::IsKeyDown(VK_RIGHT)) { turnSpeed += 0.05f * turnRate * deltaTime; }
+		if (Input::IsKeyDown(VK_LEFT)) { turnSpeed -= 0.05f * turnRate * deltaTime; }
 
 		//Firing
-		if (Input::IsKeyDown('K') && timeToLastShot >= shotTimer) { Fire(); }
+		if (Input::IsKeyDown(VK_UP) && timeToLastShot >= shotTimer) { Fire(); }
 	}
 
 	turnSpeed *= turnDrag;

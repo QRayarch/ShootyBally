@@ -5,8 +5,9 @@
 #include "Light.h"
 #include "Camera.h"
 #include <d3d11.h>
-#include "ScreenText.h"
 #include "SpriteBatch.h"
+
+class ScreenText;
 
 struct RenderInfo {
 	//Critical stuff
@@ -26,10 +27,9 @@ struct RenderInfo {
 };
 
 struct RenderTextInfo {
+	XMVECTOR screenSize;
 	ID3D11DeviceContext* deviceContext;
 	SpriteBatch* spriteBatch;
-	int screenWidth;
-	int screenHeight;
 };
 
 class Render
@@ -46,6 +46,8 @@ public:
 	void AddTextToRender(ScreenText& text);
 	void UpdateAndRender(Camera& camera);
 
+	void SetScreenSize(int nW, int nH) { screenWidth = nW; screenHeight = nH; }
+
 	GameLight& GetLight(int index) { return lights[index]; }
 	void SetLight(GameLight light, int index) { if(index >= 0 && index < MAX_NUM_OF_LIGHTS) lights[index] = light; }
 
@@ -61,5 +63,7 @@ private:
 
 	ScreenText* textList[MAX_NUM_OF_RENDERED_TEXT];
 	int endTextIndex;
+	int screenWidth;
+	int screenHeight;
 };
 

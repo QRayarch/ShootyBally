@@ -1,5 +1,5 @@
 #include "Render.h"
-
+#include "ScreenText.h"
 #include "Logger.h"
 
 Render::Render(ID3D11DeviceContext* newDeviceContext)
@@ -61,6 +61,7 @@ void Render::UpdateAndRender(Camera& camera)
 	RenderTextInfo textInfo;
 	textInfo.deviceContext = deviceContext;
 	textInfo.spriteBatch = spriteBatch;
+	textInfo.screenSize = XMVectorSet(screenWidth, screenHeight, 0, 0);
 
 	if (spriteBatch != nullptr) {
 		spriteBatch->Begin();
