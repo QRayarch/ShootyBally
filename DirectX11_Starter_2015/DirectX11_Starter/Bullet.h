@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Entity.h"
-#include "EntitySystem.h"
 #include "DirectXGameCore.h"
 #include "PhysicsBody.h"
 
@@ -9,7 +8,7 @@ class Bullet
 {
 public:
 	Bullet();
-	Bullet(EntitySystem* entsys, int entIndex);
+	Bullet(Entity* entity);
 	~Bullet();
 
 	bool GetIsActive() { return isActive; }

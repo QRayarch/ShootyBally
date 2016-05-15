@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Entity.h"
-#include "EntitySystem.h"
 #include "DirectXGameCore.h"
 #include "Bullet.h"
 #include "CollisionCircle.h"
@@ -20,7 +19,7 @@ class Player
 {
 public:
 	Player();
-	Player(EntitySystem* entsys, int entIndex, int playerNumber, Bullet* bullets);
+	Player(Entity* entity, int playerNumber, Bullet* bullets);
 	~Player();
 
 	void GetInput(float deltaTime);

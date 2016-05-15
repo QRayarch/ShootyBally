@@ -176,9 +176,6 @@ bool MyDemoGame::Init()
 	CreateGeometry();
 	TestLoadLevel("Assets/Maps/Untitled.txt");
 
-	player1 = Player(entSys, 2, 1, bulletPool);
-	player2 = Player(entSys, 3, 2, bulletPool);
-
 	// Tell the input assembler stage of the pipeline what kind of
 	// geometric primitives we'll be using and how to interpret them
 	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -489,6 +486,19 @@ void MyDemoGame::CreateGeometry()
 	Material* bulletMat = res->CreateMaterial(vertexShader, pixelShaderNoNormals, samplerState, "Bullet");
 	Material* uiMat = res->CreateMaterial(vsUI, psUI, samplerState, "UI_Panel");//WoodRough
 
+	// Particle emitter resources.
+	particleTexture = res->LoadTexture("particle", Resources::FILE_FORMAT_PNG);
+	particleEmittersAlphaLength = 30;
+	particleEmittersAlpha = new ParticleEmitter*[particleEmittersAlphaLength];
+	int particleEmittersAlphaIndex = 0;
+
+	for (int i = 0; i < particleEmittersAlphaLength; ++i)
+	{
+		particleEmittersAlpha[i] = new ParticleEmitter();
+		Entity* particleEntity = entSys->AddEntity();
+		particleEntity->AddComponent(particleEmittersAlpha[i]);
+	}
+
 	//Ball
 	Mesh* mesh1 = res->GetMeshAndLoadIfNotFound("Ball");
 	Entity* ball = entSys->AddEntity();
@@ -569,8 +579,6 @@ void MyDemoGame::CreateGeometry()
 	uiMat->GetVertexMaterialInfo()->AddFloat3(colorData);
 	//entity2->GetTransform().SetPosition(XMFLOAT3(-1 + 0.25f, 1 - 0.25f, 0));*/
 
-	Entity* entity2 = entSys->AddEntity();//BREAKS GAME IF NOT IN
-
 	//Players
 	Mesh* mesh3 = res->GetMeshAndLoadIfNotFound("sbgPaddle");
 
@@ -584,6 +592,7 @@ void MyDemoGame::CreateGeometry()
 	transform3.SetPosition(XMFLOAT3(-5.75f, -7.5f, 0.0f));
 	transform3.SetRotation(XMFLOAT3(0.0f, XM_PI / 2, 0));
 	transform3.SetScale(XMFLOAT3(paddleScale, paddleScale, paddleScale));
+	player1 = Player(entity3, 1, bulletPool);
 
 	Entity* entity4 = entSys->AddEntity();
 	entity4->AddComponent(new CollisionCircle(mesh3->GetVertices(), mesh3->GetNumberOfVertices()));
@@ -594,22 +603,43 @@ void MyDemoGame::CreateGeometry()
 	transform4.SetPosition(XMFLOAT3(5.75f, -7.5f, 0.0f));
 	transform4.SetRotation(XMFLOAT3(0.0f, -XM_PI / 2, 0.0f));
 	transform4.SetScale(XMFLOAT3(paddleScale, paddleScale, paddleScale));
+	player2 = Player(entity4, 2, bulletPool);
 
 	//Bullets
 	Mesh* mesh4 = res->GetMeshAndLoadIfNotFound("hpBullet");
-	int numEnts = entSys->GetNumberOfEnts();
-	for (int i = numEnts; i < numEnts + poolSize; i++)
+	for (int i = 0; i < poolSize; i++)
 	{
-		entSys->AddEntity();
-		Transform& tempTransform = entSys->GetEntity(i)->GetTransform();
-		entSys->AddComponentToEntity(i, new DrawnMesh(render, mesh4, bulletMat));
-		entSys->AddComponentToEntity(i, new PhysicsBody(&tempTransform, 1.0f));
-		entSys->AddComponentToEntity(i, new CollisionCircle(mesh4->GetVertices(), mesh4->GetNumberOfVertices()));
-		tempTransform.SetPosition(XMFLOAT3(0.0f, 5.0f, 0.0f));
-		tempTransform.SetScale(XMFLOAT3(0.08f, 0.08f, 0.08f));
+		Entity* bulletEntity = entSys->AddEntity();
+		Transform& bulletTransform = bulletEntity->GetTransform();
+		bulletEntity->AddComponent(new DrawnMesh(render, mesh4, bulletMat));
+		bulletEntity->AddComponent(new PhysicsBody(&bulletTransform, 1.0f));
+		bulletEntity->AddComponent(new CollisionCircle(mesh4->GetVertices(), mesh4->GetNumberOfVertices()));
+		bulletTransform.SetPosition(XMFLOAT3(0.0f, 5.0f, 0.0f));
+		bulletTransform.SetScale(XMFLOAT3(0.08f, 0.08f, 0.08f));
 
-		int poolIndex = i - numEnts;
-		bulletPool[poolIndex] = Bullet(entSys, i);
+		// Initialize bullet trail particle emitter.
+		particleEmittersAlpha[particleEmittersAlphaIndex]->Init(
+			&bulletTransform,
+			XMFLOAT3(0.0f, 0.0f, -5.0f),
+			XMFLOAT3(0.0f, 0.0f, -4.0f),
+			XMFLOAT4(1.0f, 0.1f, 0.1f, 0.3f),
+			XMFLOAT4(1.0f, 1.0f, 0.1f, 0.2f),
+			XMFLOAT4(1.0f, 0.5f, 0.1f, 0.1f),
+			2.0f,
+			1.0f,
+			0.2f,
+			XMFLOAT3(0.0f, 0.0f, -12.0f),
+			0.00001f,
+			2.0f,
+			2.0f,
+			particleTexture,
+			device);
+		spawnGS->CreateCompatibleStreamOutBuffer(particleEmittersAlpha[particleEmittersAlphaIndex]->GetSoBufferReadPointer(), 1000000);
+		spawnGS->CreateCompatibleStreamOutBuffer(particleEmittersAlpha[particleEmittersAlphaIndex]->GetSoBufferWritePointer(), 1000000);
+		particleEmittersAlpha[particleEmittersAlphaIndex]->Enable();
+		++particleEmittersAlphaIndex;
+
+		bulletPool[i] = Bullet(bulletEntity);
 	}
 
 	//UI
@@ -631,55 +661,6 @@ void MyDemoGame::CreateGeometry()
 	playerTwoScore->CenterText();
 
 	//END UI
-
-	// Particle emitters.
-	particleTexture = res->LoadTexture("particle", Resources::FILE_FORMAT_PNG);
-	particleEmittersAlphaLength = 30;
-	particleEmittersAlpha = new ParticleEmitter[particleEmittersAlphaLength];
-
-	particleEmittersAlpha[0].Init(
-		XMFLOAT3(2.0f, -5.0f, 0.0f),
-		XMFLOAT3(0.0f, 0.0f, -4.0f),
-		XMFLOAT4(1.0f, 0.1f, 0.1f, 0.3f),
-		XMFLOAT4(1.0f, 1.0f, 0.1f, 0.2f),
-		XMFLOAT4(1.0f, 0.5f, 0.1f, 0.1f),
-		10.0f,
-		8.0f,
-		1.0f,
-		XMFLOAT3(0.0f, 0.0f, -4.0f),
-		0.000001f,
-		2.0f,
-		2.0f,
-		particleTexture,
-		device);
-
-	// Create SO buffers.
-	spawnGS->CreateCompatibleStreamOutBuffer(particleEmittersAlpha[0].GetSoBufferReadPointer(), 1000000);
-	spawnGS->CreateCompatibleStreamOutBuffer(particleEmittersAlpha[0].GetSoBufferWritePointer(), 1000000);
-
-	particleEmittersAlpha[0].Enable();
-
-	particleEmittersAlpha[1].Init(
-		XMFLOAT3(-2.0f, -5.0f, 0.0f),
-		XMFLOAT3(0.0f, 0.0f, -4.0f),
-		XMFLOAT4(1.0f, 0.1f, 0.1f, 0.3f),
-		XMFLOAT4(1.0f, 1.0f, 0.1f, 0.2f),
-		XMFLOAT4(1.0f, 0.5f, 0.1f, 0.1f),
-		10.0f,
-		8.0f,
-		1.0f,
-		XMFLOAT3(0.0f, 0.0f, -4.0f),
-		0.000001f,
-		2.0f,
-		2.0f,
-		particleTexture,
-		device);
-
-	// Create SO buffers.
-	spawnGS->CreateCompatibleStreamOutBuffer(particleEmittersAlpha[1].GetSoBufferReadPointer(), 1000000);
-	spawnGS->CreateCompatibleStreamOutBuffer(particleEmittersAlpha[1].GetSoBufferWritePointer(), 1000000);
-
-	particleEmittersAlpha[1].Enable();
 
 	// Set up "random" resources.
 	unsigned int randomTextureWidth = 1024;
@@ -853,7 +834,7 @@ void MyDemoGame::UpdateScene(float deltaTime, float totalTime)
 	// Update particle emitters.
 	for (int i = 0; i < particleEmittersAlphaLength; ++i)
 	{
-		particleEmittersAlpha[i].ParticlesUpdate(deltaTime);
+		particleEmittersAlpha[i]->ParticlesUpdate(deltaTime);
 	}
 
 	//Temp camera and input stuff
@@ -918,17 +899,17 @@ void MyDemoGame::DrawScene(float deltaTime, float totalTime)
 	// Draw particles.
 	for (int i = 0; i < particleEmittersAlphaLength; ++i)
 	{
-		if (particleEmittersAlpha[i].GetEnabled())
+		if (particleEmittersAlpha[i]->GetEnabled())
 		{
-			particleVS->SetFloat3("acceleration", particleEmittersAlpha[i].GetConstantAccel());
-			particleVS->SetFloat("maxLifetime", particleEmittersAlpha[i].GetMaxLifetime());
+			particleVS->SetFloat3("acceleration", particleEmittersAlpha[i]->GetConstantAccel());
+			particleVS->SetFloat("maxLifetime", particleEmittersAlpha[i]->GetMaxLifetime());
 
-			particleGS->SetMatrix4x4("world", XMFLOAT4X4(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)); // Identity
+			particleGS->SetMatrix4x4("world", particleEmittersAlpha[i]->GetTransform().GetWorldMatrix());
 			particleGS->SetMatrix4x4("view", camera.GetViewMatrix());
 			particleGS->SetMatrix4x4("projection", camera.GetProjectionMatrix());
 
 			particlePS->SetSamplerState("trilinear", samplerState);
-			particlePS->SetShaderResourceView("particleTexture", particleEmittersAlpha[i].GetTexture());
+			particlePS->SetShaderResourceView("particleTexture", particleEmittersAlpha[i]->GetTexture());
 
 			particleVS->SetShader(true);
 			particleGS->SetShader(true);
@@ -942,7 +923,7 @@ void MyDemoGame::DrawScene(float deltaTime, float totalTime)
 			// Set buffers.
 			UINT particleStride = sizeof(ParticleVertex);
 			UINT particleOffset = 0;
-			deviceContext->IASetVertexBuffers(0, 1, particleEmittersAlpha[i].GetSoBufferReadPointer(), &particleStride, &particleOffset);
+			deviceContext->IASetVertexBuffers(0, 1, particleEmittersAlpha[i]->GetSoBufferReadPointer(), &particleStride, &particleOffset);
 
 			// Draw auto - draws based on current stream out buffer.
 			deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
@@ -1007,12 +988,12 @@ void MyDemoGame::DrawSpawn(float dt, float totalTime)
 
 	for (int i = 0; i < particleEmittersAlphaLength; ++i)
 	{
-		if (particleEmittersAlpha[i].GetEnabled())
+		if (particleEmittersAlpha[i]->GetEnabled())
 		{
 			float ageToSpawn;
-			if (particleEmittersAlpha[i].GetDisableTimer() == -1.0f)
+			if (particleEmittersAlpha[i]->GetDisableTimer() == -1.0f)
 			{
-				ageToSpawn = particleEmittersAlpha[i].GetAgeToSpawn();
+				ageToSpawn = particleEmittersAlpha[i]->GetAgeToSpawn();
 			}
 			else
 			{
@@ -1024,7 +1005,7 @@ void MyDemoGame::DrawSpawn(float dt, float totalTime)
 			// Set the delta time for the spawning.
 			spawnGS->SetFloat("dt", dt);
 			spawnGS->SetFloat("ageToSpawn", ageToSpawn);
-			spawnGS->SetFloat("maxLifetime", particleEmittersAlpha[i].GetMaxLifetime());
+			spawnGS->SetFloat("maxLifetime", particleEmittersAlpha[i]->GetMaxLifetime());
 			spawnGS->SetFloat("totalTime", totalTime);
 			spawnGS->SetSamplerState("randomSampler", samplerState);
 			spawnGS->SetShaderResourceView("randomTexture", randomSRV);
@@ -1038,20 +1019,20 @@ void MyDemoGame::DrawSpawn(float dt, float totalTime)
 			deviceContext->IASetVertexBuffers(0, 1, &unset, &stride, &offset);
 
 			// First frame?
-			int particleEmitterFrameCount = particleEmittersAlpha[i].GetFrameCount();
+			int particleEmitterFrameCount = particleEmittersAlpha[i]->GetFrameCount();
 			if (particleEmitterFrameCount == 0)
 			{
 				// Draw using the seed vertex.
-				deviceContext->IASetVertexBuffers(0, 1, particleEmittersAlpha[i].GetVertexBufferPointer(), &stride, &offset);
-				deviceContext->SOSetTargets(1, particleEmittersAlpha[i].GetSoBufferWritePointer(), &offset);
+				deviceContext->IASetVertexBuffers(0, 1, particleEmittersAlpha[i]->GetVertexBufferPointer(), &stride, &offset);
+				deviceContext->SOSetTargets(1, particleEmittersAlpha[i]->GetSoBufferWritePointer(), &offset);
 				deviceContext->Draw(1, 0);
-				particleEmittersAlpha[i].SetFrameCount(particleEmitterFrameCount + 1);
+				particleEmittersAlpha[i]->SetFrameCount(particleEmitterFrameCount + 1);
 			}
 			else
 			{
 				// Draw using the buffers.
-				deviceContext->IASetVertexBuffers(0, 1, particleEmittersAlpha[i].GetSoBufferReadPointer(), &stride, &offset);
-				deviceContext->SOSetTargets(1, particleEmittersAlpha[i].GetSoBufferWritePointer(), &offset);
+				deviceContext->IASetVertexBuffers(0, 1, particleEmittersAlpha[i]->GetSoBufferReadPointer(), &stride, &offset);
+				deviceContext->SOSetTargets(1, particleEmittersAlpha[i]->GetSoBufferWritePointer(), &offset);
 				deviceContext->DrawAuto();
 			}
 
@@ -1060,7 +1041,7 @@ void MyDemoGame::DrawSpawn(float dt, float totalTime)
 			deviceContext->GSSetShader(0, 0, 0);
 
 			// Swap after draw.
-			particleEmittersAlpha[i].SwapSoBuffers();
+			particleEmittersAlpha[i]->SwapSoBuffers();
 		}
 	}
 }

@@ -6,6 +6,7 @@
 #include "DirectXGameCore.h"
 #include "Vertex.h"
 #include "Component.h"
+#include "Transform.h"
 
 using namespace DirectX;
 
@@ -14,6 +15,7 @@ class ParticleEmitter : public Component
 public:
 	ParticleEmitter();
 	ParticleEmitter(
+		Transform* sourceTransform,
 		const XMFLOAT3& startPosition,
 		const XMFLOAT3& startVelocity,
 		const XMFLOAT4& startColor,
@@ -29,6 +31,7 @@ public:
 		ID3D11ShaderResourceView* texture,
 		ID3D11Device* device);
 	void Init(
+		Transform* sourceTransform,
 		const XMFLOAT3& startPosition,
 		const XMFLOAT3& startVelocity,
 		const XMFLOAT4& startColor,
@@ -81,6 +84,7 @@ private:
 	float maxLifetime;
 	float disableDelay;
 	float disableTimer;
+	Transform* sourceTransform;
 
 	ID3D11Device* device;
 	ID3D11ShaderResourceView* texture;
@@ -92,6 +96,7 @@ private:
 	bool enabled;
 
 	void DisableInternal();
+	void UpdateTransform();
 };
 
 #endif

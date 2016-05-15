@@ -6,9 +6,9 @@ Player::Player()
 	score = 0;
 }
 
-Player::Player(EntitySystem* entsys, int entIndex, int playerNumber, Bullet* bullets)
+Player::Player(Entity* entity, int playerNumber, Bullet* bullets)
 {
-	playerEntity = entsys->GetEntity(entIndex);
+	playerEntity = entity;
 	turnRate = 8;
 	turnDrag = 0.96f;
 	turnSpeed = 0.0f;

@@ -2,6 +2,7 @@
 
 ParticleEmitter::ParticleEmitter()
 	: ParticleEmitter(
+		nullptr,
 		XMFLOAT3(0.0f, 0.0f, 0.0f),
 		XMFLOAT3(0.0f, 0.0f, 0.0f),
 		XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f),
@@ -20,6 +21,7 @@ ParticleEmitter::ParticleEmitter()
 }
 
 ParticleEmitter::ParticleEmitter(
+	Transform* sourceTransform,
 	const XMFLOAT3& startPosition,
 	const XMFLOAT3& startVelocity,
 	const XMFLOAT4& startColor,
@@ -48,6 +50,7 @@ ParticleEmitter::ParticleEmitter(
 	maxLifetime(maxLifetime),
 	disableDelay(disableDelay),
 	disableTimer(-1.0f),
+	sourceTransform(sourceTransform),
 	device(device),
 	texture(texture),
 	vertexBuffer(nullptr),
@@ -60,6 +63,7 @@ ParticleEmitter::ParticleEmitter(
 }
 
 void ParticleEmitter::Init(
+	Transform* sourceTransform,
 	const XMFLOAT3& startPosition,
 	const XMFLOAT3& startVelocity,
 	const XMFLOAT4& startColor,
@@ -87,8 +91,11 @@ void ParticleEmitter::Init(
 	this->ageToSpawn = ageToSpawn;
 	this->maxLifetime = maxLifetime;
 	this->disableDelay = disableDelay;
+	this->sourceTransform = sourceTransform;
 	this->device = device;
 	this->texture = texture;
+
+	UpdateTransform();
 }
 
 ParticleEmitter::~ParticleEmitter()
@@ -105,6 +112,13 @@ void ParticleEmitter::Update(float dt)
 
 void ParticleEmitter::Enable()
 {
+	if (enabled)
+	{
+		DisableInternal();
+	}
+
+	UpdateTransform();
+
 	// Set up the root vertex to put into the vertex buffer.
 	ParticleVertex vertices[1];
 	vertices[0].Type = 0;
@@ -154,14 +168,32 @@ void ParticleEmitter::DisableInternal()
 
 void ParticleEmitter::ParticlesUpdate(float deltaTime)
 {
-	if (enabled && disableTimer != -1.0f)
+	if (enabled)
 	{
-		disableTimer += deltaTime;
-
-		if (disableTimer >= disableDelay)
+		if (disableTimer == -1.0f)
 		{
-			DisableInternal();
+			UpdateTransform();
 		}
+		else
+		{
+			disableTimer += deltaTime;
+
+			if (disableTimer >= disableDelay)
+			{
+				DisableInternal();
+			}
+		}
+	}
+}
+
+void ParticleEmitter::UpdateTransform()
+{
+	if (sourceTransform != nullptr)
+	{
+		Transform& transform = GetTransform();
+		transform.SetPosition(sourceTransform->GetPosition());
+		transform.SetRotation(sourceTransform->GetRotation());
+		transform.SetScale(sourceTransform->GetScale());
 	}
 }
 

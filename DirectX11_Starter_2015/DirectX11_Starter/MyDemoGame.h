@@ -97,7 +97,7 @@ private:
 
 	// Particle resources.
 	int particleEmittersAlphaLength;
-	ParticleEmitter* particleEmittersAlpha;
+	ParticleEmitter** particleEmittersAlpha;
 
 	SimpleVertexShader* spawnVS;
 	SimpleGeometryShader* spawnGS;
