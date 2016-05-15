@@ -129,10 +129,13 @@ MyDemoGame::~MyDemoGame()
 	particleDepthState->Release();
 
 	// Post Processing
-	delete postPS;
+	delete postManager;
+	/*delete postPS;
 	delete postVS;
-	postRTV->Release();
-	postSRV->Release();
+	ReleaseMacro(postRTV);
+	ReleaseMacro(postSRV);
+	ReleaseMacro(postRTV2);
+	ReleaseMacro(postSRV2);*/
 	
 
 	DebugDraw::Release();
@@ -161,6 +164,7 @@ bool MyDemoGame::Init()
 	render->SetScreenSize(windowWidth, windowHeight);
 	res = new Resources(device, deviceContext);
 	entSys = new EntitySystem(1000);
+	postManager = new PostManager(device, deviceContext);
 
 	GameLight light1 = GameLight(LIGHT_DIRECTIONAL, XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f), XMFLOAT4(0.9f, 0.4f, 0.4f, 1.0f));
 	light1.GetTransform().SetRotation(XMFLOAT3(1, 0, 0));
@@ -218,10 +222,7 @@ void MyDemoGame::LoadShaders()
 	psUI->LoadShaderFile(L"PS_UI.cso");
 
 	//post shaders
-	postVS = new SimpleVertexShader(device, deviceContext);
-	postVS->LoadShaderFile(L"VS_Blur.cso");
-	postPS = new SimplePixelShader(device, deviceContext);
-	postPS->LoadShaderFile(L"PS_Blur.cso");
+	postManager->LoadShaders();
 
 	// Load particle shaders
 	spawnVS = new SimpleVertexShader(device, deviceContext);
@@ -296,39 +297,74 @@ void MyDemoGame::LoadShaders()
 	///////////////////////////////////////////////
 	//Post Processing
 	///////////////////////////////////////////////
-	//Target Texture
-	D3D11_TEXTURE2D_DESC texDesc = {};
-	texDesc.Width = windowWidth;
-	texDesc.Height = windowHeight;
-	texDesc.ArraySize = 1;
-	texDesc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
-	texDesc.CPUAccessFlags = 0;
-	texDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-	texDesc.MipLevels = 1;
-	texDesc.MiscFlags = 0;
-	texDesc.SampleDesc.Count = 1;
-	texDesc.SampleDesc.Quality = 0;
-	texDesc.Usage = D3D11_USAGE_DEFAULT;
-	ID3D11Texture2D* postTexture;
-	device->CreateTexture2D(&texDesc, 0, &postTexture);
+	postManager->BuildResources(windowWidth, windowHeight);
+	postManager->SetChainDest(renderTargetView);
 
-	//Render Target View
-	D3D11_RENDER_TARGET_VIEW_DESC rtvDesc = {};
-	rtvDesc.Format = texDesc.Format;
-	rtvDesc.Texture2D.MipSlice = 0;
-	rtvDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
-	device->CreateRenderTargetView(postTexture, &rtvDesc, &postRTV);
+	////Target Texture
+	//D3D11_TEXTURE2D_DESC texDesc = {};
+	//texDesc.Width = windowWidth;
+	//texDesc.Height = windowHeight;
+	//texDesc.ArraySize = 1;
+	//texDesc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+	//texDesc.CPUAccessFlags = 0;
+	//texDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	//texDesc.MipLevels = 1;
+	//texDesc.MiscFlags = 0;
+	//texDesc.SampleDesc.Count = 1;
+	//texDesc.SampleDesc.Quality = 0;
+	//texDesc.Usage = D3D11_USAGE_DEFAULT;
+	//ID3D11Texture2D* postTexture;
+	//device->CreateTexture2D(&texDesc, 0, &postTexture);
 
-	//Shader Resource View
-	D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
-	srvDesc.Format = texDesc.Format;
-	srvDesc.Texture2D.MipLevels = 1;
-	srvDesc.Texture2D.MostDetailedMip = 0;
-	srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-	device->CreateShaderResourceView(postTexture, &srvDesc, &postSRV);
+	////Render Target View
+	//D3D11_RENDER_TARGET_VIEW_DESC rtvDesc = {};
+	//rtvDesc.Format = texDesc.Format;
+	//rtvDesc.Texture2D.MipSlice = 0;
+	//rtvDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+	//device->CreateRenderTargetView(postTexture, &rtvDesc, &postRTV);
 
-	// texture reference cleanup
-	postTexture->Release();
+	////Shader Resource View
+	//D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
+	//srvDesc.Format = texDesc.Format;
+	//srvDesc.Texture2D.MipLevels = 1;
+	//srvDesc.Texture2D.MostDetailedMip = 0;
+	//srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+	//device->CreateShaderResourceView(postTexture, &srvDesc, &postSRV);
+
+	////Target Texture
+	//D3D11_TEXTURE2D_DESC texDesc2 = {};
+	//texDesc2.Width = windowWidth;
+	//texDesc2.Height = windowHeight;
+	//texDesc2.ArraySize = 1;
+	//texDesc2.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+	//texDesc2.CPUAccessFlags = 0;
+	//texDesc2.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	//texDesc2.MipLevels = 1;
+	//texDesc2.MiscFlags = 0;
+	//texDesc2.SampleDesc.Count = 1;
+	//texDesc2.SampleDesc.Quality = 0;
+	//texDesc2.Usage = D3D11_USAGE_DEFAULT;
+	//ID3D11Texture2D* postTexture2;
+	//device->CreateTexture2D(&texDesc2, 0, &postTexture2);
+
+	////Render Target View
+	//D3D11_RENDER_TARGET_VIEW_DESC rtvDesc2 = {};
+	//rtvDesc2.Format = texDesc2.Format;
+	//rtvDesc2.Texture2D.MipSlice = 0;
+	//rtvDesc2.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+	//device->CreateRenderTargetView(postTexture2, &rtvDesc2, &postRTV2);
+
+	////Shader Resource View
+	//D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc2 = {};
+	//srvDesc2.Format = texDesc.Format;
+	//srvDesc2.Texture2D.MipLevels = 1;
+	//srvDesc2.Texture2D.MostDetailedMip = 0;
+	//srvDesc2.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+	//device->CreateShaderResourceView(postTexture2, &srvDesc2, &postSRV2);
+
+	//// texture reference cleanup
+	//postTexture->Release();
+	//postTexture2->Release();
 }
 
 //This is here temporarily till more things are figured out
@@ -733,38 +769,43 @@ void MyDemoGame::OnResize()
 	camera.CreatePerspectiveProjectionMatrix(aspectRatio, 0.1f, 100.0f);
 
 	//Post
-	ReleaseMacro(postRTV);
-	ReleaseMacro(postSRV);
+	if (postManager->GetChainRTVStart() != nullptr) {
+		postManager->ReleaseResources();
+	}
+	postManager->BuildResources(windowWidth, windowHeight);
+	postManager->SetChainDest(renderTargetView);
+	/*ReleaseMacro(postRTV);
+	ReleaseMacro(postSRV);*/
 	//Target Texture
-	D3D11_TEXTURE2D_DESC texDesc = {};
-	texDesc.Width = windowWidth;
-	texDesc.Height = windowHeight;
-	texDesc.ArraySize = 1;
-	texDesc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
-	texDesc.CPUAccessFlags = 0;
-	texDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-	texDesc.MipLevels = 1;
-	texDesc.MiscFlags = 0;
-	texDesc.SampleDesc.Count = 1;
-	texDesc.SampleDesc.Quality = 0;
-	texDesc.Usage = D3D11_USAGE_DEFAULT;
-	ID3D11Texture2D* postTexture;
-	device->CreateTexture2D(&texDesc, 0, &postTexture);
+	//D3D11_TEXTURE2D_DESC texDesc = {};
+	//texDesc.Width = windowWidth;
+	//texDesc.Height = windowHeight;
+	//texDesc.ArraySize = 1;
+	//texDesc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+	//texDesc.CPUAccessFlags = 0;
+	//texDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	//texDesc.MipLevels = 1;
+	//texDesc.MiscFlags = 0;
+	//texDesc.SampleDesc.Count = 1;
+	//texDesc.SampleDesc.Quality = 0;
+	//texDesc.Usage = D3D11_USAGE_DEFAULT;
+	//ID3D11Texture2D* postTexture;
+	//device->CreateTexture2D(&texDesc, 0, &postTexture);
 
-	//Render Target View
-	D3D11_RENDER_TARGET_VIEW_DESC rtvDesc = {};
-	rtvDesc.Format = texDesc.Format;
-	rtvDesc.Texture2D.MipSlice = 0;
-	rtvDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
-	device->CreateRenderTargetView(postTexture, &rtvDesc, &postRTV);
+	////Render Target View
+	//D3D11_RENDER_TARGET_VIEW_DESC rtvDesc = {};
+	//rtvDesc.Format = texDesc.Format;
+	//rtvDesc.Texture2D.MipSlice = 0;
+	//rtvDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+	//device->CreateRenderTargetView(postTexture, &rtvDesc, &postRTV);
 
-	//Shader Resource View
-	D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
-	srvDesc.Format = texDesc.Format;
-	srvDesc.Texture2D.MipLevels = 1;
-	srvDesc.Texture2D.MostDetailedMip = 0;
-	srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-	device->CreateShaderResourceView(postTexture, &srvDesc, &postSRV);
+	////Shader Resource View
+	//D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
+	//srvDesc.Format = texDesc.Format;
+	//srvDesc.Texture2D.MipLevels = 1;
+	//srvDesc.Texture2D.MostDetailedMip = 0;
+	//srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+	//device->CreateShaderResourceView(postTexture, &srvDesc, &postSRV);
 
 	if (render != nullptr) {
 		render->SetScreenSize(windowWidth, windowHeight);
@@ -875,14 +916,15 @@ void MyDemoGame::DrawScene(float deltaTime, float totalTime)
 	const float color[4] = {0.4f, 0.6f, 0.75f, 0.0f};
 
 	//Swap for post processing
-	deviceContext->OMSetRenderTargets(1, &postRTV, depthStencilView);
+	ID3D11RenderTargetView** postRTV = postManager->GetChainRTVStart();
+	deviceContext->OMSetRenderTargets(1, postRTV, depthStencilView);
 
 
 
 	// Clear the render target and depth buffer (erases what's on the screen)
 	//  - Do this ONCE PER FRAME
 	//  - At the beginning of DrawScene (before drawing *anything*)
-	deviceContext->ClearRenderTargetView(postRTV, color);
+	deviceContext->ClearRenderTargetView(*postRTV, color);
 	deviceContext->ClearDepthStencilView(
 		depthStencilView, 
 		D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL,
@@ -961,33 +1003,34 @@ void MyDemoGame::DrawScene(float deltaTime, float totalTime)
 	/////////////////
 	//Post Processing
 	/////////////////
-	// Regular to post
-	deviceContext->OMSetRenderTargets(1, &renderTargetView, 0);
-	deviceContext->ClearRenderTargetView(renderTargetView, color);
+	postManager->RunChain(windowWidth, windowHeight, samplerState, stride, offset);
+	//// Regular to post
+	//deviceContext->OMSetRenderTargets(1, &renderTargetView, 0);
+	//deviceContext->ClearRenderTargetView(renderTargetView, color);
 
-	// Draw the post process
-	postVS->SetShader();
+	//// Draw the post process
+	//postVS->SetShader();
 
-	postPS->SetBool("vertical", true);
-	postPS->SetInt("blurAmount", 0);
-	postPS->SetFloat("pixelWidth", 1.0f / windowWidth);
-	postPS->SetFloat("pixelHeight", 1.0f / windowHeight);
-	postPS->SetShaderResourceView("pixels", postSRV);
-	postPS->SetSamplerState("trilinear", samplerState);
-	postPS->SetShader();
+	//postPS->SetBool("vertical", true);
+	//postPS->SetInt("blurAmount", 5);
+	//postPS->SetFloat("pixelWidth", 1.0f / windowWidth);
+	//postPS->SetFloat("pixelHeight", 1.0f / windowHeight);
+	//postPS->SetShaderResourceView("pixels", postSRV);
+	//postPS->SetSamplerState("trilinear", samplerState);
+	//postPS->SetShader();
 
-	// Turn off existing vert/index buffers
-	ID3D11Buffer* nothing = 0;
-	deviceContext->IASetVertexBuffers(0, 1, &nothing, &stride, &offset);
-	deviceContext->IASetIndexBuffer(0, DXGI_FORMAT_R32_UINT, 0);
+	//// Turn off existing vert/index buffers
+	//ID3D11Buffer* nothing = 0;
+	//deviceContext->IASetVertexBuffers(0, 1, &nothing, &stride, &offset);
+	//deviceContext->IASetIndexBuffer(0, DXGI_FORMAT_R32_UINT, 0);
 
-	// Finally - DRAW!
-	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	deviceContext->Draw(3, 0);
+	//// Finally - DRAW!
+	//deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	//deviceContext->Draw(3, 0);
 
-	// Unbind the SRV so the underlying texture isn't bound for
-	// both input and output at the start of next frame
-	postPS->SetShaderResourceView("pixels", 0);
+	//// Unbind the SRV so the underlying texture isn't bound for
+	//// both input and output at the start of next frame
+	//postPS->SetShaderResourceView("pixels", 0);
 
 
 
