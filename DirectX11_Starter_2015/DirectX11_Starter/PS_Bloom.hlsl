@@ -23,10 +23,10 @@ Texture2D bloomThresh	: register(t0);
 Texture2D cleanImage	: register(t1);
 SamplerState trilinear	: register(s0);
 
-float4 main() : SV_TARGET
+float4 main(VertexToPixel input) : SV_TARGET
 {
-	float4 bloomColor = bloomThresh.Sample;
-	float4 originalColor = cleanImage.Sample;
+	float4 bloomColor = bloomThresh.Sample(trilinear, input.uv);
+	float4 originalColor = cleanImage.Sample(trilinear, input.uv);
 
 	bloomColor = AdjustSaturation(bloomColor, bloomSaturation) * bloomIntensity;
 	originalColor = AdjustSaturation(originalColor, originalSaturation) * originalIntensity;
