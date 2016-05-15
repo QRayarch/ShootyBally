@@ -259,6 +259,9 @@
     <FxCompile Include="PS_BloomThreshold.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
+    <FxCompile Include="PS_Bloom.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
