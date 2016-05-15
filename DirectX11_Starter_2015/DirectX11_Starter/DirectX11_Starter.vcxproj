@@ -97,6 +97,7 @@ xcopy "$(SolutionDir)Assets" "$(OutDir)Assets" /y /s /i /d /e</Command>
     <ClCompile Include="ParticleEmitter.cpp" />
     <ClCompile Include="PhysicsBody.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PostManager.cpp" />
     <ClCompile Include="Render.cpp" />
     <ClCompile Include="Resources.cpp" />
     <ClCompile Include="ScreenText.cpp" />
@@ -129,6 +130,7 @@ xcopy "$(SolutionDir)Assets" "$(OutDir)Assets" /y /s /i /d /e</Command>
     <ClInclude Include="ParticleEmitter.h" />
     <ClInclude Include="PhysicsBody.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PostManager.h" />
     <ClInclude Include="Render.h" />
     <ClInclude Include="Resources.h" />
     <ClInclude Include="ScreenText.h" />
@@ -205,7 +207,7 @@ xcopy "$(SolutionDir)Assets" "$(OutDir)Assets" /y /s /i /d /e</Command>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
     </FxCompile>
-    <FxCompile Include="VS_Blur.hlsl">
+    <FxCompile Include="VS_Post.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
