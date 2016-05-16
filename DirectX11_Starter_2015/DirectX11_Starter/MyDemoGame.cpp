@@ -670,10 +670,10 @@ void MyDemoGame::CreateGeometry()
 			device);
 		spawnGS->CreateCompatibleStreamOutBuffer(particleEmittersAlpha[particleEmittersAlphaIndex]->GetSoBufferReadPointer(), 1000000);
 		spawnGS->CreateCompatibleStreamOutBuffer(particleEmittersAlpha[particleEmittersAlphaIndex]->GetSoBufferWritePointer(), 1000000);
-		particleEmittersAlpha[particleEmittersAlphaIndex]->Enable();
-		++particleEmittersAlphaIndex;
 
-		bulletPool[i] = Bullet(bulletEntity);
+		bulletPool[i] = Bullet(bulletEntity, particleEmittersAlpha[particleEmittersAlphaIndex]);
+
+		++particleEmittersAlphaIndex;
 	}
 
 	//UI
