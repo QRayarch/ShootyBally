@@ -6,9 +6,10 @@ Bullet::Bullet()
 {
 }
 
-Bullet::Bullet(Entity* entity)
+Bullet::Bullet(Entity* entity, ParticleEmitter* trailParticleEmitter)
 {
 	bulletEntity = entity;
+	this->trailParticleEmitter = trailParticleEmitter;
 	lifespan = 6.0f;
 	velocity = 7.0f;
 }
@@ -22,6 +23,7 @@ void Bullet::SetIsActive(bool activity)
 	isActive = activity;
 	if (!activity)
 	{
+		trailParticleEmitter->Disable();
 		GetEntity()->GetTransform().SetPosition(XMFLOAT3(0.0f, 5.0f, 0.0f));
 	}
 }
@@ -32,6 +34,7 @@ void Bullet::UpdatePhysics(float deltaTime)
 	lifespanLeft -= deltaTime;
 	if (lifespanLeft <= 0) {
 		isActive = false;
+		trailParticleEmitter->Disable();
 		GetEntity()->GetTransform().SetPosition(XMFLOAT3(0, 100, 0));
 	}
 }
@@ -50,4 +53,6 @@ void Bullet::Fire(Transform playerTransform)
 	XMFLOAT3 velocity;
 	XMStoreFloat3(&velocity, XMVector3Normalize(newVel) * 3);
 	bulletEntity->GetComponent<PhysicsBody>()->SetVelocity(XMFLOAT4(velocity.x, velocity.y, velocity.z, 0.0f));
+
+	trailParticleEmitter->Enable();
 }
