@@ -25,6 +25,7 @@ public:
 		float midSize,
 		float endSize,
 		const XMFLOAT3& constantAccel,
+		int numSpawn,
 		float ageToSpawn,
 		float maxLifetime,
 		float disableDelay,
@@ -41,6 +42,7 @@ public:
 		float midSize,
 		float endSize,
 		const XMFLOAT3& constantAccel,
+		int numSpawn,
 		float ageToSpawn,
 		float maxLifetime,
 		float disableDelay,
@@ -51,6 +53,7 @@ public:
 	bool GetEnabled() const { return enabled; }
 	float GetDisableTimer() const { return disableTimer; }
 	XMFLOAT3 GetConstantAccel() const { return constantAccel; }
+	int GetNumSpawn() const { return numSpawn; }
 	float GetAgeToSpawn() const { return ageToSpawn; }
 	float GetMaxLifetime() const { return maxLifetime; }
 	ID3D11ShaderResourceView* GetTexture() const { return texture; }
@@ -84,6 +87,7 @@ private:
 	float maxLifetime;
 	float disableDelay;
 	float disableTimer;
+	int numSpawn;
 	Transform* sourceTransform;
 
 	ID3D11Device* device;

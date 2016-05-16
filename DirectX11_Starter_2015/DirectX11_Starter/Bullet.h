@@ -9,7 +9,7 @@ class Bullet
 {
 public:
 	Bullet();
-	Bullet(Entity* entity, ParticleEmitter* trailParticleEmitter);
+	Bullet(Entity* entity, ParticleEmitter* trailParticleEmitter, ParticleEmitter* explosionParticleEmitter);
 	~Bullet();
 
 	bool GetIsActive() { return isActive; }
@@ -22,6 +22,7 @@ public:
 private:
 	Entity* bulletEntity;
 	ParticleEmitter* trailParticleEmitter;
+	ParticleEmitter* explosionParticleEmitter;
 
 	bool isActive = false;
 	float lifespan;

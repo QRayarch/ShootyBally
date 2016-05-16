@@ -12,6 +12,7 @@ ParticleEmitter::ParticleEmitter()
 		0.0f,
 		0.0f,
 		XMFLOAT3(0.0f, 0.0f, 0.0f),
+		0,
 		0.0f,
 		0.0f,
 		0.0f,
@@ -31,6 +32,7 @@ ParticleEmitter::ParticleEmitter(
 	float midSize,
 	float endSize,
 	const XMFLOAT3& constantAccel,
+	int numSpawn,
 	float ageToSpawn,
 	float maxLifetime,
 	float disableDelay,
@@ -50,6 +52,7 @@ ParticleEmitter::ParticleEmitter(
 	maxLifetime(maxLifetime),
 	disableDelay(disableDelay),
 	disableTimer(-1.0f),
+	numSpawn(numSpawn),
 	sourceTransform(sourceTransform),
 	device(device),
 	texture(texture),
@@ -73,6 +76,7 @@ void ParticleEmitter::Init(
 	float midSize,
 	float endSize,
 	const XMFLOAT3& constantAccel,
+	int numSpawn,
 	float ageToSpawn,
 	float maxLifetime,
 	float disableDelay,
@@ -91,6 +95,7 @@ void ParticleEmitter::Init(
 	this->ageToSpawn = ageToSpawn;
 	this->maxLifetime = maxLifetime;
 	this->disableDelay = disableDelay;
+	this->numSpawn = numSpawn;
 	this->sourceTransform = sourceTransform;
 	this->device = device;
 	this->texture = texture;

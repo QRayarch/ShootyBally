@@ -31,12 +31,13 @@ cbuffer externalData : register(b0)
 	float ageToSpawn;
 	float maxLifetime;
 	float totalTime;
+	int numSpawn;
 }
 
 texture1D randomTexture	: register(t0);
 sampler randomSampler	: register(s0);
 
-[maxvertexcount(2)]
+[maxvertexcount(32)]
 void main(point VStoGS input[1], inout PointStream<GSOutput> outStream)
 {
 	// Increment the age.
@@ -45,6 +46,32 @@ void main(point VStoGS input[1], inout PointStream<GSOutput> outStream)
 	// Root particle?
 	if (input[0].type == TYPE_ROOT)
 	{
+		if (numSpawn != 0)
+		{
+			for (int i = 0; i < numSpawn; ++i)
+			{
+				// Make a copy to emit.
+				GSOutput emit;
+				emit.type = TYPE_PARTICLE;
+				emit.age = 0;
+				emit.startPos = input[0].startPos.xyz;
+				emit.startVel = input[0].startVel;
+				emit.startColor = input[0].startColor;
+				emit.midColor = input[0].midColor;
+				emit.endColor = input[0].endColor;
+				emit.sizes = input[0].sizes;
+
+				// Alter some values from default.
+				float4 random = randomTexture.SampleLevel(randomSampler, totalTime * 10 * i, 0);
+				emit.startPos += random.xyz * 0.5f;
+				emit.startVel.x = random.w * 9.0f;
+				emit.startVel.y += random.w * 5.0f;
+				emit.startVel.z = random.x * 9.0f;
+
+				outStream.Append(emit);
+			}
+		}
+
 		// Time for new particle?
 		if (input[0].age >= ageToSpawn)
 		{

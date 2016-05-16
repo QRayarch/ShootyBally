@@ -522,7 +522,7 @@ void MyDemoGame::CreateGeometry()
 
 	// Particle emitter resources.
 	particleTexture = res->LoadTexture("particle", Resources::FILE_FORMAT_PNG);
-	particleEmittersAlphaLength = 30;
+	particleEmittersAlphaLength = 60;
 	particleEmittersAlpha = new ParticleEmitter*[particleEmittersAlphaLength];
 	int particleEmittersAlphaIndex = 0;
 
@@ -663,6 +663,7 @@ void MyDemoGame::CreateGeometry()
 			1.0f,
 			0.2f,
 			XMFLOAT3(0.0f, 0.0f, -12.0f),
+			0,
 			0.00001f,
 			2.0f,
 			2.0f,
@@ -670,8 +671,30 @@ void MyDemoGame::CreateGeometry()
 			device);
 		spawnGS->CreateCompatibleStreamOutBuffer(particleEmittersAlpha[particleEmittersAlphaIndex]->GetSoBufferReadPointer(), 1000000);
 		spawnGS->CreateCompatibleStreamOutBuffer(particleEmittersAlpha[particleEmittersAlphaIndex]->GetSoBufferWritePointer(), 1000000);
+		++particleEmittersAlphaIndex;
 
-		bulletPool[i] = Bullet(bulletEntity, particleEmittersAlpha[particleEmittersAlphaIndex]);
+		// Initialize bullet explosion particle emitter.
+		particleEmittersAlpha[particleEmittersAlphaIndex]->Init(
+			&bulletTransform,
+			XMFLOAT3(0.0f, 0.0f, 0.0f),
+			XMFLOAT3(0.0f, 10.0f, 0.0f),
+			XMFLOAT4(1.0f, 0.1f, 0.1f, 0.8f),
+			XMFLOAT4(0.5f, 0.5f, 0.5f, 0.5f),
+			XMFLOAT4(0.5f, 0.5f, 0.5f, 0.1f),
+			10.0f,
+			5.0f,
+			2.0f,
+			XMFLOAT3(0.0f, -20.0f, 0.0f),
+			30,
+			10000.0f,
+			2.0f,
+			2.0f,
+			particleTexture,
+			device);
+		spawnGS->CreateCompatibleStreamOutBuffer(particleEmittersAlpha[particleEmittersAlphaIndex]->GetSoBufferReadPointer(), 1000000);
+		spawnGS->CreateCompatibleStreamOutBuffer(particleEmittersAlpha[particleEmittersAlphaIndex]->GetSoBufferWritePointer(), 1000000);
+
+		bulletPool[i] = Bullet(bulletEntity, particleEmittersAlpha[particleEmittersAlphaIndex - 1], particleEmittersAlpha[particleEmittersAlphaIndex]);
 
 		++particleEmittersAlphaIndex;
 	}
@@ -1043,12 +1066,20 @@ void MyDemoGame::DrawSpawn(float dt, float totalTime)
 				ageToSpawn = 10000.0f;
 			}
 
+			int numSpawn = 0;
+			int particleEmitterFrameCount = particleEmittersAlpha[i]->GetFrameCount();
+			if (particleEmitterFrameCount == 0)
+			{
+				numSpawn = particleEmittersAlpha[i]->GetNumSpawn();
+			}
+
 			// Set/unset correct shaders.
 			// Set the delta time for the spawning.
 			spawnGS->SetFloat("dt", dt);
 			spawnGS->SetFloat("ageToSpawn", ageToSpawn);
 			spawnGS->SetFloat("maxLifetime", particleEmittersAlpha[i]->GetMaxLifetime());
 			spawnGS->SetFloat("totalTime", totalTime);
+			spawnGS->SetInt("numSpawn", numSpawn);
 			spawnGS->SetSamplerState("randomSampler", samplerState);
 			spawnGS->SetShaderResourceView("randomTexture", randomSRV);
 
@@ -1061,7 +1092,6 @@ void MyDemoGame::DrawSpawn(float dt, float totalTime)
 			deviceContext->IASetVertexBuffers(0, 1, &unset, &stride, &offset);
 
 			// First frame?
-			int particleEmitterFrameCount = particleEmittersAlpha[i]->GetFrameCount();
 			if (particleEmitterFrameCount == 0)
 			{
 				// Draw using the seed vertex.
