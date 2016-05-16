@@ -24,6 +24,7 @@
 #include "CollisionBox.h"
 #include "CollisionCircle.h"
 #include "ParticleEmitter.h"
+#include "PostManager.h"
 
 // Include run-time memory checking in debug builds, so 
 // we can be notified of memory leaks
@@ -115,10 +116,13 @@ private:
 	ID3D11DepthStencilState* particleDepthState;
 
 	//Post Processing
-	ID3D11RenderTargetView* postRTV;
+	PostManager* postManager;
+	/*ID3D11RenderTargetView* postRTV;
 	ID3D11ShaderResourceView* postSRV;
+	ID3D11RenderTargetView* postRTV2;
+	ID3D11ShaderResourceView* postSRV2;
 	SimpleVertexShader* postVS;
-	SimplePixelShader* postPS;
+	SimplePixelShader* postPS;*/
 
 	// Game Data
 	Player player1;

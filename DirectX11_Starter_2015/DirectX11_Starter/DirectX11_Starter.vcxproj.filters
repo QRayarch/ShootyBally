@@ -105,6 +105,9 @@
     <ClCompile Include="ScreenText.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PostManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dxerr.h">
@@ -200,6 +203,9 @@
     <ClInclude Include="ScreenText.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PostManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shaders\PixelShader.hlsl">
@@ -247,7 +253,13 @@
     <FxCompile Include="PS_Blur.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="VS_Blur.hlsl">
+    <FxCompile Include="VS_Post.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="PS_BloomThreshold.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="PS_Bloom.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
   </ItemGroup>
