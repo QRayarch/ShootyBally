@@ -24,6 +24,5 @@ private:
 	bool isActive = false;
 	float lifespan;
 	float lifespanLeft;
-	float velocity;
 };
 

@@ -469,7 +469,6 @@ void MyDemoGame::TestLoadLevel(char* mapName) {
 				if (std::strstr(chars, "model")) 
 				{
 					std::string modelName = line.substr(6, line.length());
-					//LogText(modelName);
 					Mesh* newMesh = nullptr;
 					if (!res->IsMeshLoaded(modelName.c_str())) {
 						res->LoadMesh(modelName.c_str());
@@ -484,6 +483,11 @@ void MyDemoGame::TestLoadLevel(char* mapName) {
 								currentEntity->AddComponent(new CollisionBox(newMesh->GetVertices(), newMesh->GetNumberOfVertices()));
 								walls[wallsIndex] = currentEntity;
 								wallsIndex++;
+							}
+							else if (modelName == "TestWedge") {
+								currentEntity->AddComponent(new CollisionBox(newMesh->GetVertices(), newMesh->GetNumberOfVertices()));
+								wallCorners[wallCornersIndex] = currentEntity;
+								wallCornersIndex++;
 							}
 						}
 						else {
@@ -538,7 +542,7 @@ void MyDemoGame::CreateGeometry()
 	Entity* ball = entSys->AddEntity();
 	Transform& transform1 = ball->GetTransform();
 	ball->AddComponent(new DrawnMesh(render, mesh1, material3));
-	ball->AddComponent(new PhysicsBody(&transform1, 0.5f));
+	ball->AddComponent(new PhysicsBody(&transform1, 0.35f));
 	ball->AddComponent(new CollisionCircle(mesh1->GetVertices(), mesh1->GetNumberOfVertices()));
 	ball->GetComponent<PhysicsBody>()->SetVelocity(XMFLOAT4(0.0f, 0.0f, -0.0f, 0.0f));
 	ball->AddComponent(new VelocityRotator(2.5f));
@@ -547,6 +551,8 @@ void MyDemoGame::CreateGeometry()
 
 	ballCollider = ball->GetComponent<CollisionCircle>();
 	ballPhysicsBody = ball->GetComponent<PhysicsBody>();
+	srand(time(NULL));
+	ballPhysicsBody->SetVelocity(XMFLOAT4(0.0f, 0.0f, rand() % 6 - 3, 0.0f));
 
 	//Generates a rectangle
 	/*float halfSize = 1.0f;
@@ -615,14 +621,14 @@ void MyDemoGame::CreateGeometry()
 
 	//Players
 	Mesh* mesh3 = res->GetMeshAndLoadIfNotFound("sbgPaddle");
-
 	float paddleScale = 0.5f;
+	
 	Entity* entity3 = entSys->AddEntity();
 	entity3->AddComponent(new CollisionCircle(mesh3->GetVertices(), mesh3->GetNumberOfVertices()));
 	entity3->AddComponent(new CollisionBox(mesh3->GetVertices(), mesh3->GetNumberOfVertices()));
 	entity3->AddComponent(new DrawnMesh(render, mesh3, paddleMat));
 	Transform& transform3 = entity3->GetTransform();
-	entity3->AddComponent(new PhysicsBody(&transform3, 10.0f));
+	entity3->AddComponent(new PhysicsBody(&transform3, 50000.0f));
 	transform3.SetPosition(XMFLOAT3(-5.75f, -7.5f, 0.0f));
 	transform3.SetRotation(XMFLOAT3(0.0f, XM_PI / 2, 0));
 	transform3.SetScale(XMFLOAT3(paddleScale, paddleScale, paddleScale));
@@ -633,7 +639,7 @@ void MyDemoGame::CreateGeometry()
 	entity4->AddComponent(new CollisionBox(mesh3->GetVertices(), mesh3->GetNumberOfVertices()));
 	entity4->AddComponent(new DrawnMesh(render, mesh3, paddleMat));
 	Transform& transform4 = entity4->GetTransform();
-	entity4->AddComponent(new PhysicsBody(&transform4, 10.0f));
+	entity4->AddComponent(new PhysicsBody(&transform4, 50000.0f));
 	transform4.SetPosition(XMFLOAT3(5.75f, -7.5f, 0.0f));
 	transform4.SetRotation(XMFLOAT3(0.0f, -XM_PI / 2, 0.0f));
 	transform4.SetScale(XMFLOAT3(paddleScale, paddleScale, paddleScale));
@@ -840,15 +846,47 @@ void MyDemoGame::UpdateScene(float deltaTime, float totalTime)
 	}
 
 	//Wall Collisions
-	//for (int i = 0; i < wallsIndex; i++) {
-	//	if (walls[i]->GetComponent<CollisionBox>()->IsColliding(ballCollider)) {
-	//		XMFLOAT4 tempVel = ballPhysicsBody->GetVelocity();
-	//		XMFLOAT3 tempPos = ballPhysicsBody->GetTransform().GetPosition();
-	//		ballPhysicsBody->SetVelocity(XMFLOAT4(-tempVel.x, 0.0f, tempVel.z * -1, 0.0f));
-	//		ballPhysicsBody->GetTransform().SetPosition(XMFLOAT3(tempPos.x - tempVel.x, tempPos.y, tempPos.z - tempVel.z));
-	//		//ballPhysicsBody->AddForce(XMFLOAT4(-tempVel.x, 0.0f, tempVel.z * -1, 0.0f));
-	//	}
-	//}
+	bool hasCollided = false;
+	for (int i = 0; i < wallsIndex; i++) {
+		if (walls[i]->GetComponent<CollisionBox>()->IsColliding(ballCollider) && !hasCollided) {
+			XMFLOAT4 tempVel = ballPhysicsBody->GetVelocity();
+			XMFLOAT3 tempPos = ballPhysicsBody->GetTransform().GetPosition();
+			if (tempPos.x > 7.5) {
+				ballPhysicsBody->SetVelocity(XMFLOAT4(-abs(tempVel.x), 0.0f, tempVel.z, 0.0f));
+			}
+			else if (tempPos.x < -7.5) {
+				ballPhysicsBody->SetVelocity(XMFLOAT4(abs(tempVel.x), 0.0f, tempVel.z, 0.0f));
+			}
+			else if (tempPos.z > 3.8) {
+				ballPhysicsBody->SetVelocity(XMFLOAT4(tempVel.x, 0.0f, -abs(tempVel.z), 0.0f));
+			}
+			else if (tempPos.z < -3.8) {
+				ballPhysicsBody->SetVelocity(XMFLOAT4(tempVel.x, 0.0f, abs(tempVel.z), 0.0f));
+			}
+			hasCollided = true;
+		}
+	}
+
+	//Corner Collisions
+	for (int i = 0; i < wallCornersIndex; i++) {
+		if (wallCorners[i]->GetComponent<CollisionBox>()->IsColliding(ballCollider) && !hasCollided) {
+			XMFLOAT4 tempVel = ballPhysicsBody->GetVelocity();
+			XMFLOAT3 tempPos = ballPhysicsBody->GetTransform().GetPosition();
+			if (tempPos.x > 7.5) {
+				ballPhysicsBody->SetVelocity(XMFLOAT4(-abs(tempVel.x), 0.0f, tempVel.z, 0.0f));
+			}
+			else if (tempPos.x < -7.5) {
+				ballPhysicsBody->SetVelocity(XMFLOAT4(abs(tempVel.x), 0.0f, tempVel.z, 0.0f));
+			}
+			if (tempPos.z > 3.8) {
+				ballPhysicsBody->SetVelocity(XMFLOAT4(tempVel.x, 0.0f, -abs(tempVel.z), 0.0f));
+			}
+			else if (tempPos.z < -3.8) {
+				ballPhysicsBody->SetVelocity(XMFLOAT4(tempVel.x, 0.0f, abs(tempVel.z), 0.0f));
+			}
+			hasCollided = true;
+		}
+	}
 
 	//Bullet Physics & Collision Loop
 	for (int i = 0; i < poolSize; i++) {
