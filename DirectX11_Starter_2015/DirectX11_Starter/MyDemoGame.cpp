@@ -130,12 +130,6 @@ MyDemoGame::~MyDemoGame()
 
 	// Post Processing
 	delete postManager;
-	/*delete postPS;
-	delete postVS;
-	ReleaseMacro(postRTV);
-	ReleaseMacro(postSRV);
-	ReleaseMacro(postRTV2);
-	ReleaseMacro(postSRV2);*/
 	
 
 	DebugDraw::Release();
@@ -295,71 +289,7 @@ void MyDemoGame::LoadShaders()
 	postManager->BuildResources(windowWidth, windowHeight);
 	postManager->SetChainDest(renderTargetView);
 
-	////Target Texture
-	//D3D11_TEXTURE2D_DESC texDesc = {};
-	//texDesc.Width = windowWidth;
-	//texDesc.Height = windowHeight;
-	//texDesc.ArraySize = 1;
-	//texDesc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
-	//texDesc.CPUAccessFlags = 0;
-	//texDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-	//texDesc.MipLevels = 1;
-	//texDesc.MiscFlags = 0;
-	//texDesc.SampleDesc.Count = 1;
-	//texDesc.SampleDesc.Quality = 0;
-	//texDesc.Usage = D3D11_USAGE_DEFAULT;
-	//ID3D11Texture2D* postTexture;
-	//device->CreateTexture2D(&texDesc, 0, &postTexture);
-
-	////Render Target View
-	//D3D11_RENDER_TARGET_VIEW_DESC rtvDesc = {};
-	//rtvDesc.Format = texDesc.Format;
-	//rtvDesc.Texture2D.MipSlice = 0;
-	//rtvDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
-	//device->CreateRenderTargetView(postTexture, &rtvDesc, &postRTV);
-
-	////Shader Resource View
-	//D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
-	//srvDesc.Format = texDesc.Format;
-	//srvDesc.Texture2D.MipLevels = 1;
-	//srvDesc.Texture2D.MostDetailedMip = 0;
-	//srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-	//device->CreateShaderResourceView(postTexture, &srvDesc, &postSRV);
-
-	////Target Texture
-	//D3D11_TEXTURE2D_DESC texDesc2 = {};
-	//texDesc2.Width = windowWidth;
-	//texDesc2.Height = windowHeight;
-	//texDesc2.ArraySize = 1;
-	//texDesc2.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
-	//texDesc2.CPUAccessFlags = 0;
-	//texDesc2.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-	//texDesc2.MipLevels = 1;
-	//texDesc2.MiscFlags = 0;
-	//texDesc2.SampleDesc.Count = 1;
-	//texDesc2.SampleDesc.Quality = 0;
-	//texDesc2.Usage = D3D11_USAGE_DEFAULT;
-	//ID3D11Texture2D* postTexture2;
-	//device->CreateTexture2D(&texDesc2, 0, &postTexture2);
-
-	////Render Target View
-	//D3D11_RENDER_TARGET_VIEW_DESC rtvDesc2 = {};
-	//rtvDesc2.Format = texDesc2.Format;
-	//rtvDesc2.Texture2D.MipSlice = 0;
-	//rtvDesc2.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
-	//device->CreateRenderTargetView(postTexture2, &rtvDesc2, &postRTV2);
-
-	////Shader Resource View
-	//D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc2 = {};
-	//srvDesc2.Format = texDesc.Format;
-	//srvDesc2.Texture2D.MipLevels = 1;
-	//srvDesc2.Texture2D.MostDetailedMip = 0;
-	//srvDesc2.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-	//device->CreateShaderResourceView(postTexture2, &srvDesc2, &postSRV2);
-
-	//// texture reference cleanup
-	//postTexture->Release();
-	//postTexture2->Release();
+	
 }
 
 //This is here temporarily till more things are figured out
@@ -984,40 +914,7 @@ void MyDemoGame::DrawScene(float deltaTime, float totalTime)
 	//Post Processing
 	/////////////////
 	postManager->RunChain(windowWidth, windowHeight, samplerState, stride, offset);
-	//// Regular to post
-	//deviceContext->OMSetRenderTargets(1, &renderTargetView, 0);
-	//deviceContext->ClearRenderTargetView(renderTargetView, color);
-
-	//// Draw the post process
-	//postVS->SetShader();
-
-	//postPS->SetBool("vertical", true);
-	//postPS->SetInt("blurAmount", 5);
-	//postPS->SetFloat("pixelWidth", 1.0f / windowWidth);
-	//postPS->SetFloat("pixelHeight", 1.0f / windowHeight);
-	//postPS->SetShaderResourceView("pixels", postSRV);
-	//postPS->SetSamplerState("trilinear", samplerState);
-	//postPS->SetShader();
-
-	//// Turn off existing vert/index buffers
-	//ID3D11Buffer* nothing = 0;
-	//deviceContext->IASetVertexBuffers(0, 1, &nothing, &stride, &offset);
-	//deviceContext->IASetIndexBuffer(0, DXGI_FORMAT_R32_UINT, 0);
-
-	//// Finally - DRAW!
-	//deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	//deviceContext->Draw(3, 0);
-
-	//// Unbind the SRV so the underlying texture isn't bound for
-	//// both input and output at the start of next frame
-	//postPS->SetShaderResourceView("pixels", 0);
-
-
-
-	// Present the buffer
-	//  - Puts the image we're drawing into the window so the user can see it
-	//  - Do this exactly ONCE PER FRAME
-	//  - Always at the very end of the frame
+	
 	HR(swapChain->Present(0, 0));
 }
 
