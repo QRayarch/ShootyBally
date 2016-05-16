@@ -49,6 +49,7 @@ private:
 	SimplePixelShader* psBloom;
 
 	void BuildResourcePair(int windowWidth, int windowHeight, ID3D11RenderTargetView** rtv, ID3D11ShaderResourceView** srv);
+	void unbindResources();
 
 	int blurAmount;
 };
