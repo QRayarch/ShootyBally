@@ -3,12 +3,13 @@
 #include "Entity.h"
 #include "DirectXGameCore.h"
 #include "PhysicsBody.h"
+#include "ParticleEmitter.h"
 
 class Bullet
 {
 public:
 	Bullet();
-	Bullet(Entity* entity);
+	Bullet(Entity* entity, ParticleEmitter* trailParticleEmitter);
 	~Bullet();
 
 	bool GetIsActive() { return isActive; }
@@ -20,6 +21,7 @@ public:
 
 private:
 	Entity* bulletEntity;
+	ParticleEmitter* trailParticleEmitter;
 
 	bool isActive = false;
 	float lifespan;

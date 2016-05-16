@@ -74,7 +74,7 @@ void PostManager::RunChain(int windowWidth, int windowHeight, ID3D11SamplerState
 
 	deviceContext->Draw(3, 0);
 	psBloomThreshold->SetShaderResourceView("pixels", 0);
-
+	unbindResources();
 	
 	// Set targets for blur
 	deviceContext->OMSetRenderTargets(1, &rtvGBlur1, 0);
@@ -98,6 +98,7 @@ void PostManager::RunChain(int windowWidth, int windowHeight, ID3D11SamplerState
 	// Unbind the SRV so the underlying texture isn't bound for
 	// both input and output at the start of next frame
 	psBlur->SetShaderResourceView("pixels", 0);
+	unbindResources();
 
 	//blur horizontal
 	deviceContext->OMSetRenderTargets(1, &rtvFinal, 0);
@@ -114,6 +115,8 @@ void PostManager::RunChain(int windowWidth, int windowHeight, ID3D11SamplerState
 	psBlur->SetShader();
 
 	deviceContext->Draw(3, 0);
+	psBloomThreshold->SetShaderResourceView("pixels", 0);
+	unbindResources();
 
 	//Final Bloom composite
 	deviceContext->OMSetRenderTargets(1, &rtvFinal, 0);
@@ -132,6 +135,7 @@ void PostManager::RunChain(int windowWidth, int windowHeight, ID3D11SamplerState
 
 	deviceContext->Draw(3, 0);
 	psBloomThreshold->SetShaderResourceView("pixels", 0);
+	unbindResources();
 }
 
 void PostManager::LoadShaders()
@@ -181,4 +185,10 @@ void PostManager::BuildResourcePair(int windowWidth, int windowHeight, ID3D11Ren
 
 	//Release Texture cleanup
 	ReleaseMacro(postTexture);
+}
+
+void PostManager::unbindResources()
+{
+	ID3D11ShaderResourceView* null[] = { nullptr, nullptr };
+	deviceContext->PSSetShaderResources(0, 2, null);
 }
