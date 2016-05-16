@@ -2,7 +2,6 @@
 cbuffer Data : register(b0)
 {
 	float threshold;
-	float intensity;
 }
 
 

@@ -19,6 +19,8 @@ PostManager::~PostManager()
 	ReleaseResources();
 	delete psBlur;
 	delete vertexShader;
+	delete psBloom;
+	delete psBloomThreshold;
 }
 
 void PostManager::SetChainDest(ID3D11RenderTargetView * rtv)
@@ -27,11 +29,13 @@ void PostManager::SetChainDest(ID3D11RenderTargetView * rtv)
 	//srvFinal = srv;
 }
 
-void PostManager::BuildResources(float windowWidth, float windowHeight)
+void PostManager::BuildResources(int windowWidth, int windowHeight)
 {
 	BuildResourcePair(windowWidth, windowHeight, &rtvOriginal, &srvOriginal);
 	BuildResourcePair(windowWidth, windowHeight, &rtvGBlur1, &srvGBlur1);
 	BuildResourcePair(windowWidth, windowHeight, &rtvGBlur2, &srvGBlur2);
+	BuildResourcePair(windowWidth, windowHeight, &rtvBloom, &srvBloom);
+	//BuildResourcePair(windowWidth, windowHeight, &rtvBloomResult, &srvBloomResult);
 }
 
 void PostManager::ReleaseResources()
@@ -41,11 +45,36 @@ void PostManager::ReleaseResources()
 	ReleaseMacro(srvGBlur2);
 	ReleaseMacro(rtvGBlur1);
 	ReleaseMacro(rtvGBlur2);
+	ReleaseMacro(rtvBloom);
+	//ReleaseMacro(rtvBloomResult);
+	ReleaseMacro(srvBloom);
+	//ReleaseMacro(srvBloomResult);
 }
 
-void PostManager::RunChain(float windowWidth, float windowHeight, ID3D11SamplerState* samplerState, UINT stride, UINT offset)
+void PostManager::RunChain(int windowWidth, int windowHeight, ID3D11SamplerState* samplerState, UINT stride, UINT offset)
 {
+	//resetting stuff to function propperly
 	const float color[4] = { 0.4f, 0.6f, 0.75f, 0.0f };
+	ID3D11Buffer* nothing = 0;
+	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	// Turn off existing vert/index buffers
+	deviceContext->IASetVertexBuffers(0, 1, &nothing, &stride, &offset);
+	deviceContext->IASetIndexBuffer(0, DXGI_FORMAT_R32_UINT, 0);
+
+	//Bloom
+	deviceContext->OMSetRenderTargets(1, &rtvBloom, 0);
+	deviceContext->ClearRenderTargetView(rtvBloom, color);
+
+	vertexShader->SetShader();
+
+	psBloomThreshold->SetFloat("threshold", 0.3f);
+	psBloomThreshold->SetShaderResourceView("pixels", srvOriginal);
+	psBloomThreshold->SetSamplerState("trilinear", samplerState);
+	psBloomThreshold->SetShader();
+
+	deviceContext->Draw(3, 0);
+	psBloomThreshold->SetShaderResourceView("pixels", 0);
+
 	
 	// Set targets for blur
 	deviceContext->OMSetRenderTargets(1, &rtvGBlur1, 0);
@@ -54,21 +83,16 @@ void PostManager::RunChain(float windowWidth, float windowHeight, ID3D11SamplerS
 	// Draw the post process
 	vertexShader->SetShader();
 
-	psBlur->SetBool("vertical", true);
+	psBlur->SetInt("vertical", 1);
 	psBlur->SetInt("blurAmount", blurAmount);
 	psBlur->SetFloat("pixelWidth", 1.0f / windowWidth);
 	psBlur->SetFloat("pixelHeight", 1.0f / windowHeight);
-	psBlur->SetShaderResourceView("pixels", srvOriginal);
+	psBlur->SetShaderResourceView("pixels", srvBloom);
 	psBlur->SetSamplerState("trilinear", samplerState);
 	psBlur->SetShader();
 
-	// Turn off existing vert/index buffers
-	ID3D11Buffer* nothing = 0;
-	deviceContext->IASetVertexBuffers(0, 1, &nothing, &stride, &offset);
-	deviceContext->IASetIndexBuffer(0, DXGI_FORMAT_R32_UINT, 0);
 
 	// Draw
-	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	deviceContext->Draw(3, 0);
 
 	// Unbind the SRV so the underlying texture isn't bound for
@@ -81,7 +105,7 @@ void PostManager::RunChain(float windowWidth, float windowHeight, ID3D11SamplerS
 
 	vertexShader->SetShader();
 
-	psBlur->SetBool("vertical", false);
+	psBlur->SetInt("vertical", 0);
 	psBlur->SetInt("blurAmount", blurAmount);
 	psBlur->SetFloat("pixelWidth", 1.0f / windowWidth);
 	psBlur->SetFloat("pixelHeight", 1.0f / windowHeight);
@@ -89,10 +113,25 @@ void PostManager::RunChain(float windowWidth, float windowHeight, ID3D11SamplerS
 	psBlur->SetSamplerState("trilinear", samplerState);
 	psBlur->SetShader();
 
-	deviceContext->IASetVertexBuffers(0, 1, &nothing, &stride, &offset);
-	deviceContext->IASetIndexBuffer(0, DXGI_FORMAT_R32_UINT, 0);
+	deviceContext->Draw(3, 0);
+
+	//Final Bloom composite
+	deviceContext->OMSetRenderTargets(1, &rtvFinal, 0);
+	deviceContext->ClearRenderTargetView(rtvFinal, color);
+
+	vertexShader->SetShader();
+
+	psBloom->SetFloat("bloomIntensity", 1.3f);
+	psBloom->SetFloat("originalIntensity", 1.0f);
+	psBloom->SetFloat("bloomSaturation", 1.0f);
+	psBloom->SetFloat("originalSaturation", 1.0f);
+	psBloom->SetShaderResourceView("bloomThresh", srvGBlur2);
+	psBloom->SetShaderResourceView("cleanImage", srvOriginal);
+	psBloom->SetSamplerState("trilinear", samplerState);
+	psBloom->SetShader();
 
 	deviceContext->Draw(3, 0);
+	psBloomThreshold->SetShaderResourceView("pixels", 0);
 }
 
 void PostManager::LoadShaders()
@@ -101,9 +140,13 @@ void PostManager::LoadShaders()
 	vertexShader->LoadShaderFile(L"VS_Post.cso");
 	psBlur = new SimplePixelShader(device, deviceContext);
 	psBlur->LoadShaderFile(L"PS_Blur.cso");
+	psBloom = new SimplePixelShader(device, deviceContext);
+	psBloom->LoadShaderFile(L"PS_Bloom.cso");
+	psBloomThreshold = new SimplePixelShader(device, deviceContext);
+	psBloomThreshold->LoadShaderFile(L"PS_BloomThreshold.cso");
 }
 
-void PostManager::BuildResourcePair(float windowWidth, float windowHeight, ID3D11RenderTargetView ** rtv, ID3D11ShaderResourceView ** srv)
+void PostManager::BuildResourcePair(int windowWidth, int windowHeight, ID3D11RenderTargetView ** rtv, ID3D11ShaderResourceView ** srv)
 {
 	//Target Texture
 	D3D11_TEXTURE2D_DESC texDesc = {};

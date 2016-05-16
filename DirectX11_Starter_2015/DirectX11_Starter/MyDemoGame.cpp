@@ -221,9 +221,6 @@ void MyDemoGame::LoadShaders()
 	psUI = new SimplePixelShader(device, deviceContext);
 	psUI->LoadShaderFile(L"PS_UI.cso");
 
-	//post shaders
-	postManager->LoadShaders();
-
 	// Load particle shaders
 	spawnVS = new SimpleVertexShader(device, deviceContext);
 	spawnVS->LoadShaderFile(L"VS_ParticleSpawn.cso");
@@ -297,6 +294,7 @@ void MyDemoGame::LoadShaders()
 	///////////////////////////////////////////////
 	//Post Processing
 	///////////////////////////////////////////////
+	postManager->LoadShaders();
 	postManager->BuildResources(windowWidth, windowHeight);
 	postManager->SetChainDest(renderTargetView);
 
@@ -769,11 +767,12 @@ void MyDemoGame::OnResize()
 	camera.CreatePerspectiveProjectionMatrix(aspectRatio, 0.1f, 100.0f);
 
 	//Post
-	if (postManager->GetChainRTVStart() != nullptr) {
+	if (postManager) {
 		postManager->ReleaseResources();
+		postManager->BuildResources(windowWidth, windowHeight);
+		postManager->SetChainDest(renderTargetView);
 	}
-	postManager->BuildResources(windowWidth, windowHeight);
-	postManager->SetChainDest(renderTargetView);
+	
 	/*ReleaseMacro(postRTV);
 	ReleaseMacro(postSRV);*/
 	//Target Texture

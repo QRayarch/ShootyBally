@@ -4,7 +4,7 @@ cbuffer Data : register(b0)
 	float pixelWidth;
 	float pixelHeight;
 	int blurAmount;
-	bool vertical;
+	int vertical;
 }
 
 
@@ -27,7 +27,7 @@ float4 main(VertexToPixel input) : SV_TARGET
 	float4 totalColor = float4(0,0,0,0);
 	uint sampleCount = 0;
 
-	if (vertical) {
+	if (vertical == 1) {
 		for (int x = -blurAmount; x <= blurAmount; x++)
 		{
 			float2 uv = input.uv + float2(x * pixelWidth, pixelHeight);

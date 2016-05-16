@@ -18,9 +18,9 @@ public:
 
 	void SetChainDest(ID3D11RenderTargetView* rtv);
 
-	void BuildResources(float windowWidth, float windowHeight);
+	void BuildResources(int windowWidth, int windowHeight);
 	void ReleaseResources();
-	void RunChain(float windowWidth, float windowHeight, ID3D11SamplerState* samplerState, UINT stride, UINT offset);
+	void RunChain(int windowWidth, int windowHeight, ID3D11SamplerState* samplerState, UINT stride, UINT offset);
 	void LoadShaders();
 
 private:
@@ -35,15 +35,20 @@ private:
 	ID3D11ShaderResourceView* srvGBlur2;
 
 	// Bloom
-
+	ID3D11RenderTargetView* rtvBloom;
+	ID3D11ShaderResourceView* srvBloom;
+	//ID3D11RenderTargetView* rtvBloomResult;
+	//ID3D11ShaderResourceView* srvBloomResult;
 
 	ID3D11Device* device;
 	ID3D11DeviceContext* deviceContext;
 
 	SimpleVertexShader* vertexShader;
 	SimplePixelShader* psBlur;
+	SimplePixelShader* psBloomThreshold;
+	SimplePixelShader* psBloom;
 
-	void BuildResourcePair(float windowWidth, float windowHeight, ID3D11RenderTargetView** rtv, ID3D11ShaderResourceView** srv);
+	void BuildResourcePair(int windowWidth, int windowHeight, ID3D11RenderTargetView** rtv, ID3D11ShaderResourceView** srv);
 
 	int blurAmount;
 };
