@@ -456,9 +456,11 @@ void MyDemoGame::CreateGeometry()
 
 	// Particle emitter resources.
 	particleTexture = res->LoadTexture("particle", Resources::FILE_FORMAT_PNG);
-	particleEmittersAlphaLength = 60;
+	particleEmittersAlphaLength = 64;
 	particleEmittersAlpha = new ParticleEmitter*[particleEmittersAlphaLength];
 	int particleEmittersAlphaIndex = 0;
+	goalParticleEmitterDelay = 2.0f;
+	goalParticleEmitterTimer = -1.0f;
 
 	for (int i = 0; i < particleEmittersAlphaLength; ++i)
 	{
@@ -552,6 +554,7 @@ void MyDemoGame::CreateGeometry()
 	//Players
 	Mesh* mesh3 = res->GetMeshAndLoadIfNotFound("sbgPaddle");
 	float paddleScale = 0.5f;
+	goalPlayer = nullptr;
 	
 	Entity* entity3 = entSys->AddEntity();
 	entity3->AddComponent(new CollisionCircle(mesh3->GetVertices(), mesh3->GetNumberOfVertices()));
@@ -562,7 +565,6 @@ void MyDemoGame::CreateGeometry()
 	transform3.SetPosition(XMFLOAT3(-5.75f, -7.5f, 0.0f));
 	transform3.SetRotation(XMFLOAT3(0.0f, XM_PI / 2, 0));
 	transform3.SetScale(XMFLOAT3(paddleScale, paddleScale, paddleScale));
-	player1 = Player(entity3, 1, bulletPool);
 
 	Entity* entity4 = entSys->AddEntity();
 	entity4->AddComponent(new CollisionCircle(mesh3->GetVertices(), mesh3->GetNumberOfVertices()));
@@ -573,7 +575,94 @@ void MyDemoGame::CreateGeometry()
 	transform4.SetPosition(XMFLOAT3(5.75f, -7.5f, 0.0f));
 	transform4.SetRotation(XMFLOAT3(0.0f, -XM_PI / 2, 0.0f));
 	transform4.SetScale(XMFLOAT3(paddleScale, paddleScale, paddleScale));
-	player2 = Player(entity4, 2, bulletPool);
+
+	// Initialize player 1 goal particle emitters.
+	particleEmittersAlpha[particleEmittersAlphaIndex]->Init(
+		&transform4,
+		XMFLOAT3(0.0f, 0.0f, 0.0f),
+		XMFLOAT3(0.0f, 100.0f, 0.0f),
+		XMFLOAT4(0.1f, 0.1f, 1.0f, 1.0f),
+		XMFLOAT4(0.1f, 0.1f, 1.0f, 1.0f),
+		XMFLOAT4(0.1f, 0.1f, 1.0f, 1.0f),
+		30.0f,
+		30.0f,
+		30.0f,
+		XMFLOAT3(0.0f, 0.0f, 0.0f),
+		0,
+		0.00001f,
+		2.0f,
+		2.0f,
+		particleTexture,
+		device);
+	spawnGS->CreateCompatibleStreamOutBuffer(particleEmittersAlpha[particleEmittersAlphaIndex]->GetSoBufferReadPointer(), 1000000);
+	spawnGS->CreateCompatibleStreamOutBuffer(particleEmittersAlpha[particleEmittersAlphaIndex]->GetSoBufferWritePointer(), 1000000);
+	++particleEmittersAlphaIndex;
+
+	particleEmittersAlpha[particleEmittersAlphaIndex]->Init(
+		&transform4,
+		XMFLOAT3(0.0f, 0.0f, 0.0f),
+		XMFLOAT3(0.0f, 10.0f, 0.0f),
+		XMFLOAT4(0.1f, 0.1f, 1.0f, 1.0f),
+		XMFLOAT4(0.1f, 0.1f, 1.0f, 0.5f),
+		XMFLOAT4(0.1f, 0.1f, 1.0f, 0.1f),
+		20.0f,
+		10.0f,
+		0.2f,
+		XMFLOAT3(0.0f, -10.0f, 0.0f),
+		30,
+		10000.0f,
+		2.0f,
+		2.0f,
+		particleTexture,
+		device);
+	spawnGS->CreateCompatibleStreamOutBuffer(particleEmittersAlpha[particleEmittersAlphaIndex]->GetSoBufferReadPointer(), 1000000);
+	spawnGS->CreateCompatibleStreamOutBuffer(particleEmittersAlpha[particleEmittersAlphaIndex]->GetSoBufferWritePointer(), 1000000);
+	player1 = Player(entity3, 1, particleEmittersAlpha[particleEmittersAlphaIndex - 1], particleEmittersAlpha[particleEmittersAlphaIndex], bulletPool);
+	++particleEmittersAlphaIndex;
+
+	// Initialize player 2 goal particle emitters.
+	particleEmittersAlpha[particleEmittersAlphaIndex]->Init(
+		&transform3,
+		XMFLOAT3(0.0f, 0.0f, 0.0f),
+		XMFLOAT3(0.0f, 100.0f, 0.0f),
+		XMFLOAT4(0.1f, 0.1f, 1.0f, 1.0f),
+		XMFLOAT4(0.1f, 0.1f, 1.0f, 1.0f),
+		XMFLOAT4(0.1f, 0.1f, 1.0f, 1.0f),
+		30.0f,
+		30.0f,
+		30.0f,
+		XMFLOAT3(0.0f, 0.0f, 0.0f),
+		0,
+		0.00001f,
+		2.0f,
+		2.0f,
+		particleTexture,
+		device);
+	spawnGS->CreateCompatibleStreamOutBuffer(particleEmittersAlpha[particleEmittersAlphaIndex]->GetSoBufferReadPointer(), 1000000);
+	spawnGS->CreateCompatibleStreamOutBuffer(particleEmittersAlpha[particleEmittersAlphaIndex]->GetSoBufferWritePointer(), 1000000);
+	++particleEmittersAlphaIndex;
+
+	particleEmittersAlpha[particleEmittersAlphaIndex]->Init(
+		&transform3,
+		XMFLOAT3(0.0f, 0.0f, 0.0f),
+		XMFLOAT3(0.0f, 10.0f, 0.0f),
+		XMFLOAT4(0.1f, 0.1f, 1.0f, 1.0f),
+		XMFLOAT4(0.1f, 0.1f, 1.0f, 0.5f),
+		XMFLOAT4(0.1f, 0.1f, 1.0f, 0.1f),
+		20.0f,
+		10.0f,
+		0.2f,
+		XMFLOAT3(0.0f, -10.0f, 0.0f),
+		30,
+		10000.0f,
+		2.0f,
+		2.0f,
+		particleTexture,
+		device);
+	spawnGS->CreateCompatibleStreamOutBuffer(particleEmittersAlpha[particleEmittersAlphaIndex]->GetSoBufferReadPointer(), 1000000);
+	spawnGS->CreateCompatibleStreamOutBuffer(particleEmittersAlpha[particleEmittersAlphaIndex]->GetSoBufferWritePointer(), 1000000);
+	player2 = Player(entity4, 2, particleEmittersAlpha[particleEmittersAlphaIndex - 1], particleEmittersAlpha[particleEmittersAlphaIndex], bulletPool);
+	++particleEmittersAlphaIndex;
 
 	//Bullets
 	Mesh* mesh4 = res->GetMeshAndLoadIfNotFound("hpBullet");
@@ -863,6 +952,18 @@ void MyDemoGame::UpdateScene(float deltaTime, float totalTime)
 	entSys->Update(deltaTime);
 
 	// Update particle emitters.
+	if (goalParticleEmitterTimer != -1.0f)
+	{
+		goalParticleEmitterTimer += deltaTime;
+
+		if (goalParticleEmitterTimer >= goalParticleEmitterDelay)
+		{
+			goalParticleEmitterTimer = -1.0f;
+			goalPlayer->DisableGoalParticles();
+			goalPlayer = nullptr;
+		}
+	}
+
 	for (int i = 0; i < particleEmittersAlphaLength; ++i)
 	{
 		particleEmittersAlpha[i]->ParticlesUpdate(deltaTime);
@@ -1058,6 +1159,13 @@ void MyDemoGame::GoalScored(Player& player)
 	ballCollider->GetEntity()->GetTransform().SetPosition(XMFLOAT3(0.0f, -7.5f, 0.0f));
 	ballPhysicsBody->SetVelocity(XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f));
 	player.AddPoint();
+	if (goalPlayer != nullptr)
+	{
+		goalPlayer->DisableGoalParticles();
+	}
+	player.EnableGoalParticles();
+	goalParticleEmitterTimer = 0.0f;
+	goalPlayer = &player;
 	if (playerOneScore != nullptr) {
 		playerOneScore->SetTextAsInt(player1.GetScore());
 		playerOneScore->CenterText();
