@@ -139,6 +139,9 @@ private:
 	Entity* walls[42];
 	int wallsIndex = 0;
 
+	Entity* wallCorners[4];
+	int wallCornersIndex = 0;
+
 	GameState gameState;
 	bool drawDebug;
 };

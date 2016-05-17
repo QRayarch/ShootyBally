@@ -548,25 +548,25 @@ model TestWedge
 material Standard
 texture WallWedge 
 pos 8 -8 4.5
-rot -1.788139E-07 4.712389 1.788139E-07
+rot -1.788139E-07 3.926991 1.788139E-07
 scl 1 1 1
 model TestWedge
 material Standard
 texture WallWedge 
 pos -8 -8 4.5
-rot 1.685874E-07 3.141593 -3.258414E-07
+rot 1.685874E-07 2.356195 -3.258414E-07
 scl 1 1 1
 model TestWedge
 material Standard
 texture WallWedge 
 pos -8 -8 -4.5
-rot -1.788139E-07 1.570796 -1.788139E-07
+rot -1.788139E-07 0.785398 -1.788139E-07
 scl 1 1 1
 model TestWedge
 material Standard
 texture WallWedge 
 pos 8 -8 -4.5
-rot -1.685874E-07 0 0
+rot -1.685874E-07 -0.785398 0
 scl 1 1 1
 model TestFloor
 material Standard

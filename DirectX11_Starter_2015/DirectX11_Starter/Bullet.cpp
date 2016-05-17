@@ -11,8 +11,7 @@ Bullet::Bullet(Entity* entity, ParticleEmitter* trailParticleEmitter, ParticleEm
 	bulletEntity = entity;
 	this->trailParticleEmitter = trailParticleEmitter;
 	this->explosionParticleEmitter = explosionParticleEmitter;
-	lifespan = 6.0f;
-	velocity = 7.0f;
+	lifespan = 4.0f;
 }
 
 Bullet::~Bullet()
@@ -56,7 +55,7 @@ void Bullet::Fire(Transform playerTransform)
 	XMVECTOR newVel = XMLoadFloat3(&(bulletEntity->GetTransform().GetForwardVector()));
 	XMVector3Normalize(newVel);
 	XMFLOAT3 velocity;
-	XMStoreFloat3(&velocity, XMVector3Normalize(newVel) * 3);
+	XMStoreFloat3(&velocity, XMVector3Normalize(newVel) * 5);
 	bulletEntity->GetComponent<PhysicsBody>()->SetVelocity(XMFLOAT4(velocity.x, velocity.y, velocity.z, 0.0f));
 
 	trailParticleEmitter->Enable();

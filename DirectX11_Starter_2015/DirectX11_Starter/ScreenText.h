@@ -24,9 +24,9 @@ public:
 private:
 	Render* render;
 	SpriteFont* font;
-	XMVECTOR color;
-	XMVECTOR pos;
-	XMVECTOR offset;
+	XMFLOAT4 color;
+	XMFLOAT4 pos;
+	XMFLOAT4 offset;
 	std::wstring text;
 };
 
