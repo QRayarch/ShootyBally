@@ -84,6 +84,7 @@ private:
 
 	// Wrappers for DirectX shaders to provide simplified functionality
 	SimpleVertexShader* vertexShader;
+	SimpleGeometryShader* geometryShader;
 	SimplePixelShader* pixelShader;
 	SimplePixelShader* pixelShaderNoNormals;
 	SimplePixelShader* psUI;

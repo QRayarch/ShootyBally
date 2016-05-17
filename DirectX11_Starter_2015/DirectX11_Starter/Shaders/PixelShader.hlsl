@@ -19,9 +19,14 @@ SamplerState samplerState : register(s0);
 
 cbuffer extData : register(b0)
 {
-	float3 cameraPosition;
+	matrix view;
 	Light light1;
 	Light light2;
+
+	//extra Toon Shader info
+	float4 lineColor;
+	float numBreaks;
+	float perpCheck;
 };
 
 // Struct representing the data we expect to receive from earlier pipeline stages
@@ -29,27 +34,31 @@ cbuffer extData : register(b0)
 // - The name of the struct itself is unimportant
 // - The variable names don't have to match other shaders (just the semantics)
 // - Each variable must have a semantic, which defines its usage
-struct VertexToPixel
+struct GeometryToPixel
 {
 	// Data type
 	//  |
-	//  |   Name          Semantic
-	//  |    |                |
-	//  v    v                v
-	float4 position		: SV_POSITION;
-	float3 normal		: NORMAL;
-	float2 uv			: TEXCOORD;
-	float3 tangent		: TANGENT;
-	float3 worldPos		: POSITION;
+	//  |   Name				 Semantic
+	//  |    |				    	|
+	//  v    v					    v
+	float4 screenPos		: SV_POSITION;	// Screen Coordinates
+
+	float3 worldPos			: POSITION;		// world space
+	float3 worldNorm		: NORMAL;
+	float3 worldTang		: TANGENT;
+
+	float2 uv				: TEXCOORD;		// uv coordinate
+
+	bool outline			: OUTLINE;		// determines if outline vertex
 };
 
-float4 CalculateLight(Light light, VertexToPixel input, inout float4 baseColor) : COLOR0
+float4 CalculateLight(Light light, GeometryToPixel input, inout float4 baseColor) : COLOR0
 {
 	float nDotL = 0;
 	baseColor += light.AmbientColor;
 	if (light.Type == 0)// Direction
 	{
-		nDotL = dot(input.normal, normalize(-light.Fluid3));
+		nDotL = dot(input.worldNorm, normalize(-light.Fluid3));
 
 	} 
 	else if (light.Type == 1)// Point
@@ -57,7 +66,7 @@ float4 CalculateLight(Light light, VertexToPixel input, inout float4 baseColor) 
 		//float3 dirToPointLight = normalize(light.Fluid3 - input.worldPos);
 		//float pointNdotL = saturate(dot(input.normal, dirToPointLight));
 		//nDotL = pointNdotL;
-		nDotL = dot(input.normal, normalize(light.Fluid3 - input.worldPos)) / length(light.Fluid3 - input.worldPos);
+		nDotL = dot(input.worldNorm, normalize(light.Fluid3 - input.worldPos)) / length(light.Fluid3 - input.worldPos);
 	}
 	nDotL *= light.Intensity;
 #ifdef TOON
@@ -67,14 +76,14 @@ float4 CalculateLight(Light light, VertexToPixel input, inout float4 baseColor) 
 	return (light.DiffuseColor * saturate(nDotL) * baseColor);
 }
 
-float4 CalculateRimLighting(float3 dirToCamera, VertexToPixel input) : COLOR0
+float4 CalculateRimLighting(float3 dirToCamera, float3 theViewNorm) : COLOR0
 {
 	//FREN
 	/*float bias = 0.56;
 	float scale = 0.17f;
 	float power = 3;
 	float r = 1 - saturate(bias + scale * pow(1 + dot(dirToCamera, input.normal), power));*/
-	float base = 0.75f - dot(dirToCamera, input.normal);
+	float base = 0.75f - dot(dirToCamera, theViewNorm);
 	float exp = pow(base, 5);
 	float r = exp + 0.0f * (1 - exp);
 	return r.xxxx;
@@ -89,15 +98,15 @@ float4 CalculateSpecular(float3 dirToCamera, float3 reflection) : COLOR0
 	return spec.xxxx;
 }
 
-float3 CalculateNormalFromMap(VertexToPixel input) : NORMAL
+float3 CalculateWorldNormalFromMap(GeometryToPixel theInput)
 {
 	//Get the normal from the map and unpack it to the range [-1, 1]
-	float3 mapNormal = normalMap.Sample(samplerState, input.uv).rgb * 2 - 1;
+	float3 mapNormal = normalMap.Sample(samplerState, theInput.uv).rgb * 2 - 1;
 	//Make sure the normal and the tangent are orthogonal 
-	float3 tangent = normalize(input.tangent - input.normal * dot(input.tangent, input.normal));
+	float3 tangent = normalize(theInput.worldTang - theInput.worldNorm * dot(theInput.worldTang, theInput.worldNorm));
 	return float3(normalize(mul(mapNormal,
 		//Tangent, BiTangent and Normal Matrix
-		float3x3(tangent, cross(tangent, input.normal), input.normal)
+		float3x3(tangent, cross(tangent, theInput.worldNorm), theInput.worldNorm)
 		)));
 }
 
@@ -110,26 +119,46 @@ float3 CalculateNormalFromMap(VertexToPixel input) : NORMAL
 //    "put the output of this into the current render target"
 // - Named "main" because that's the default the shader compiler looks for
 // --------------------------------------------------------
-float4 main(VertexToPixel input) : SV_TARGET
+float4 main(GeometryToPixel input) : SV_TARGET
 {
-	//Normalize inputs
-	input.normal = normalize(input.normal);
-	input.tangent = normalize(input.tangent);
-	//return float4(CalculateNormalFromMap(input), 1);
-	input.normal = CalculateNormalFromMap(input);
+	//obtain view space norm and tang
+	//normalize world norm and tangent to be safe
+	input.worldNorm = normalize(input.worldNorm);
+	input.worldTang = normalize(input.worldTang);
 
-	float3 dirToCamera = normalize(cameraPosition - input.worldPos);
+	//calculate normal from map
+	input.worldNorm = CalculateWorldNormalFromMap(input);
 
-	float4 baseColor = diffuseTexture.Sample(samplerState, input.uv);
-	//baseColor = baseColor + CalculateRimLighting(dirToCamera, input);
-	//return CalculateRimLighting(dirToCamera, input);
+	//calculate view space position and norm
+	float3 viewPos = mul(float4(input.worldPos, 1.0f), view).xyz;
+	float3 viewNorm = normalize(mul(input.worldNorm, (float3x3)view));
 
-	float3 refl = reflect(-dirToCamera, input.normal);
+	//direction to Camera in viewSpace
+	float3 dirToCamera = normalize(-viewPos);
 
-	float4 lights = float4(0.0f, 0.0f, 0.0f, 1.0f);
-	lights += CalculateLight(light1, input, baseColor);
-	lights += CalculateLight(light2, input, baseColor);
+	//if outline face check on a pixel level for perpendicularity
+	float howPerp = saturate(dot(dirToCamera, viewNorm));
+	if (input.outline && howPerp < perpCheck)
+	{
+		return lineColor;
+	}
+	else
+	{
+		float4 baseColor = diffuseTexture.Sample(samplerState, input.uv);
+		baseColor = baseColor + CalculateRimLighting(dirToCamera, viewNorm);
+		//return CalculateRimLighting(dirToCamera, input);
+	
+		float3 refl = reflect(-dirToCamera, viewNorm);
+	
+		float4 lights = float4(0.0f, 0.0f, 0.0f, 1.0f);
+		lights += CalculateLight(light1, input, baseColor);
+		lights += CalculateLight(light2, input, baseColor);
 
-
-	return  lights;// +CalculateSpecular(dirToCamera, refl);
+		//toon shading relies on sharper jumps in color
+		//the following uses numBreaks to determine the number of possible intensities
+		//if numBreaks = 4 then each part of lights is set to 0, 0.25, 0.5, 0.75, 1
+		//if numBreaks = 10 then each part of lights is set to 0.1, 0.2, 0.3, etc. to 1
+		float4 finalShade = asfloat(trunc(lights * numBreaks) / numBreaks);
+		return finalShade;
+	}
 }

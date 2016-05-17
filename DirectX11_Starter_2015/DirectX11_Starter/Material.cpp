@@ -3,6 +3,7 @@
 #include "Logger.h"
 
 Material::Material(SimpleVertexShader* newVertexShader,
+	SimpleGeometryShader* newGeometryShader,
 	SimplePixelShader* newPixelShader,
 	ID3D11ShaderResourceView** newTexture,
 	unsigned int newNumText,
@@ -18,6 +19,7 @@ Material::Material(SimpleVertexShader* newVertexShader,
 	else {
 		numberOfTextures = newNumText;
 		vertexShader = newVertexShader;
+		geometryShader = newGeometryShader;
 		pixelShader = newPixelShader;
 		for (unsigned int t = 0; t < numberOfTextures; ++t) {
 			if (newTexture[t] != nullptr) {
@@ -31,12 +33,14 @@ Material::Material(SimpleVertexShader* newVertexShader,
 }
 
 Material::Material(SimpleVertexShader* newVertexShader,
+	SimpleGeometryShader* newGeometryShader,
 	SimplePixelShader* newPixelShader,
 	ID3D11ShaderResourceView* newTexture,
 	ID3D11SamplerState* newSamplerState)
 {
 	numberOfTextures = 0;
 	vertexShader = newVertexShader;
+	geometryShader = newGeometryShader;
 	pixelShader = newPixelShader;
 	if (newTexture != nullptr) {
 		textures[0] = newTexture;
@@ -73,16 +77,35 @@ void Material::PrepareMaterial(RenderInfo& renderInfo, Transform& transform)
 
 		vertexShader->SetShader(true);
 
-		pixelShader->SetFloat3(0, renderInfo.cameraPosition);
+		if (geometryShader != NULL)
+		{
+			geometryShader->SetMatrix4x4(0, renderInfo.viewMatrix);
+			geometryShader->SetMatrix4x4(1, renderInfo.projectionMatrix);
+			geometryShader->SetData(2, &toonPerpCheck, sizeof(float));
+			geometryShader->SetData(3, &toonOutlineThickness, sizeof(float));
+			geometryShader->SetShader(true);
+		}
+		else
+		{
+			renderInfo.deviceContext->GSSetShader(0, 0, 0);
+		}
+
+		pixelShader->SetMatrix4x4(0, renderInfo.viewMatrix);
 		pixelShader->SetData(1, &renderInfo.light1, sizeof(RenderLight));
 		pixelShader->SetData(2, &renderInfo.light2, sizeof(RenderLight));
+		pixelShader->SetData(3, &toonLineColor, sizeof(XMFLOAT4));
+		pixelShader->SetData(4, &toonNumBreaks, sizeof(float));
+		pixelShader->SetData(5, &toonPerpCheck, sizeof(float));
 		for (unsigned int t = 0; t < numberOfTextures; ++t) {
 			pixelShader->SetShaderResourceView(t, textures[t]);
 		}
-		infoForPixel.SetShaderData(pixelShader);
 
+		//pixelShader->SetShaderResourceView(1, normalMapSRV);
 		pixelShader->SetSamplerState(0, samplerState);
 		pixelShader->SetShader(true);
+
+		renderInfo.deviceContext->RSSetState(0);
+		renderInfo.deviceContext->OMSetDepthStencilState(0, 0);
 
 		renderInfo.currentMaterial = this;
 	}

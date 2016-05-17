@@ -205,6 +205,9 @@ void MyDemoGame::LoadShaders()
 	vertexShader = new SimpleVertexShader(device, deviceContext);
 	vertexShader->LoadShaderFile(L"VertexShader.cso");
 
+	geometryShader = new SimpleGeometryShader(device, deviceContext);
+	geometryShader->LoadShaderFile(L"GeometryShader.cso");
+
 	pixelShader = new SimplePixelShader(device, deviceContext);
 	pixelShader->LoadShaderFile(L"PixelShader.cso");
 
@@ -432,7 +435,7 @@ void MyDemoGame::TestLoadLevel(char* mapName) {
 				/*LogText(texture1Name);
 				LogText(texture2Name);
 				LogText(texture3Name);*/
-				currentMaterial = res->CreateMaterial(vertexShader, pixelShaderNoNormals, samplerState, texture1Name, texture2Name, texture3Name);
+				currentMaterial = res->CreateMaterial(vertexShader, geometryShader, pixelShaderNoNormals, samplerState, texture1Name, texture2Name, texture3Name);
 
 				DrawnMesh* drawnMesh = currentEntity->GetComponent<DrawnMesh>();
 				if (drawnMesh != nullptr) {
@@ -513,12 +516,12 @@ void MyDemoGame::CreateGeometry()
 
 
 
-	Material* material1 = res->CreateMaterial(vertexShader, pixelShader, samplerState, "BrickOldMixedSize", "Normal_BrickOldMixedSize");
-	Material* material2 = res->CreateMaterial(vertexShader, pixelShader, samplerState, "RockSmooth", "Normal_RockSmooth");
-	Material* material3 = res->CreateMaterial(vertexShader, pixelShaderNoNormals, samplerState, "Ball");
-	Material* paddleMat = res->CreateMaterial(vertexShader, pixelShaderNoNormals, samplerState, "paddle");
-	Material* bulletMat = res->CreateMaterial(vertexShader, pixelShaderNoNormals, samplerState, "Bullet");
-	Material* uiMat = res->CreateMaterial(vsUI, psUI, samplerState, "UI_Panel");//WoodRough
+	Material* material1 = res->CreateMaterial(vertexShader, geometryShader, pixelShader, samplerState, "BrickOldMixedSize", "Normal_BrickOldMixedSize");
+	Material* material2 = res->CreateMaterial(vertexShader, geometryShader, pixelShader, samplerState, "RockSmooth", "Normal_RockSmooth");
+	Material* material3 = res->CreateMaterial(vertexShader, geometryShader, pixelShaderNoNormals, samplerState, "Ball");
+	Material* paddleMat = res->CreateMaterial(vertexShader, geometryShader, pixelShaderNoNormals, samplerState, "paddle");
+	Material* bulletMat = res->CreateMaterial(vertexShader, geometryShader, pixelShaderNoNormals, samplerState, "Bullet");
+	Material* uiMat = res->CreateMaterial(vsUI, NULL, psUI, samplerState, "UI_Panel");//WoodRough
 
 	// Particle emitter resources.
 	particleTexture = res->LoadTexture("particle", Resources::FILE_FORMAT_PNG);

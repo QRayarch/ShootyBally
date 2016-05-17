@@ -32,7 +32,7 @@ void DrawnMesh::Draw(RenderInfo& renderInfo)
 	UINT offset = 0;
 
 	if (material != nullptr) {
-		material->PrepareMaterial(renderInfo, GetTransform(),individualVertexInfo, individualPixelInfo);//, individualVertexInfo, individualPixelInfo
+		material->PrepareMaterial(renderInfo, GetTransform()/*,individualVertexInfo, individualPixelInfo*/);//, individualVertexInfo, individualPixelInfo
 	}
 	else {
 		//LogText("--WARRNING no material--//A drawn mesh is rendering without a material. Things will not work well.");

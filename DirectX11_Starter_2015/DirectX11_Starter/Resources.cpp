@@ -385,18 +385,18 @@ int Resources::FindTextureIndex(std::string textureName)
 
 #pragma region Material 
 
-Material* Resources::CreateMaterial(SimpleVertexShader * vert, SimplePixelShader * pixel, ID3D11SamplerState * sampler, std::string textrureName)
+Material* Resources::CreateMaterial(SimpleVertexShader * vert, SimpleGeometryShader* geo, SimplePixelShader * pixel, ID3D11SamplerState * sampler, std::string textrureName)
 {
-	return Resources::CreateMaterial(vert, pixel, sampler, textrureName, "", "");
+	return Resources::CreateMaterial(vert, geo, pixel, sampler, textrureName, "", "");
 }
 
-Material * Resources::CreateMaterial(SimpleVertexShader * vert, SimplePixelShader * pixel, ID3D11SamplerState * sampler, std::string textrure1Name, std::string textrure2Name)
+Material * Resources::CreateMaterial(SimpleVertexShader * vert, SimpleGeometryShader* geo, SimplePixelShader * pixel, ID3D11SamplerState * sampler, std::string textrure1Name, std::string textrure2Name)
 {
-	return Resources::CreateMaterial(vert, pixel, sampler, textrure1Name, textrure2Name, "");
+	return Resources::CreateMaterial(vert, geo, pixel, sampler, textrure1Name, textrure2Name, "");
 }
 
 //TODO:have a better way of handeling materials, as in if you try to create a material with a duplicate fists texture name it won't be created and will instead return the first one
-Material* Resources::CreateMaterial(SimpleVertexShader * vert, SimplePixelShader * pixel, ID3D11SamplerState * sampler,
+Material* Resources::CreateMaterial(SimpleVertexShader * vert, SimpleGeometryShader* geo, SimplePixelShader * pixel, ID3D11SamplerState * sampler,
 	std::string textrure1Name,
 	std::string textrure2Name,
 	std::string textrure3Name)
@@ -427,7 +427,7 @@ Material* Resources::CreateMaterial(SimpleVertexShader * vert, SimplePixelShader
 		LogText("--Not creating Material--//No diffuse map was loaded. So no material will be created: " + textrure1Name);
 		return nullptr;
 	}
-	Material* newMaterial = new Material(vert, pixel, textures, numberOfTextures, sampler);
+	Material* newMaterial = new Material(vert, geo, pixel, textures, numberOfTextures, sampler);
 	materials[numberOfMaterials].material = newMaterial;
 	materials[numberOfMaterials].name = textrure1Name;
 	numberOfMaterials += 1;
