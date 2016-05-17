@@ -34,7 +34,6 @@
 // For the DirectX Math library
 using namespace DirectX;
 
-
 #pragma region Win32 Entry Point (WinMain)
 // --------------------------------------------------------
 // Win32 Entry Point - Where your program starts
@@ -452,6 +451,7 @@ void MyDemoGame::CreateGeometry()
 	Material* material3 = res->CreateMaterial(vertexShader, pixelShaderNoNormals, samplerState, "Ball");
 	Material* paddleMat = res->CreateMaterial(vertexShader, pixelShaderNoNormals, samplerState, "paddle");
 	Material* bulletMat = res->CreateMaterial(vertexShader, pixelShaderNoNormals, samplerState, "Bullet");
+	Material* greenMat = res->CreateMaterial(vertexShader, pixelShaderNoNormals, samplerState, "green");
 	Material* uiMat = res->CreateMaterial(vsUI, psUI, samplerState, "UI_Panel");//WoodRough
 
 	// Particle emitter resources.
@@ -575,6 +575,16 @@ void MyDemoGame::CreateGeometry()
 	transform4.SetScale(XMFLOAT3(paddleScale, paddleScale, paddleScale));
 	player2 = Player(entity4, 2, bulletPool);
 
+	Mesh* torusMesh = res->GetMeshAndLoadIfNotFound("torus");
+	Entity* torus1 = entSys->AddEntity();
+	torus1->AddComponent(new DrawnMesh(render, torusMesh, greenMat));
+	torus1->GetTransform().SetPosition(XMFLOAT3(transform3.GetPosition()));
+	torus1->GetTransform().SetScale(XMFLOAT3(1.75f, 1.75f, 1.75f));
+	Entity* torus2 = entSys->AddEntity();
+	torus2->AddComponent(new DrawnMesh(render, torusMesh, greenMat));
+	torus2->GetTransform().SetPosition(XMFLOAT3(transform4.GetPosition()));
+	torus2->GetTransform().SetScale(XMFLOAT3(1.75f, 1.75f, 1.75f));
+
 	//Bullets
 	Mesh* mesh4 = res->GetMeshAndLoadIfNotFound("hpBullet");
 	for (int i = 0; i < poolSize; i++)
@@ -640,8 +650,9 @@ void MyDemoGame::CreateGeometry()
 	canvas->GetHoverButtonState().scale = 1.08f;
 	canvas->GetHoverButtonState().transitionTime = 0.1f;
 	canvas->GetDefualtButtonState().transitionTime = 0.1f;
-	canvas->AddButton({ -0.5f, -0.5f, 0.1f, 0.08f }, uiMat, L"Click", XMFLOAT4(0.2f, 0.2f, 0.2f, 1));
-	canvas->AddButton({ -0.25f, -0.5f, 0.1f, 0.08f }, uiMat, L"BUTTON!", XMFLOAT4(0.2f, 0.2f, 0.2f, 1));
+	//Button* button = canvas->AddButton({ 0.89f, 0.90f, 0.1f, 0.08f }, uiMat, L"Reset", XMFLOAT4(0.2f, 0.2f, 0.2f, 1));
+	//button->SetOnClicked(foo);
+	//canvas->AddButton({ -0.25f, -0.5f, 0.1f, 0.08f }, uiMat, L"BUTTON!", XMFLOAT4(0.2f, 0.2f, 0.2f, 1));
 	float scoreOut = 0.1f;
 	float scoreUp = 0.8f;
 	float panelW = 0.04f;
@@ -1058,6 +1069,29 @@ void MyDemoGame::GoalScored(Player& player)
 	ballCollider->GetEntity()->GetTransform().SetPosition(XMFLOAT3(0.0f, -7.5f, 0.0f));
 	ballPhysicsBody->SetVelocity(XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f));
 	player.AddPoint();
+	if (playerOneScore != nullptr) {
+		playerOneScore->SetTextAsInt(player1.GetScore());
+		playerOneScore->CenterText();
+	}
+	if (playerTwoScore != nullptr) {
+		playerTwoScore->SetTextAsInt(player2.GetScore());
+		playerTwoScore->CenterText();
+	}
+	for (int i = 0; i < poolSize; i++)
+	{
+		if (bulletPool[i].GetIsActive())
+		{
+			bulletPool[i].SetIsActive(false);
+		}
+	}
+}
+
+void MyDemoGame::OnReset()
+{
+	player1.ResetPlayer();
+	player2.ResetPlayer();
+	ballCollider->GetEntity()->GetTransform().SetPosition(XMFLOAT3(0.0f, -7.5f, 0.0f));
+	ballPhysicsBody->SetVelocity(XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f));
 	if (playerOneScore != nullptr) {
 		playerOneScore->SetTextAsInt(player1.GetScore());
 		playerOneScore->CenterText();

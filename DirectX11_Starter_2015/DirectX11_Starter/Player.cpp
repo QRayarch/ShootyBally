@@ -70,5 +70,9 @@ void Player::Fire()
 void Player::ResetPlayer()
 {
 	score = 0;
-	
+	//reset all bullets in pool
+	for (int i = 0; i < 20; i++)
+	{
+		bulletPool[i].SetIsActive(false);
+	}
 }
