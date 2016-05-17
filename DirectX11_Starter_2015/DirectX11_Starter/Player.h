@@ -19,7 +19,7 @@ class Player
 {
 public:
 	Player();
-	Player(Entity* entity, int playerNumber, Bullet* bullets);
+	Player(Entity* entity, int playerNumber, ParticleEmitter* goalParticleEmitter, ParticleEmitter* goalExplosionParticleEmitter, Bullet* bullets);
 	~Player();
 
 	void GetInput(float deltaTime);
@@ -34,9 +34,15 @@ public:
 	void AddPoint() { ++score; }
 	void ResetPlayer();
 
+	void EnableGoalParticles();
+	void DisableGoalParticles();
+
 private:
 	Entity* playerEntity;
 	PlayerNumber playerNum;
+
+	ParticleEmitter* goalParticleEmitter;
+	ParticleEmitter* goalExplosionParticleEmitter;
 
 	float turnRate;
 	float turnDrag;

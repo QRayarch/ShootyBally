@@ -117,6 +117,10 @@ private:
 	ID3D11BlendState* particleBlendState;
 	ID3D11DepthStencilState* particleDepthState;
 
+	Player* goalPlayer;
+	float goalParticleEmitterDelay;
+	float goalParticleEmitterTimer;
+
 	//Post Processing
 	PostManager* postManager;
 	/*ID3D11RenderTargetView* postRTV;

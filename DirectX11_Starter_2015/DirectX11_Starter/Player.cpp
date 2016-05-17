@@ -6,9 +6,11 @@ Player::Player()
 	score = 0;
 }
 
-Player::Player(Entity* entity, int playerNumber, Bullet* bullets)
+Player::Player(Entity* entity, int playerNumber, ParticleEmitter* goalParticleEmitter, ParticleEmitter* goalExplosionParticleEmitter, Bullet* bullets)
 {
 	playerEntity = entity;
+	this->goalParticleEmitter = goalParticleEmitter;
+	this->goalExplosionParticleEmitter = goalExplosionParticleEmitter;
 	turnRate = 8;
 	turnDrag = 0.96f;
 	turnSpeed = 0.0f;
@@ -75,4 +77,16 @@ void Player::ResetPlayer()
 	{
 		bulletPool[i].SetIsActive(false);
 	}
+}
+
+void Player::EnableGoalParticles()
+{
+	goalParticleEmitter->Enable();
+	goalExplosionParticleEmitter->Enable();
+	goalExplosionParticleEmitter->Disable();
+}
+
+void Player::DisableGoalParticles()
+{
+	goalParticleEmitter->Disable();
 }
